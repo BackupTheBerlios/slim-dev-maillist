@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #11009] Don't assume ImageMagick installed
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2311009%5D%20Don%27t%20assume%20ImageMagick%20installed&In-Reply-To=%3C200801032232.m03MWgt8013844%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000087.html">
+   <LINK REL="Next"  HREF="000089.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #11009] Don't assume ImageMagick installed</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2311009%5D%20Don%27t%20assume%20ImageMagick%20installed&In-Reply-To=%3C200801032232.m03MWgt8013844%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #11009] Don't assume ImageMagick installed">admin at berlios.de
+       </A><BR>
+    <I>Thu Jan  3 23:32:42 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000087.html">[Slim-dev] [Bug #12093] feature requests
+</A></li>
+        <LI>Next message: <A HREF="000089.html">[Slim-dev] [Fwd: [Bug #11009] Don't assume ImageMagick installed]
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#88">[ date ]</a>
+              <a href="thread.html#88">[ thread ]</a>
+              <a href="subject.html#88">[ subject ]</a>
+              <a href="author.html#88">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #11009, was updated on 2007-May-07 14:40
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: afb
+Assigned to : none
+Summary: Don't assume ImageMagick installed
+
+Details: It would probably be better if the screenshots were made with xwd ?
+(avoids the dependency of having ImageMagick installed to &quot;import&quot;,
+instead it can easilly be converted later by using &quot;convert&quot; command)
+
+
+Follow-Ups:
+
+Date: 2008-Jan-03 23:32
+By: parmus
+
+Comment:
+Well, SLiM doesn't really depend on ImageMagick. It's just shipped with a default configuration which uses ImageMagick. Personally I think this is a good thing because:
+1) The default configuration should be &quot;easy&quot; and working out-of-the-box and ImageMagick is, whether we like it or not, a standard tool in many distroes.
+2) Any distro is free to alter the configuration file they ship to fit their infrastructure and philosophy. So a minimalistic distro might choose your solution; but that is their choice, not ours.
+
+That said, I think we could include your idea in the documentation. I'll discuss it with the other devs. 
+-------------------------------------------------------
+
+Date: 2007-May-07 14:40
+By: afb
+
+Comment:
+--- slim-1.2.6/slim.conf.orig	2007-05-07 10:01:02.000000000 +0200
++++ slim-1.2.6/slim.conf	2007-05-07 10:01:59.000000000 +0200
+@@ -55,7 +55,8 @@ sessions            xfce4,icewm,wmaker,b
+ 
+ # Executed when pressing F11 (requires imagemagick)
+-screenshot_cmd      import -window root /slim.png
++#screenshot_cmd      import -window root /slim.png
++screenshot_cmd      /usr/X11R6/bin/xwd -root &gt; /slim.xwd
+ 
+ # welcome message. Available variables: %host, %domain
+ welcome_msg         Welcome to %host
+
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=11009&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=11009&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000087.html">[Slim-dev] [Bug #12093] feature requests
+</A></li>
+	<LI>Next message: <A HREF="000089.html">[Slim-dev] [Fwd: [Bug #11009] Don't assume ImageMagick installed]
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#88">[ date ]</a>
+              <a href="thread.html#88">[ thread ]</a>
+              <a href="subject.html#88">[ subject ]</a>
+              <a href="author.html#88">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

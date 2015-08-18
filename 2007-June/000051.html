@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] PAM on netbsd
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-June/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20PAM%20on%20netbsd&In-Reply-To=%3C20070618064725.GA2196%40sip%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000049.html">
+   <LINK REL="Next"  HREF="000048.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] PAM on netbsd</H1>
+    <B>Simone Rota</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20PAM%20on%20netbsd&In-Reply-To=%3C20070618064725.GA2196%40sip%3E"
+       TITLE="[Slim-dev] PAM on netbsd">sip at varlock.com
+       </A><BR>
+    <I>Mon Jun 18 08:47:25 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000049.html">[Slim-dev] PAM on netbsd
+</A></li>
+        <LI>Next message: <A HREF="000048.html">[Slim-dev] sample .xinitrc
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#51">[ date ]</a>
+              <a href="thread.html#51">[ thread ]</a>
+              <a href="subject.html#51">[ subject ]</a>
+              <a href="author.html#51">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, Jun 18, 2007 at 05:22:41AM +0200, Martin Parm wrote:
+&gt;<i> Hi,
+</I>&gt;<i> 
+</I>&gt;<i> &gt; I think we should wait before pushing additional changes and release
+</I>&gt;<i> &gt; 1.3.0 asap. Then we can work on the 1.3.x series, hopefully with some
+</I>&gt;<i> &gt; feedback from the users.
+</I>&gt;<i> 
+</I>&gt;<i> What the status on the release?
+</I>
+I'm currently waiting for some feedback from Tobias Roth, the current
+maintainer from the freebsd port. He kindly accepted to give the slim-pam
+branch a shot when he's back from his vacation (this week).
+
+On a related note, I'll be on vacation from today afternoon until
+Jul 10; I should be able to handle email, not sure about svn access.
+Feel free to merge slim-pam with trunk and put out a release if
+appropriate. 
+
+&gt;<i> &gt;&gt;&gt; meanwhile, do you think we need to include a sample /etc/pam.d/slim?
+</I>&gt;<i> 
+</I>&gt;<i> After doing some more testing myself I discovered that slim going
+</I>&gt;<i> bananas if the PAM configuration is missing. The problem is that PAMs
+</I>&gt;<i> default policy is to fail any authentication attempt if the requested
+</I>&gt;<i> service is unconfigured however the applications using PAM is not given
+</I>&gt;<i> any reason for the failure. So if the slim service is unconfigured slim
+</I>&gt;<i> ends up in a rather nasty (and loud, if you have PC-speaker) loop.
+</I>&gt;<i> So we DO need to include a configuration file.
+</I>
+Fine, we'll add a sample config file and install it by default if
+USE_PAM is enabled.
+
+&gt;<i> It should be noted that this is a problem in PAM and NOT in slim. I have
+</I>&gt;<i> a few ideas for fixes but I'll rather wait until after the 1.3.0 release
+</I>&gt;<i> as I need to double check a few things with OpenPAM as well. I don't
+</I>&gt;<i> consider it a show-stopper for the 1.3.0 release but it is something we
+</I>&gt;<i> should be aware of if someone complaints about this behaviour.
+</I>
+On NetBSD things appeared to work even without a configuration
+file, I suspect this is Linux-PAM specific; let me know if there's some
+related test you'd like to see on NetBSD.
+
+Regards,
+Simone
+
+-- 
+Simone Rota
+Bergamo, Italy - <A HREF="http://www.varlock.com">http://www.varlock.com</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000049.html">[Slim-dev] PAM on netbsd
+</A></li>
+	<LI>Next message: <A HREF="000048.html">[Slim-dev] sample .xinitrc
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#51">[ date ]</a>
+              <a href="thread.html#51">[ thread ]</a>
+              <a href="subject.html#51">[ subject ]</a>
+              <a href="author.html#51">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

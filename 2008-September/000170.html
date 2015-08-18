@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #14509] Keyboard becomes unusable in tty from which	slim is lauched
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2314509%5D%20Keyboard%20becomes%20unusable%20in%20tty%20from%20which%0A%09slim%20is%20lauched&In-Reply-To=%3C200809291638.m8TGcHEp025867%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000169.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #14509] Keyboard becomes unusable in tty from which	slim is lauched</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2314509%5D%20Keyboard%20becomes%20unusable%20in%20tty%20from%20which%0A%09slim%20is%20lauched&In-Reply-To=%3C200809291638.m8TGcHEp025867%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #14509] Keyboard becomes unusable in tty from which	slim is lauched">admin at berlios.de
+       </A><BR>
+    <I>Mon Sep 29 18:38:17 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000169.html">[Slim-dev] [Bug #14509] Keyboard becomes unusable in tty from which	slim is lauched
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#170">[ date ]</a>
+              <a href="thread.html#170">[ thread ]</a>
+              <a href="subject.html#170">[ subject ]</a>
+              <a href="author.html#170">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #14509, was updated on 2008-Sep-16 01:02
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: mpg
+Assigned to : none
+Summary: Keyboard becomes unusable in tty from which slim is lauched
+
+Details: Hi,
+
+I have slim starting a daemon from TTY1 on boot-up. If, after logging into my X session, I try to use TTY1 for cli programs, I basically can't because the keyboard becomes slower and slower: I have to wait for hours between each key press or they are simply ignored. 
+
+Looks like this problem has already been observed by other people, according to the following bug in the Debian BTS : 
+<A HREF="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=475249">http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=475249</A>
+
+I appreciate very much slim, it's exactly the king of login managr I was looking for since a while, but this bug serioulsy makes me consider switching back to good old startx...
+
+
+Follow-Ups:
+
+Date: 2008-Sep-29 18:38
+By: sip
+
+Comment:
+I guess the problem lies when you try to redirect the output from the starting script, ie
+
+/usr/bin/slim -d &gt;/dev/null 2&gt;&amp;1
+
+I suggest to modify your init scripts until we find some additional info / fix
+-------------------------------------------------------
+
+Date: 2008-Sep-29 12:18
+By: bmh1980
+
+Comment:
+No. After a manually start the ttys are working correct.
+
+Hmm. What could be the problem in that case?
+-------------------------------------------------------
+
+Date: 2008-Sep-29 01:59
+By: sip
+
+Comment:
+does the problem persist if slim is manually invoked as 'slim -d' from a tty?
+-------------------------------------------------------
+
+Date: 2008-Sep-28 18:56
+By: bmh1980
+
+Comment:
+I have the same problem und my LFS with slim &lt;= 1.3.1.
+
+slim was builded without pam.
+
+After slim was started by init I must press a key two times to get a response on any tty.
+-------------------------------------------------------
+
+Date: 2008-Sep-19 02:14
+By: mruwek
+
+Comment:
+Hi,
+
+I am using slim on ArchLinux, and here in arch slim is compiled without PAM, so it is not the source of problem. 
+
+/etc/slim.conf contains the default 'login_cmd' line:
+login_cmd exec /bin/bash -login ~/.xinitrc %session 
+
+I ve also commented all OpenLog() and CloseLog() calls from app.cpp but problem with keyboard on tty1 (or any other tty from which slim starts) remains.
+-------------------------------------------------------
+
+Date: 2008-Sep-18 02:28
+By: sip
+
+Comment:
+After some additional test, the problem is related to what /etc/X11/XSession (or related files) do.
+
+putting the default:
+login_cmd           exec /bin/bash -login ~/.xinitrc %session
+
+in /etc/slim.conf and using a simple xinitrc as included in the source package seems to work here: tty1 responds normally. You can also use something like
+
+login_cmd           exec /bin/bash -login /etc/slim.sessions %session
+
+for a globally available session file.
+
+
+
+-------------------------------------------------------
+
+Date: 2008-Sep-18 01:54
+By: sip
+
+Comment:
+Bug seems still present on debian with PAM and logging disabled.
+-------------------------------------------------------
+
+Date: 2008-Sep-17 23:49
+By: sip
+
+Comment:
+Can you please try to compile slim without PAM support and see
+if the problem persists? I cannot reproduce the error and I don't have a PAM-enabled system at hand right now.
+
+Another thing you may want to try is to comment all OpenLog() and CloseLog() calls from app.cpp.
+
+Meanwhile I'll try to install debian/unstable on a test machine
+
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=14509&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=14509&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000169.html">[Slim-dev] [Bug #14509] Keyboard becomes unusable in tty from which	slim is lauched
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#170">[ date ]</a>
+              <a href="thread.html#170">[ thread ]</a>
+              <a href="subject.html#170">[ subject ]</a>
+              <a href="author.html#170">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

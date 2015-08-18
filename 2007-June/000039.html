@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #11003] Support -nodaemon argument
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-June/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2311003%5D%20Support%20-nodaemon%20argument&In-Reply-To=%3C46658CB7.6050005%40parmus.dk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000040.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #11003] Support -nodaemon argument</H1>
+    <B>Martin Parm</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2311003%5D%20Support%20-nodaemon%20argument&In-Reply-To=%3C46658CB7.6050005%40parmus.dk%3E"
+       TITLE="[Slim-dev] [Bug #11003] Support -nodaemon argument">parmus at parmus.dk
+       </A><BR>
+    <I>Tue Jun  5 18:17:59 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000040.html">[Slim-dev] IRC meeting [WAS: Re: Bug #7870: feature request: better xsession integration]
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#39">[ date ]</a>
+              <a href="thread.html#39">[ thread ]</a>
+              <a href="subject.html#39">[ subject ]</a>
+              <a href="author.html#39">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+&gt;<i> On Tue, May 29, 2007 at 11:40:29 +0200, <A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">admin at berlios.de</A> wrote:
+</I>&gt;&gt;<i> Bug #11003, was updated on 2007-May-07 12:01
+</I>&gt;&gt;<i> Here is a current snapshot of the bug.
+</I>&gt;<i> [...] 
+</I>&gt;&gt;<i> Details: It would be nice if the &quot;-nodaemon&quot; argument would be supported.
+</I>&gt;&gt;<i> If I understand it correctly, it doesn't have to do anything (default).
+</I>&gt;<i> [...]
+</I>&gt;&gt;<i> Yes, this was specific to the Fedora/RedHat inittab script:
+</I>&gt;<i> 
+</I>&gt;<i> So xdm, kdm and gdm all support this. However, that argument style
+</I>&gt;<i> doesn't work with getopt, so I can only see two possibilities:
+</I>&gt;<i> 
+</I>&gt;<i> 1. switch to another way of parsing
+</I>&gt;<i> 2. add a hack like this:
+</I>&gt;<i>     // accept nodaemon as '-n' argument to be compatible with xdm, gdm
+</I>&gt;<i>     // and kdm
+</I>&gt;<i>     for (i = 1; i &lt; argc; ++i) {
+</I>&gt;<i>         if (strcmp(argv[i], &quot;-nodaemon&quot;) == 0) {
+</I>&gt;<i>             *(argv[i]+2) = '\0';
+</I>&gt;<i>         }
+</I>&gt;<i>     }
+</I>&gt;<i> 
+</I>&gt;<i> Since we have a fairly small number of options, solution #1 would be my
+</I>&gt;<i> preference. Opinions?
+</I>
+I think I prefer #1 too, however I don't really like the idea about
+adding dummy options. It makes me wonder if we are missing some subtle
+point if having this option. Especially since both xdm, kdm and gdm
+supports it.
+
+Cheers,
+--
+Martin Parm
+Dept. of Computer Science
+University of Copenhagen
+Denmark
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000040.html">[Slim-dev] IRC meeting [WAS: Re: Bug #7870: feature request: better xsession integration]
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#39">[ date ]</a>
+              <a href="thread.html#39">[ thread ]</a>
+              <a href="subject.html#39">[ subject ]</a>
+              <a href="author.html#39">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

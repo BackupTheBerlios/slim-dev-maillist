@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [PATCH] fix for getting default login session
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2011-August/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BPATCH%5D%20fix%20for%20getting%20default%20login%20session&In-Reply-To=%3C20110815175056.GB3125%40Chengwei-Debian.bj.intel.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000279.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [PATCH] fix for getting default login session</H1>
+    <B>Chengwei Yang</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BPATCH%5D%20fix%20for%20getting%20default%20login%20session&In-Reply-To=%3C20110815175056.GB3125%40Chengwei-Debian.bj.intel.com%3E"
+       TITLE="[Slim-dev] [PATCH] fix for getting default login session">chengwei.yang at intel.com
+       </A><BR>
+    <I>Mon Aug 15 19:50:56 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000279.html">[Slim-dev] [Bug #18295] slim fails to compile against libpng-1.5
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#280">[ date ]</a>
+              <a href="thread.html#280">[ thread ]</a>
+              <a href="subject.html#280">[ subject ]</a>
+              <a href="author.html#280">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi, all.
+
+I am a new user of slim, and I like it very much. It works very well on
+my Debian Squeeze except I found that it can't get default WM which
+configured in /etc/slim.conf.
+
+I have worked a patch for fix this issue based on slim 1.3.2. After applying
+this patch, it can works as explained in /etc/slim.conf, use the first one as
+default WM even this is no ~/.xinitrc.
+
+Here is the patch, also included as attachment.
+
+
+&gt;<i>From 261f0594db921e74eb99b9a35eba3f609df94315 Mon Sep 17 00:00:00 2001
+</I>From: Chengwei Yang &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">chengwei.yang at intel.com</A>&gt;
+Date: Thu, 11 Aug 2011 16:21:38 -0700
+Subject: [PATCH] fix for getting default window manager
+
+currently, slim gets default window manager from ~/.xinitrc. Comes to
+debian, it patches slim to run /etc/X11/Xsession, that will get gnome as
+default WM except user select session every time at login. That isn't
+the expectation of slim. This patch fixed this behavior, not dependent
+on ~/.xinitrc, we got default WM(the first one in
+/etc/slim.conf:sessions) from config file as explained in the config
+file.
+---
+ cfg.cpp   |    6 ++++++
+ cfg.h     |    1 +
+ panel.cpp |    2 +-
+ 3 files changed, 8 insertions(+), 1 deletions(-)
+
+diff --git a/cfg.cpp b/cfg.cpp
+index 3775c4d..70d1a08 100644
+--- a/cfg.cpp
++++ b/cfg.cpp
+@@ -298,6 +298,12 @@ void Cfg::fillSessionList(){
+     }
+ }
+ 
++string Cfg::defaultSession() {
++    if (sessions.size() &lt; 1)
++        return &quot;&quot;;
++    return sessions[0];
++}
++
+ string Cfg::nextSession(string current) {
+     if (sessions.size() &lt; 1)
+         return current;
+diff --git a/cfg.h b/cfg.h
+index 8fc6c12..8c2ba97 100644
+--- a/cfg.h
++++ b/cfg.h
+@@ -39,6 +39,7 @@ public:
+                       char c, bool useEmpty=true);
+     static std::string Trim(const std::string&amp; s);
+ 
++    std::string defaultSession();
+     std::string nextSession(std::string current);
+ 
+ private:
+diff --git a/panel.cpp b/panel.cpp
+index 032574d..b6f2834 100644
+--- a/panel.cpp
++++ b/panel.cpp
+@@ -22,7 +22,7 @@ Panel::Panel(Display* dpy, int scr, Window root, Cfg* config,
+     Root = root;
+     cfg = config;
+ 
+-    session = &quot;&quot;;
++    session = cfg-&gt;defaultSession();
+ 
+     // Init GC
+     XGCValues gcv;
+-- 
+1.7.2.5
+
+Thanks,
+Chengwei
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0001-fix-for-getting-default-window-manager.patch
+Type: text/x-diff
+Size: 1739 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/slim-dev/attachments/20110815/3018fe1c/attachment.patch">https://lists.berlios.de/pipermail/slim-dev/attachments/20110815/3018fe1c/attachment.patch</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000279.html">[Slim-dev] [Bug #18295] slim fails to compile against libpng-1.5
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#280">[ date ]</a>
+              <a href="thread.html#280">[ thread ]</a>
+              <a href="subject.html#280">[ subject ]</a>
+              <a href="author.html#280">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

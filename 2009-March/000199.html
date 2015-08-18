@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #15273] slim 100% cpu load after X restart
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2009-March/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2315273%5D%20slim%20100%25%20cpu%20load%20after%20X%20restart&In-Reply-To=%3C200903100855.n2A8tTYs027257%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000198.html">
+   <LINK REL="Next"  HREF="000200.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #15273] slim 100% cpu load after X restart</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2315273%5D%20slim%20100%25%20cpu%20load%20after%20X%20restart&In-Reply-To=%3C200903100855.n2A8tTYs027257%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #15273] slim 100% cpu load after X restart">admin at berlios.de
+       </A><BR>
+    <I>Tue Mar 10 09:55:29 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000198.html">[Slim-dev] [Bug #15333] slim writes .Xauthority to directory /
+</A></li>
+        <LI>Next message: <A HREF="000200.html">[Slim-dev] [Bug #15326] slim on debian: won't die or restart
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#199">[ date ]</a>
+              <a href="thread.html#199">[ thread ]</a>
+              <a href="subject.html#199">[ subject ]</a>
+              <a href="author.html#199">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #15273, was updated on 2009-Feb-16 00:26
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: pva
+Assigned to : none
+Summary: slim 100% cpu load after X restart
+
+Details: After restarting X server slim-1.3.1 starts to consume 100% cpu load and hang. This is backtrace I see:
+
+(gdb) bt
+#0  0xb7c0da95 in pthread_cond_wait () from /lib/libc.so.6
+#1  0xb7b2c254 in _xcb_wait_io (c=0x8fec4a0, cond=0x8fed564) at xcb_conn.c:303
+#2  0xb7b2d0bf in xcb_send_request (c=0x8fec4a0, flags=2, vector=0xbfdcfa58, req=0xbfdcfa70) at xcb_out.c:193
+#3  0xb7ef9b7a in _XPutXCBBuffer (dpy=0x8fe4d08) at xcb_lock.c:148
+#4  0xb7ef9eab in _XCBUnlockDisplay (dpy=0x8fe4d08) at xcb_lock.c:31
+#5  0xb7ed66fa in XFreeGC (dpy=0x8fe4d08, gc=0x8fe5800) at FreeGC.c:46
+#6  0xb7ecfdbd in XCloseDisplay (dpy=0x8fe4d08) at ClDisplay.c:62
+#7  0x0806b2bc in App::StopServer (this=0x8fdf008) at app.cpp:964
+#8  0x0806d190 in CatchSignal (sig=13) at app.cpp:107
+#9  &lt;signal handler called&gt;
+#10 0xb7fb7424 in __kernel_vsyscall ()
+#11 0xb7bfb252 in ?? () from /lib/libc.so.6
+#12 0xb7b2c4df in _xcb_conn_wait (c=0x8fec4a0, cond=0x8fed564, vector=0xbfdd0228, count=0xbfdd0224)
+    at xcb_conn.c:170
+#13 0xb7b2cb16 in _xcb_out_send (c=0x8fec4a0, vector=0xbfdd0228, count=0xbfdd0224) at xcb_out.c:279
+#14 0xb7b2cc39 in _xcb_out_flush_to (c=0x8fec4a0, request=391) at xcb_out.c:297
+#15 0xb7b2e118 in xcb_wait_for_reply (c=0x8fec4a0, request=391, e=0xbfdd02d8) at xcb_in.c:325
+#16 0xb7efac3b in _XReply (dpy=0x8fe4d08, rep=0xbfdd0300, extra=0, discard=1) at xcb_io.c:366
+#17 0xb7eeebb8 in XSync (dpy=0x8fe4d08, discard=0) at Sync.c:48
+#18 0x0806ad70 in App::KillAllClients (this=0x8fdf008, top=0) at app.cpp:774
+#19 0x0807214d in App::Login (this=0x8fdf008) at app.cpp:628
+#20 0x08070679 in App::Run (this=0x8fdf008) at app.cpp:382
+#21 0x0804ce7d in main (argc=1, argv=0xbfdd06c4) at main.cpp:19
+(gdb) bt full
+#0  0xb7c0da95 in pthread_cond_wait () from /lib/libc.so.6
+No symbol table info available.
+#1  0xb7b2c254 in _xcb_wait_io (c=0x8fec4a0, cond=0x8fed564) at xcb_conn.c:303
+No locals.
+#2  0xb7b2d0bf in xcb_send_request (c=0x8fec4a0, flags=2, vector=0xbfdcfa58, req=0xbfdcfa70) at xcb_out.c:193
+        request = 0
+        prefix = {0, 0, 0}
+        veclen = &lt;value optimized out&gt;
+        workaround = WORKAROUND_NONE
+        sync = {fields = {major = 43 '+', pad = 0 '\0', len = 1}, packet = 65579}
+        __PRETTY_FUNCTION__ = &quot;xcb_send_request&quot;
+        pad = &quot;\000\000&quot;
+#3  0xb7ef9b7a in _XPutXCBBuffer (dpy=0x8fe4d08) at xcb_lock.c:148
+        padsize = 0
+        c = &lt;value optimized out&gt;
+        ext = &lt;value optimized out&gt;
+        iov = {{iov_base = 0x8fec4ac, iov_len = 0}, {iov_base = 0x10000000, iov_len = 0}, {iov_base = 0x0, 
+    iov_len = 0}, {iov_base = 0x8fee610, iov_len = 8}, {iov_base = 0x0, iov_len = 0}, {
+    iov_base = 0xb7fa05f0, iov_len = 0}}
+        pad = &quot;\000\000&quot;
+        __PRETTY_FUNCTION__ = &quot;_XPutXCBBuffer&quot;
+#4  0xb7ef9eab in _XCBUnlockDisplay (dpy=0x8fe4d08) at xcb_lock.c:31
+        __PRETTY_FUNCTION__ = &quot;_XCBUnlockDisplay&quot;
+#5  0xb7ed66fa in XFreeGC (dpy=0x8fe4d08, gc=0x8fe5800) at FreeGC.c:46
+        ext = (_XExtension *) 0x0
+#6  0xb7ecfdbd in XCloseDisplay (dpy=0x8fe4d08) at ClDisplay.c:62
+        ext = &lt;value optimized out&gt;
+        i = 1
+#7  0x0806b2bc in App::StopServer (this=0x8fdf008) at app.cpp:964
+No locals.
+#8  0x0806d190 in CatchSignal (sig=13) at app.cpp:107
+No locals.
+#9  &lt;signal handler called&gt;
+No symbol table info available.
+#10 0xb7fb7424 in __kernel_vsyscall ()
+---Type &lt;return&gt; to continue, or q &lt;return&gt; to quit---
+No symbol table info available.
+#11 0xb7bfb252 in ?? () from /lib/libc.so.6
+No symbol table info available.
+#12 0xb7b2c4df in _xcb_conn_wait (c=0x8fec4a0, cond=0x8fed564, vector=0xbfdd0228, count=0xbfdd0224)
+    at xcb_conn.c:170
+        ret = 1
+        xlib_locked = 0
+        rfds = {__fds_bits = {16, 0 &lt;repeats 31 times&gt;}}
+        wfds = {__fds_bits = {16, 0 &lt;repeats 31 times&gt;}}
+#13 0xb7b2cb16 in _xcb_out_send (c=0x8fec4a0, vector=0xbfdd0228, count=0xbfdd0224) at xcb_out.c:279
+        ret = 1
+#14 0xb7b2cc39 in _xcb_out_flush_to (c=0x8fec4a0, request=391) at xcb_out.c:297
+        vec = {iov_base = 0x8fed598, iov_len = 4}
+        vec_ptr = (struct iovec *) 0xbfdd021c
+        count = 1
+        __PRETTY_FUNCTION__ = &quot;_xcb_out_flush_to&quot;
+#15 0xb7b2e118 in xcb_wait_for_reply (c=0x8fec4a0, request=391, e=0xbfdd02d8) at xcb_in.c:325
+        ret = (void *) 0x0
+#16 0xb7efac3b in _XReply (dpy=0x8fe4d08, rep=0xbfdd0300, extra=0, discard=1) at xcb_io.c:366
+        error = &lt;value optimized out&gt;
+        c = (xcb_connection_t *) 0x8fec4a0
+        current = (PendingRequest *) 0x901cc80
+        __PRETTY_FUNCTION__ = &quot;_XReply&quot;
+#17 0xb7eeebb8 in XSync (dpy=0x8fe4d08, discard=0) at Sync.c:48
+        rep = {type = 0 '\0', revertTo = 0 '\0', sequenceNumber = 0, length = 0, focus = 3218932584, 
+  pad1 = 3084449397, pad2 = 151116320, pad3 = 4, pad4 = 3, pad5 = 150871752}
+#18 0x0806ad70 in App::KillAllClients (this=0x8fdf008, top=0) at app.cpp:774
+        dummywindow = 3218932680
+        children = &lt;value optimized out&gt;
+        nchildren = 151116320
+        i = &lt;value optimized out&gt;
+        attr = {x = 134521560, y = 0, width = -1210482700, height = 0, border_width = 134780512, 
+  depth = -1076034680, visual = 0xb7d8ec06, root = 150867560, c_class = 4, bit_gravity = 2, 
+  win_gravity = 151116320, backing_store = -1210504208, backing_planes = 150859808, 
+  backing_pixel = 3218932680, save_under = 134734772, colormap = 150867560, map_installed = 4, 
+---Type &lt;return&gt; to continue, or q &lt;return&gt; to quit---
+  map_state = 151116320, all_event_masks = -1210556428, your_event_mask = 15615, 
+  do_not_propagate_mask = 134780512, override_redirect = -1076034632, screen = 0xb7d581a1}
+#19 0x0807214d in App::Login (this=0x8fdf008) at app.cpp:628
+        pw = (passwd *) 0xb7c6e974
+        pid = 15615
+        term = &lt;value optimized out&gt;
+        maildir = {static npos = 4294967295, 
+  _M_dataplus = {&lt;std::allocator&lt;char&gt;&gt; = {&lt;__gnu_cxx::new_allocator&lt;char&gt;&gt; = {&lt;No data fields&gt;}, &lt;No data fields&gt;}, _M_p = 0x90101a4 &quot;/var/mail/vasya&quot;}}
+        xauthority = {static npos = 4294967295, 
+  _M_dataplus = {&lt;std::allocator&lt;char&gt;&gt; = {&lt;__gnu_cxx::new_allocator&lt;char&gt;&gt; = {&lt;No data fields&gt;}, &lt;No data fields&gt;}, _M_p = 0x90101cc &quot;/home/vasya/.Xauthority&quot;}}
+        wpid = &lt;value optimized out&gt;
+        status = 0
+#20 0x08070679 in App::Run (this=0x8fdf008) at app.cpp:382
+        themebase = {static npos = 4294967295, 
+  _M_dataplus = {&lt;std::allocator&lt;char&gt;&gt; = {&lt;__gnu_cxx::new_allocator&lt;char&gt;&gt; = {&lt;No data fields&gt;}, &lt;No data fields&gt;}, _M_p = 0x8fdf2b4 &quot;/usr/share/slim/themes/&quot;}}
+        themefile = {static npos = 4294967295, 
+  _M_dataplus = {&lt;std::allocator&lt;char&gt;&gt; = {&lt;__gnu_cxx::new_allocator&lt;char&gt;&gt; = {&lt;No data fields&gt;}, &lt;No data fields&gt;}, _M_p = 0x8fe0f9c &quot;/usr/share/slim/themes/default/slim.theme&quot;}}
+        themedir = {static npos = 4294967295, 
+  _M_dataplus = {&lt;std::allocator&lt;char&gt;&gt; = {&lt;__gnu_cxx::new_allocator&lt;char&gt;&gt; = {&lt;No data fields&gt;}, &lt;No data fields&gt;}, _M_p = 0x8fe0f6c &quot;/usr/share/slim/themes/default&quot;}}
+        firstloop = false
+        panelclosed = -32
+        Action = Panel::Login
+#21 0x0804ce7d in main (argc=1, argv=0xbfdd06c4) at main.cpp:19
+No locals.
+
+Follow-Ups:
+
+Date: 2009-Mar-10 11:55
+By: pva
+
+Comment:
+This bug is perfectly reproducible: if you kill X server, e.g. just send it kill -9 and see how slim eats your processor.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=15273&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=15273&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000198.html">[Slim-dev] [Bug #15333] slim writes .Xauthority to directory /
+</A></li>
+	<LI>Next message: <A HREF="000200.html">[Slim-dev] [Bug #15326] slim on debian: won't die or restart
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#199">[ date ]</a>
+              <a href="thread.html#199">[ thread ]</a>
+              <a href="subject.html#199">[ subject ]</a>
+              <a href="author.html#199">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

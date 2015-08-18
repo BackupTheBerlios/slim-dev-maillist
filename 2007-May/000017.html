@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] PAM on netbsd
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20PAM%20on%20netbsd&In-Reply-To=%3C46596FC8.7040307%40parmus.dk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000016.html">
+   <LINK REL="Next"  HREF="000033.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] PAM on netbsd</H1>
+    <B>Martin Parm</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20PAM%20on%20netbsd&In-Reply-To=%3C46596FC8.7040307%40parmus.dk%3E"
+       TITLE="[Slim-dev] PAM on netbsd">parmus at parmus.dk
+       </A><BR>
+    <I>Sun May 27 13:47:20 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000016.html">[Slim-dev] PAM on netbsd
+</A></li>
+        <LI>Next message: <A HREF="000033.html">[Slim-dev] PAM on netbsd
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#17">[ date ]</a>
+              <a href="thread.html#17">[ thread ]</a>
+              <a href="subject.html#17">[ subject ]</a>
+              <a href="author.html#17">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+&gt;<i> I finally completed some basic test of Martin implementation
+</I>&gt;<i> on netbsd. As previously mentioned, the openpam implementation
+</I>&gt;<i> lacks PAM_BAD_ITEM, PAM_FAIL_DELAY and pam_fail_delay().
+</I>&gt;<i> 
+</I>&gt;<i> The good news is there is no news: these are the only differences
+</I>&gt;<i> I found. Removing those bits produces a working, pam-linked slim
+</I>&gt;<i> binary.
+</I>
+Nice.
+
+&gt;<i> Martin mentioned we can skip pam_fail_delay, while
+</I>&gt;<i> ifdef'ing PAM_BAD_ITEM should solve the other issue both on
+</I>&gt;<i> netbsd and freebsd. 
+</I>
+Actually I think it's a bad idea to ifdef on PAM_BAD_ITEM as this
+(a) might change unexpectedly in future versions
+(b) isn't clean to maintainers, why you exclude or include code
+
+Instead I've been looking at Linux-PAM and OpenPAM and it seems they
+both have defines we can use. Linux-PAM defines __LIBPAM_VERSION and
+OpenPAM defines _OPENPAM, _OPENPAM_VERSION and _OPENPAM_RELEASE.
+
+I suggest we use these defines instead, though I don't really care about
+if we #ifdef __LIBPAM_VERSION or #ifndef _OPENPAM.
+
+Cheers,
+-- 
+Martin Parm
+Dept. of Computer Science
+University of Copenhagen
+Denmark
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000016.html">[Slim-dev] PAM on netbsd
+</A></li>
+	<LI>Next message: <A HREF="000033.html">[Slim-dev] PAM on netbsd
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#17">[ date ]</a>
+              <a href="thread.html#17">[ thread ]</a>
+              <a href="subject.html#17">[ subject ]</a>
+              <a href="author.html#17">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

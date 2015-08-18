@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] sample .xinitrc
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-June/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20sample%20.xinitrc&In-Reply-To=%3C4675FB4A.6050309%40parmus.dk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000048.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] sample .xinitrc</H1>
+    <B>Martin Parm</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20sample%20.xinitrc&In-Reply-To=%3C4675FB4A.6050309%40parmus.dk%3E"
+       TITLE="[Slim-dev] sample .xinitrc">parmus at parmus.dk
+       </A><BR>
+    <I>Mon Jun 18 05:26:02 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000048.html">[Slim-dev] sample .xinitrc
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#50">[ date ]</a>
+              <a href="thread.html#50">[ thread ]</a>
+              <a href="subject.html#50">[ subject ]</a>
+              <a href="author.html#50">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+&gt;<i> Recently we've changed the xinitrc.sample to make it easier/more obvious
+</I>&gt;<i> how to change the &quot;default&quot; session:
+</I>&gt;<i>   <A HREF="http://svn.berlios.de/svnroot/repos/slim/trunk/xinitrc.sample">http://svn.berlios.de/svnroot/repos/slim/trunk/xinitrc.sample</A>
+</I>&gt;<i> 
+</I>&gt;<i> There's a minor problem though if you look at the file above: if the
+</I>&gt;<i> user wants to select 'icewm' as default session, things will get rather
+</I>&gt;<i> ugly, since we actually execute $DEFAULT_SESSION and don't use it as key
+</I>&gt;<i> in the 'case'...
+</I>&gt;<i> 
+</I>&gt;<i> Not sure if it's worth changing it (all solutions I could come up were
+</I>&gt;<i> quite a bit more complex than the current one), I just figured I'd post
+</I>&gt;<i> that in case anyone of you has a good idea.
+</I>
+
+IMHO, since we're already talking about giving the session handling a
+make-over to handle sessions in a more automated way, I don't think you
+should wast to much time on this minor fix. I think you should post it
+as it is.
+
+Cheers,
+-- 
+Martin Parm
+Dept. of Computer Science
+University of Copenhagen
+Denmark
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000048.html">[Slim-dev] sample .xinitrc
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#50">[ date ]</a>
+              <a href="thread.html#50">[ thread ]</a>
+              <a href="subject.html#50">[ subject ]</a>
+              <a href="author.html#50">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

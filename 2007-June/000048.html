@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] sample .xinitrc
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-June/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20sample%20.xinitrc&In-Reply-To=%3C20070612085707.GA20899%40titanium.smts.lan%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000051.html">
+   <LINK REL="Next"  HREF="000050.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] sample .xinitrc</H1>
+    <B>Johannes Winkelmann</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20sample%20.xinitrc&In-Reply-To=%3C20070612085707.GA20899%40titanium.smts.lan%3E"
+       TITLE="[Slim-dev] sample .xinitrc">jw at smts.ch
+       </A><BR>
+    <I>Tue Jun 12 10:57:07 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000051.html">[Slim-dev] PAM on netbsd
+</A></li>
+        <LI>Next message: <A HREF="000050.html">[Slim-dev] sample .xinitrc
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#48">[ date ]</a>
+              <a href="thread.html#48">[ thread ]</a>
+              <a href="subject.html#48">[ subject ]</a>
+              <a href="author.html#48">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi there,
+
+Recently we've changed the xinitrc.sample to make it easier/more obvious
+how to change the &quot;default&quot; session:
+  <A HREF="http://svn.berlios.de/svnroot/repos/slim/trunk/xinitrc.sample">http://svn.berlios.de/svnroot/repos/slim/trunk/xinitrc.sample</A>
+
+There's a minor problem though if you look at the file above: if the
+user wants to select 'icewm' as default session, things will get rather
+ugly, since we actually execute $DEFAULT_SESSION and don't use it as key
+in the 'case'...
+
+Not sure if it's worth changing it (all solutions I could come up were
+quite a bit more complex than the current one), I just figured I'd post
+that in case anyone of you has a good idea.
+
+Johannes
+-- 
+Johannes Winkelmann              mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">jw at smts.ch</A>
+Zurich, Switzerland              <A HREF="http://jw.smts.ch">http://jw.smts.ch</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000051.html">[Slim-dev] PAM on netbsd
+</A></li>
+	<LI>Next message: <A HREF="000050.html">[Slim-dev] sample .xinitrc
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#48">[ date ]</a>
+              <a href="thread.html#48">[ thread ]</a>
+              <a href="subject.html#48">[ subject ]</a>
+              <a href="author.html#48">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

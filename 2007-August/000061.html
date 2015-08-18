@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #11699] PAM issue ( i guess)
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-August/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2311699%5D%20PAM%20issue%20%28%20i%20guess%29&In-Reply-To=%3C200708042318.l74NIkGl006267%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000060.html">
+   <LINK REL="Next"  HREF="000062.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #11699] PAM issue ( i guess)</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2311699%5D%20PAM%20issue%20%28%20i%20guess%29&In-Reply-To=%3C200708042318.l74NIkGl006267%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #11699] PAM issue ( i guess)">admin at berlios.de
+       </A><BR>
+    <I>Sun Aug  5 01:18:46 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000060.html">[Slim-dev] [Bug #11699] PAM issue ( i guess)
+</A></li>
+        <LI>Next message: <A HREF="000062.html">[Slim-dev] [Bug #11814] alsa and computer control issue
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#61">[ date ]</a>
+              <a href="thread.html#61">[ thread ]</a>
+              <a href="subject.html#61">[ subject ]</a>
+              <a href="author.html#61">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #11699, was updated on 2007-Aug-05 01:46
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: turki
+Assigned to : none
+Summary: PAM issue ( i guess)
+
+Details: I have some problems with slim 1.3.0 on fedora 7 x86_64. I'm using xfce4(same with kde) and every time i try to do anything with the dvd device i get &quot;Permission Denied: Not in active session&quot;. GDM works fine .Here is more detailed info:
+
+1) compilation 
+I compiled slim with 
+make USE_PAM=1
+last compile line:
+/usr/bin/g++ -L/usr/X11R6/lib -lXft -lX11 -lfreetype -lXrender -lfontconfig -lpng12 -lz -lm -lcrypt -lXmu -lpng -ljpeg -lpam jpeg.o png.o main.o image.o numlock.o cfg.o switchuser.o app.o panel.o PAM.o -o slim
+2) cat /etc/pam.d/slim 
+#%PAM-1.0
+auth       required     pam_env.so
+auth       include      system-auth
+account    required     pam_nologin.so
+account    include      system-auth
+password   include      system-auth
+session    optional     pam_keyinit.so force revoke
+session    include      system-auth
+session    required     pam_loginuid.so
+session    optional     pam_console.so
+
+3) secure log
+Aug  5 01:06:03 localhost slim: pam_unix(slim:session): session closed for user niki
+Aug  5 01:10:08 localhost slim: pam_unix(slim:session): session opened for user niki by (uid=0)
+Aug  5 01:10:08 localhost userhelper[9114]: running '/usr/sbin/eject -d' with root privileges on behalf of 'niki'
+
+4) login_cmd           exec /bin/bash -login ~/.xinitrc %session
+i use the example xinitrc 
+also tried:
+login_cmd       exec /bin/bash -login /etc/X11/xinit/Xsession startxfce4
+
+5) i start slim with
+slim -d 
+
+
+
+Follow-Ups:
+
+Date: 2007-Aug-05 02:18
+By: turki
+
+Comment:
+Sorry for that. I found the real issue:
+
+<A HREF="https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=239428">https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=239428</A>
+
+Comment #25 From Patrice Dumas
+* even if this was solved, the user won't have the right to
+  mount automountable device or do anything else that goes
+  through hal, because of a lack of consolekit handling. 
+  However this is also the case for wdm and xdm.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=11699&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=11699&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000060.html">[Slim-dev] [Bug #11699] PAM issue ( i guess)
+</A></li>
+	<LI>Next message: <A HREF="000062.html">[Slim-dev] [Bug #11814] alsa and computer control issue
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#61">[ date ]</a>
+              <a href="thread.html#61">[ thread ]</a>
+              <a href="subject.html#61">[ subject ]</a>
+              <a href="author.html#61">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

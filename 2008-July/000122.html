@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] slim login manager
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20slim%20login%20manager&In-Reply-To=%3C511f47f50807101919o7279b9d5ha559fd312fc39ec3%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000121.html">
+   <LINK REL="Next"  HREF="000124.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] slim login manager</H1>
+    <B>shirish</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20slim%20login%20manager&In-Reply-To=%3C511f47f50807101919o7279b9d5ha559fd312fc39ec3%40mail.gmail.com%3E"
+       TITLE="[Slim-dev] slim login manager">shirishag75 at gmail.com
+       </A><BR>
+    <I>Fri Jul 11 04:19:25 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000121.html">[Slim-dev] slim login manager
+</A></li>
+        <LI>Next message: <A HREF="000124.html">[Slim-dev] slim login manager
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#122">[ date ]</a>
+              <a href="thread.html#122">[ thread ]</a>
+              <a href="subject.html#122">[ subject ]</a>
+              <a href="author.html#122">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Replies in-line :-
+
+On Thu, Jul 10, 2008 at 11:59 PM, Johannes Winkelmann &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">jw at smts.ch</A>&gt; wrote:
+&gt;<i> Hi shirish,
+</I>
+Hi Johannes,
+
+&gt;<i> On Thu, Jul 10, 2008 at 22:47:52 +0530, shirish wrote:
+</I>&gt;<i> I'm not a debian/ubuntu user, so the term 'default-display-manager'
+</I>&gt;<i> doesn't ring a bell. Maybe someone else on the list will be more
+</I>&gt;<i> familiar with the specifics of that distro.
+</I>
+ok. A pointer will help
+
+<A HREF="http://en.wikipedia.org/wiki/X_display_manager">http://en.wikipedia.org/wiki/X_display_manager</A>
+
+Read &quot;The default display manager is selected in
+/etc/X11/default-display-manager&quot;
+
+&gt;<i> Could you describe what &quot;doesn't come up&quot; means, does it not start at
+</I>&gt;<i> all, do you get any errors, what does the log file of slim say?
+</I>
+It came up this time.  I think the only thing which got it happening right is
+uncommenting the -daemon and putting it up
+
+This is the log
+
+<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">shirish at Mugglewille</A>:/var/log$ cat slim.log
+/usr/X11R6/bin/xauth:  creating new authority file /var/run/slim.auth
+
+_XSERVTransSocketOpenCOTSServer: Unable to open socket for inet6
+_XSERVTransOpen: transport open failed for inet6/Mugglewille:0
+_XSERVTransMakeAllCOTSServerListeners: failed to open listener for inet6
+
+This is a pre-release version of the X server from The X.Org Foundation.
+It is not supported in any way.
+Bugs may be filed in the bugzilla at <A HREF="http://bugs.freedesktop.org/.">http://bugs.freedesktop.org/.</A>
+Select the &quot;xorg&quot; product for bugs you find in this release.
+Before reporting bugs in pre-release versions please check the
+latest version in the X.Org Foundation git repository.
+See <A HREF="http://wiki.x.org/wiki/GitPage">http://wiki.x.org/wiki/GitPage</A> for git access instructions.
+
+X.Org X Server 1.4.99.905 (1.5.0 RC 5)
+Release Date: 5 September 2007
+X Protocol Version 11, Revision 0
+Build Operating System: Linux Ubuntu (xorg-server 2:1.4.99.905-0ubuntu2)
+Current Operating System: Linux Mugglewille 2.6.26-3-generic #1 SMP
+Wed Jul 2 21:56:15 UTC 2008 i686
+Build Date: 07 July 2008  10:53:03AM
+
+	Before reporting problems, check <A HREF="http://wiki.x.org">http://wiki.x.org</A>
+	to make sure that you have the latest version.
+Module Loader present
+Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+(==) Log file: &quot;/var/log/Xorg.0.log&quot;, Time: Thu Jul 10 20:20:07 2008
+(==) Using config file: &quot;/etc/X11/xorg.conf&quot;
+(EE) Failed to load module &quot;dri2&quot; (module does not exist, 0)
+Error in I830WaitLpRing(), timeout for 2 seconds
+pgetbl_ctl: 0x27fe0001 getbl_err: 0x00000039
+ipeir: 0x00000000 iphdr: 0x54f00006
+LP ring tail: 0x0000cfe0 head: 0x0000d000 len: 0x0001f001 start 0x00000000
+eir: 0x0000 esr: 0x0010 emr: 0xff7b
+instdone: 0xffc1 instpm: 0x0000
+memmode: 0x00000000 instps: 0x00000020
+hwstam: 0xfffe ier: 0x0002 imr: 0x053c iir: 0x0080
+Ring at virtual 0xaf8db000 head 0xd000 tail 0xcfe0 count 32760
+	0000cf80: 00000000
+	0000cf84: 00000000
+	0000cf88: 00000000
+	0000cf8c: 00000000
+	0000cf90: 00000000
+	0000cf94: 00000000
+	0000cf98: 00000000
+	0000cf9c: 00000000
+	0000cfa0: 00000000
+	0000cfa4: 00000000
+	0000cfa8: 00000000
+	0000cfac: 00000000
+	0000cfb0: 00000000
+	0000cfb4: 00000000
+	0000cfb8: 00000000
+	0000cfbc: 00000000
+	0000cfc0: 00000000
+	0000cfc4: 00000000
+	0000cfc8: 00000000
+	0000cfcc: 00000000
+	0000cfd0: 00000000
+	0000cfd4: 00000000
+	0000cfd8: 00000000
+	0000cfdc: 00000000
+	0000cfe0: 00000000
+	0000cfe4: 00000000
+	0000cfe8: 00000000
+	0000cfec: 00000000
+	0000cff0: 00000000
+	0000cff4: 00000000
+	0000cff8: 00000000
+	0000cffc: 00000000
+	0000d000: f000ed8a
+Ring end
+space: 24 wanted 32
+
+Fatal server error:
+lockup
+
+/usr/X11R6/bin/xauth:  creating new authority file /var/run/slim.auth
+
+_XSERVTransSocketOpenCOTSServer: Unable to open socket for inet6
+_XSERVTransOpen: transport open failed for inet6/Mugglewille:0
+_XSERVTransMakeAllCOTSServerListeners: failed to open listener for inet6
+
+This is a pre-release version of the X server from The X.Org Foundation.
+It is not supported in any way.
+Bugs may be filed in the bugzilla at <A HREF="http://bugs.freedesktop.org/.">http://bugs.freedesktop.org/.</A>
+Select the &quot;xorg&quot; product for bugs you find in this release.
+Before reporting bugs in pre-release versions please check the
+latest version in the X.Org Foundation git repository.
+See <A HREF="http://wiki.x.org/wiki/GitPage">http://wiki.x.org/wiki/GitPage</A> for git access instructions.
+
+X.Org X Server 1.4.99.905 (1.5.0 RC 5)
+Release Date: 5 September 2007
+X Protocol Version 11, Revision 0
+Build Operating System: Linux Ubuntu (xorg-server 2:1.4.99.905-0ubuntu2)
+Current Operating System: Linux Mugglewille 2.6.26-3-generic #1 SMP
+Wed Jul 2 21:56:15 UTC 2008 i686
+Build Date: 07 July 2008  10:53:03AM
+
+	Before reporting problems, check <A HREF="http://wiki.x.org">http://wiki.x.org</A>
+	to make sure that you have the latest version.
+Module Loader present
+Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+(==) Log file: &quot;/var/log/Xorg.0.log&quot;, Time: Thu Jul 10 23:51:21 2008
+(==) Using config file: &quot;/etc/X11/xorg.conf&quot;
+(EE) Failed to load module &quot;dri2&quot; (module does not exist, 0)
+/usr/X11R6/bin/xauth:  creating new authority file /var/run/slim.auth
+
+_XSERVTransSocketOpenCOTSServer: Unable to open socket for inet6
+_XSERVTransOpen: transport open failed for inet6/Mugglewille:0
+_XSERVTransMakeAllCOTSServerListeners: failed to open listener for inet6
+
+This is a pre-release version of the X server from The X.Org Foundation.
+It is not supported in any way.
+Bugs may be filed in the bugzilla at <A HREF="http://bugs.freedesktop.org/.">http://bugs.freedesktop.org/.</A>
+Select the &quot;xorg&quot; product for bugs you find in this release.
+Before reporting bugs in pre-release versions please check the
+latest version in the X.Org Foundation git repository.
+See <A HREF="http://wiki.x.org/wiki/GitPage">http://wiki.x.org/wiki/GitPage</A> for git access instructions.
+
+X.Org X Server 1.4.99.905 (1.5.0 RC 5)
+Release Date: 5 September 2007
+X Protocol Version 11, Revision 0
+Build Operating System: Linux Ubuntu (xorg-server 2:1.4.99.905-0ubuntu2)
+Current Operating System: Linux Mugglewille 2.6.26-3-generic #1 SMP
+Wed Jul 2 21:56:15 UTC 2008 i686
+Build Date: 07 July 2008  10:53:03AM
+
+	Before reporting problems, check <A HREF="http://wiki.x.org">http://wiki.x.org</A>
+	to make sure that you have the latest version.
+Module Loader present
+Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+(==) Log file: &quot;/var/log/Xorg.0.log&quot;, Time: Fri Jul 11 06:11:15 2008
+(==) Using config file: &quot;/etc/X11/xorg.conf&quot;
+(EE) Failed to load module &quot;dri2&quot; (module does not exist, 0)
+/usr/X11R6/bin/xauth:  creating new authority file /home/shirish/.Xauthority
+
+There seem to be some x-related errors, will put it up on another list
+about that.
+
+&gt;<i> According to your follow up mail, slim is installed in /usr/bin, not
+</I>&gt;<i> /bin; could that cause a problem?
+</I>
+I think both of these things are nothing but debianization of the package.
+
+<A HREF="http://wiki.debian.org/HowToPackageForDebian">http://wiki.debian.org/HowToPackageForDebian</A>
+
+
+&gt;<i> Cheers, Johannes
+</I>&gt;<i> --
+</I>&gt;<i> Johannes Winkelmann              mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">jw at smts.ch</A>
+</I>&gt;<i> Zurich, Switzerland              <A HREF="http://jw.smts.ch">http://jw.smts.ch</A>
+</I>
+-- 
+ Regards,
+ Shirish Agarwal
+ This email is licensed under <A HREF="http://creativecommons.org/licenses/by-nc/3.0/">http://creativecommons.org/licenses/by-nc/3.0/</A>
+
+065C 6D79 A68C E7EA 52B3 8D70 950D 53FB 729A 8B17
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000121.html">[Slim-dev] slim login manager
+</A></li>
+	<LI>Next message: <A HREF="000124.html">[Slim-dev] slim login manager
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#122">[ date ]</a>
+              <a href="thread.html#122">[ thread ]</a>
+              <a href="subject.html#122">[ subject ]</a>
+              <a href="author.html#122">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

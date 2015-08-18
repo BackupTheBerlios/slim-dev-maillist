@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] Post 1.3.0 proposal list
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Post%201.3.0%20proposal%20list&In-Reply-To=%3C20070523102646.GA2372%40sip%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000007.html">
+   <LINK REL="Next"  HREF="000009.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] Post 1.3.0 proposal list</H1>
+    <B>Simone Rota</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Post%201.3.0%20proposal%20list&In-Reply-To=%3C20070523102646.GA2372%40sip%3E"
+       TITLE="[Slim-dev] Post 1.3.0 proposal list">sip at varlock.com
+       </A><BR>
+    <I>Wed May 23 12:26:46 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000007.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+        <LI>Next message: <A HREF="000009.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8">[ date ]</a>
+              <a href="thread.html#8">[ thread ]</a>
+              <a href="subject.html#8">[ subject ]</a>
+              <a href="author.html#8">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, May 22, 2007 at 07:57:50PM +0200, Martin Parm wrote:
+&gt;<i> Hi
+</I>
+Hey,
+ 
+&gt;<i> As we are now working on stabilizing SLiM for the 1.3.0 release and has
+</I>&gt;<i> closed for any more changes, I'm starting this list with ideas and
+</I>&gt;<i> proposals for later versions.
+</I>&gt;<i> 
+</I>&gt;<i> *) Try to avoid C-style casts. slim currently have 104 C-style casts
+</I>&gt;<i>    (not including the 10 in ssetbg). Some of these might be avoidable
+</I>&gt;<i>    and most of the rest could probably be converted into C++ style
+</I>&gt;<i>    casts, which are safer and easier for the compiler to check.
+</I>&gt;<i>    (<A HREF="http://www.research.att.com/~bs/bs_faq2.html#static-cast">http://www.research.att.com/~bs/bs_faq2.html#static-cast</A>)
+</I>&gt;<i> (<A HREF="https://www.securecoding.cert.org/confluence/display/cplusplus/EXP00-A.+Do+not+use+C-style+casts">https://www.securecoding.cert.org/confluence/display/cplusplus/EXP00-A.+Do+not+use+C-style+casts</A>)
+</I>
+I partially agree. While there is little doubt that static casts are more
+secure, I think it really makes sense when a piece of code becomes so
+complicated that it's difficult to debug without some help from the
+compiler.
+That said, my only complain against C++ style casts is they're ugly
+as hell to read, so I have no strong opinion on this.
+
+&gt;<i> *) Switch from fork() to vfork() in app.cpp to avoid the memory
+</I>&gt;<i>    overhead. vfork() is especially designed for the situation, when you
+</I>&gt;<i>    combine fork() and exec() to execute another program. Using vfork()
+</I>&gt;<i>    have a smaller overhead but requires that we are a bit careful about
+</I>&gt;<i>    what we do in the child process. Of course we also need to check if
+</I>&gt;<i>    vfork() is available on all supported platforms.
+</I>&gt;<i>    (<A HREF="http://www.yolinux.com/TUTORIALS/ForkExecProcesses.html">http://www.yolinux.com/TUTORIALS/ForkExecProcesses.html</A>)
+</I>
+AFAIK it's available in all of the BSDs.
+&gt;<i> 
+</I>&gt;<i> *) We do duplicate calculations of font extend in several places in
+</I>&gt;<i>    panel.cpp. Either this should be done one time for all or, if
+</I>&gt;<i>    necessary, the calculation should be properly encapsulated.
+</I>
+True; IMO a font class would be a step in the right direction,
+so we can leave out the xft oddness from the main program logic.
+
+&gt;<i> *) In Image::Merge() we merge a (small) panel image with a (big)
+</I>&gt;<i>    background image by reallocation a new (big) image, copy data from
+</I>&gt;<i>    the two images and then free the two original images (the panel image
+</I>&gt;<i>    is freed in Image::Merge() and the background image is freed in
+</I>&gt;<i>    Panel::Panel()). It would be faster (and probably easier) to simply
+</I>&gt;<i>    draw the panel image on top of the background image instead.
+</I>
+Not sure it would work with alpha merging, unless you mean using
+only the portion of the backgrpund which is going to be covered
+for the alpha-merging, then drawing the merged panel on top
+of the background. Got to see what out current Image class allows,
+anyway I agree the method we're currently using is inefficient.
+
+&gt;<i> Please comment and add your own.
+</I>
+All you wrote sounds reasonable to me, my only reccomendation
+is to try keeping the codebase small.
+
+And now, against my own reccomendation, a feature that I'd like
+to add in the future: a context menu.
+
+Some people have asked for buttons (ie shutdown / reboot), but I
+think a right-click menu would be more efficient and spare us from
+manually coding a three-state graphical button class.
+
+I was thinking of something really simple as right-click everywhere to
+pop-up a menu with the shutdown / reboot / exit / choose session,
+not unlike the solaris login (without buttons).
+
+This would also allow to shutdown / reboot without knowing the root
+password or using ugly hacks.
+
+
+That's all for now, I'm fiddling with NteBSD openpam, there is
+some difference / incompatibiliy I'm investigating, ie 
+lack of PAM_BAD_ITEM, PAM_FAIL_DELAY and pam_fail_delay()
+
+
+
+-- 
+Simone Rota
+Bergamo, Italy - <A HREF="http://www.varlock.com">http://www.varlock.com</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000007.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+	<LI>Next message: <A HREF="000009.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8">[ date ]</a>
+              <a href="thread.html#8">[ thread ]</a>
+              <a href="subject.html#8">[ subject ]</a>
+              <a href="author.html#8">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

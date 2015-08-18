@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #12507] pam_mount doesn't work with SLiM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-November/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2312507%5D%20pam_mount%20doesn%27t%20work%20with%20SLiM&In-Reply-To=%3C200711200802.lAK82vRh026704%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000079.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #12507] pam_mount doesn't work with SLiM</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2312507%5D%20pam_mount%20doesn%27t%20work%20with%20SLiM&In-Reply-To=%3C200711200802.lAK82vRh026704%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #12507] pam_mount doesn't work with SLiM">admin at berlios.de
+       </A><BR>
+    <I>Tue Nov 20 09:02:57 CET 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000079.html">[Slim-dev] [Bug #12468] switch user (feature request)
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#80">[ date ]</a>
+              <a href="thread.html#80">[ thread ]</a>
+              <a href="subject.html#80">[ subject ]</a>
+              <a href="author.html#80">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #12507, was updated on 2007-Nov-19 23:02
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: jstepien
+Assigned to : none
+Summary: pam_mount doesn't work with SLiM
+
+Details: I'm using pam_mount 0.29 in order to decrypt my home directory after logging in. The partition's correctly decrypted by GDM, Entrance and generic console login. Apparently, SLiM 1.3.0 does not support it.
+
+After entering my password SLiM restarts. In the log file I'm informed that SLiM can't find ~/.xinitrc. It's obvious it cannot be found - it won't exist unless the home directory is mounted.
+
+SLiM has to firstly take care of all pam-related issues, e.g. pam_mount, and afterwards begin to browse ~ for files it requires. I hope fixing it won't take long.
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=12507&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=12507&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000079.html">[Slim-dev] [Bug #12468] switch user (feature request)
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#80">[ date ]</a>
+              <a href="thread.html#80">[ thread ]</a>
+              <a href="subject.html#80">[ subject ]</a>
+              <a href="author.html#80">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

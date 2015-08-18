@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] Post 1.3.0 proposal list
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Post%201.3.0%20proposal%20list&In-Reply-To=%3C46532F1E.2070708%40parmus.dk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000005.html">
+   <LINK REL="Next"  HREF="000008.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] Post 1.3.0 proposal list</H1>
+    <B>Martin Parm</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Post%201.3.0%20proposal%20list&In-Reply-To=%3C46532F1E.2070708%40parmus.dk%3E"
+       TITLE="[Slim-dev] Post 1.3.0 proposal list">parmus at parmus.dk
+       </A><BR>
+    <I>Tue May 22 19:57:50 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000005.html">[Slim-dev] your mail
+</A></li>
+        <LI>Next message: <A HREF="000008.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi
+
+As we are now working on stabilizing SLiM for the 1.3.0 release and has
+closed for any more changes, I'm starting this list with ideas and
+proposals for later versions.
+
+
+
+*) Try to avoid C-style casts. slim currently have 104 C-style casts
+   (not including the 10 in ssetbg). Some of these might be avoidable
+   and most of the rest could probably be converted into C++ style
+   casts, which are safer and easier for the compiler to check.
+   (<A HREF="http://www.research.att.com/~bs/bs_faq2.html#static-cast">http://www.research.att.com/~bs/bs_faq2.html#static-cast</A>)
+(<A HREF="https://www.securecoding.cert.org/confluence/display/cplusplus/EXP00-A.+Do+not+use+C-style+casts">https://www.securecoding.cert.org/confluence/display/cplusplus/EXP00-A.+Do+not+use+C-style+casts</A>)
+
+
+*) Switch from fork() to vfork() in app.cpp to avoid the memory
+   overhead. vfork() is especially designed for the situation, when you
+   combine fork() and exec() to execute another program. Using vfork()
+   have a smaller overhead but requires that we are a bit careful about
+   what we do in the child process. Of course we also need to check if
+   vfork() is available on all supported platforms.
+   (<A HREF="http://www.yolinux.com/TUTORIALS/ForkExecProcesses.html">http://www.yolinux.com/TUTORIALS/ForkExecProcesses.html</A>)
+
+
+*) We do duplicate calculations of font extend in several places in
+   panel.cpp. Either this should be done one time for all or, if
+   necessary, the calculation should be properly encapsulated.
+
+
+*) In Image::Merge() we merge a (small) panel image with a (big)
+   background image by reallocation a new (big) image, copy data from
+   the two images and then free the two original images (the panel image
+   is freed in Image::Merge() and the background image is freed in
+   Panel::Panel()). It would be faster (and probably easier) to simply
+   draw the panel image on top of the background image instead.
+
+
+
+Please comment and add your own.
+
+
+Cheers,
+--
+Martin Parm
+Dept. of Computer Science
+University of Copenhagen
+Denmark
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000005.html">[Slim-dev] your mail
+</A></li>
+	<LI>Next message: <A HREF="000008.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

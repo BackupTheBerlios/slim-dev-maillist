@@ -1,0 +1,97 @@
+From admin at berlios.de  Mon Jan 27 17:45:39 2014
+From: admin at berlios.de (admin at berlios.de)
+Date: Mon, 27 Jan 2014 17:45:39 +0100 (CET)
+Subject: [Slim-dev] [Bug #19262] Slim ending up in black screen with Nvidia
+	Optimus
+Message-ID: <201401271645.s0RGjdob001223@www.berlios.de>
+
+Bug #19262, was updated on 2014-Jan-27 17:45
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: trichner
+Assigned to : none
+Summary: Slim ending up in black screen with Nvidia Optimus
+
+Details: 1. Set up optimus with 'nvidia' & 'modesetting' drivers
+2. Boot
+3. black screen appears, input works, login works (blind)
+4. normal x session works
+
+How to solve:
+The commands 
+'xrandr --setprovideroutputsource modesetting NVIDIA-0'
+'xrandr --auto'
+
+are needed in the .xinitrc, but this is executed AFTER slim. So if slim would allow a script that is executed BEFORE itself to configure the x-server, we could fix this.
+
+HW:
+Thinkpad T420s
+Intel HD Graphics & Nvidia N4200
+
+OS:
+Linux 3.12.9-1-ARCH
+
+
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=19262&group_id=2663
+
+From admin at berlios.de  Tue Jan 28 02:38:55 2014
+From: admin at berlios.de (admin at berlios.de)
+Date: Mon, 27 Jan 2014 16:38:55 -0900 (AKST)
+Subject: [Slim-dev] [Bug #19262] Slim ending up in black screen with Nvidia
+	Optimus
+Message-ID: <201401280138.s0S1ct9a025350@www.berlios.de>
+
+Bug #19262, was updated on 2014-Jan-27 07:45
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: trichner
+Assigned to : none
+Summary: Slim ending up in black screen with Nvidia Optimus
+
+Details: 1. Set up optimus with 'nvidia' & 'modesetting' drivers
+2. Boot
+3. black screen appears, input works, login works (blind)
+4. normal x session works
+
+How to solve:
+The commands 
+'xrandr --setprovideroutputsource modesetting NVIDIA-0'
+'xrandr --auto'
+
+are needed in the .xinitrc, but this is executed AFTER slim. So if slim would allow a script that is executed BEFORE itself to configure the x-server, we could fix this.
+
+HW:
+Thinkpad T420s
+Intel HD Graphics & Nvidia N4200
+
+OS:
+Linux 3.12.9-1-ARCH
+
+
+
+Follow-Ups:
+
+Date: 2014-Jan-27 16:38
+By: istakenv
+
+Comment:
+Could you email me further details of your setup?  I have a W520 which contains the same Nvidia Optimus, and I do not have this "blanking" issue...  axs at gentoo.org
+-------------------------------------------------------
+
+For detailed info, follow this link:
+http://developer.berlios.de/bugs/?func=detailbug&bug_id=19262&group_id=2663
+

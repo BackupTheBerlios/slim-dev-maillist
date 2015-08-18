@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] BSD testing [WAS: Post 1.3.0 proposal list]
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20BSD%20testing%20%5BWAS%3A%20Post%201.3.0%20proposal%20list%5D&In-Reply-To=%3C20070523222302.GA8896%40sip%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000010.html">
+   <LINK REL="Next"  HREF="000016.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] BSD testing [WAS: Post 1.3.0 proposal list]</H1>
+    <B>Simone Rota</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20BSD%20testing%20%5BWAS%3A%20Post%201.3.0%20proposal%20list%5D&In-Reply-To=%3C20070523222302.GA8896%40sip%3E"
+       TITLE="[Slim-dev] BSD testing [WAS: Post 1.3.0 proposal list]">sip at varlock.com
+       </A><BR>
+    <I>Thu May 24 00:23:02 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000010.html">[Slim-dev] BSD testing [WAS: Post 1.3.0 proposal list]
+</A></li>
+        <LI>Next message: <A HREF="000016.html">[Slim-dev] PAM on netbsd
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, May 23, 2007 at 01:45:25PM +0200, Martin Parm wrote:
+&gt;<i> Hi,
+</I>&gt;<i> 
+</I>&gt;<i> &gt; That's all for now, I'm fiddling with NteBSD openpam, there is
+</I>&gt;<i> &gt; some difference / incompatibiliy I'm investigating, ie 
+</I>&gt;<i> &gt; lack of PAM_BAD_ITEM, PAM_FAIL_DELAY and pam_fail_delay()
+</I>&gt;<i> 
+</I>&gt;<i> Ah, then my switch statements will come in handy (Yeah! ^_^), as you can
+</I>&gt;<i> simply out a #ifndef NETBSD around the values that doesn't exists and
+</I>&gt;<i> let the default case handle the rest.
+</I>&gt;<i> Support for pam_fail_delay() in PAM.h/PAM.cpp is only provided for
+</I>&gt;<i> completion and it isn't used by SLiM at all, so it's safe to exclude.
+</I>
+Yes, at first look that seemed trivial to fix, expecially the PAM_BAD_ITEM
+one which can be fixed with a simple ifdef. (btw, I suggest we simply
+use #ifdef PAM_BAD_ITEM since it covers both bsd implementations).
+
+I'll try to complete the netbsd tests tomorrow, freebsd should be trivial
+since they share the same PAM implementation: <A HREF="http://trac.des.no/openpam">http://trac.des.no/openpam</A>
+
+OT @Johannes: playing with the idea of using openpam as a possible
+PAM option instead of Linux-PAM, if we ever decide to go that way.
+
+Regards,
+Simone
+
+-- 
+Simone Rota
+Bergamo, Italy - <A HREF="http://www.varlock.com">http://www.varlock.com</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000010.html">[Slim-dev] BSD testing [WAS: Post 1.3.0 proposal list]
+</A></li>
+	<LI>Next message: <A HREF="000016.html">[Slim-dev] PAM on netbsd
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] Post 1.3.0 proposal list
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Post%201.3.0%20proposal%20list&In-Reply-To=%3C4654B2DE.6080805%40parmus.dk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000011.html">
+   <LINK REL="Next"  HREF="000014.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] Post 1.3.0 proposal list</H1>
+    <B>Martin Parm</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Post%201.3.0%20proposal%20list&In-Reply-To=%3C4654B2DE.6080805%40parmus.dk%3E"
+       TITLE="[Slim-dev] Post 1.3.0 proposal list">parmus at parmus.dk
+       </A><BR>
+    <I>Wed May 23 23:32:14 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000011.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+        <LI>Next message: <A HREF="000014.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#12">[ date ]</a>
+              <a href="thread.html#12">[ thread ]</a>
+              <a href="subject.html#12">[ subject ]</a>
+              <a href="author.html#12">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+&gt;&gt;<i> *) Add buttons or pop-up menu
+</I>&gt;&gt;&gt;<i> Some people have asked for buttons (ie shutdown / reboot), but I
+</I>&gt;&gt;&gt;<i> think a right-click menu would be more efficient and spare us from
+</I>&gt;&gt;&gt;<i> manually coding a three-state graphical button class.
+</I>&gt;&gt;<i> Actually I think buttons are easier to code than a menu AND it's easier
+</I>&gt;&gt;<i> to integrate in themes. I propose simply letting the themes supply the
+</I>&gt;&gt;<i> images in the tree states. It will also make the theme-makers happy
+</I>&gt;&gt;<i> because I will allow them to make some nicely integrate buttons in their
+</I>&gt;&gt;<i> themes.
+</I>&gt;<i> I think this is a nice idea; I personally would not add the
+</I>&gt;<i> functionality at all since I think it's bloat in some ways, but since
+</I>&gt;<i> people really want this I think adding buttons is the better way.
+</I>&gt;<i> 
+</I>&gt;<i> Just one thing:
+</I>&gt;<i> We might also have to allow pixmap cursors; nothing ruins a theme
+</I>&gt;<i> more easily than a boring mouse pointer :-). Martin, do you know how GDM
+</I>&gt;<i> solves this (if at all)?
+</I>
+I can't recall if GDM changes the cursor or not, but I thing we should
+be able to dig up some cursor code somewhere ^_^.
+
+&gt;<i> It least set some cool cursor as default, if we don't want themers to
+</I>&gt;<i> bother with this. I always loved the transparent one from qingy.
+</I>&gt;<i>   <A HREF="http://qingy.sourceforge.net/images/button_highlight.png">http://qingy.sourceforge.net/images/button_highlight.png</A>
+</I>&gt;<i> (bottom right)
+</I>&gt;<i> I wonder if this would be hard in X11...
+</I>
+It looks cool. I have no idea if that can be done with X11 cursors, but
+we can always fake it if we really want that effect.
+
+&gt;&gt;<i> Well, BEFORE doing anything (whether it be buttons or pop-up menu) I
+</I>&gt;&gt;<i> strongly suggest we split up Panel in widgets, because it's getting too
+</I>&gt;&gt;<i> bloated and there's too much book-keeping. I've been meaning to suggest
+</I>&gt;&gt;<i> that too, but I forgot that in my previous mail. This will also make it
+</I>&gt;&gt;<i> easier to print messages (e.g. from PAM) without having to redraw the
+</I>&gt;&gt;<i> whole screen to delete them again.
+</I>&gt;<i> 
+</I>&gt;<i> I thought about that too in the past, especially in the context of
+</I>&gt;<i> themeing. What I always wanted to have was some more vector oriented way
+</I>&gt;<i> to define themes; if you take the panel.png of the default theme for
+</I>&gt;<i> example, it's just a fully transparent background with an image at a
+</I>&gt;<i> certain position, and a rectangle with opaque black border filled with a
+</I>&gt;<i> x% transparent white. Fiddling with the transparency values in gimp has
+</I>&gt;<i> always annoyed me.
+</I>
+I've been wishing for something similar in a login manager, but I'm not
+sure about whether that is the best way to go. The problem with vector
+graphics is that either it gets too limited for the theme developers or
+it gets very complex for the programmers. If we take a look at WMs and
+widget-kits it also obvious that pixmap-engines are very popular because
+theme-developers can get things just right.
+I'm not completely against the idea, but I think we need a really good
+design before implementing anything vector-based.
+That said, we could think about make a few vector-based widgets
+available as an addition to the pixmaps.....but let's see if we can get
+the widgets working first.
+
+&gt;<i> There's also a number of cool possibilities, like a load widget or a
+</I>&gt;<i> clock widget... there could then be independent from the theme even.
+</I>
+Well, now we starting to talk bloat ^_^
+
+&gt;<i> There's a certain danger to overdo and implement a much too complicated
+</I>&gt;<i> widget system though, so I'd love to see some prototyping code for this
+</I>&gt;<i> first.
+</I>
+Sure. I might give it a go sometime after the 1.3.0 release. My first
+step would be simply to split Panel into smaller widget, giving us the
+same functionally we have now.
+
+&gt;<i> Also, Xinerama is something which doesn't work correctly yet, and many
+</I>&gt;<i> people would like; yet, I still don't have a setup ready... there's a
+</I>&gt;<i> bug on berlios.de on that.
+</I>
+Unfortunately I don't have a multihead system, so I can't help with that
+at the moment.
+
+&gt;<i> Finally, I'd like if we'd get bug report and commit notifications to
+</I>&gt;<i> this list. Unfortunately berlios.de was down right now, so I couldn't
+</I>&gt;<i> check whether they make this easy or hard :-).
+</I>
+Speaking of bug-reports, we should probably go through the list soon.
+Some of the reports are getting pretty old ^_^
+
+
+Cheers,
+--
+Martin Parm
+Dept. of Computer Science
+University of Copenhagen
+Denmark
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000011.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+	<LI>Next message: <A HREF="000014.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#12">[ date ]</a>
+              <a href="thread.html#12">[ thread ]</a>
+              <a href="subject.html#12">[ subject ]</a>
+              <a href="author.html#12">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

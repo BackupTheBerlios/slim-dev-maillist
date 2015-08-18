@@ -1,0 +1,392 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] your mail
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20your%20mail&In-Reply-To=%3C20070519142420.GF7979%40titanium.smts.lan%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000001.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] your mail</H1>
+    <B>Johannes Winkelmann</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20your%20mail&In-Reply-To=%3C20070519142420.GF7979%40titanium.smts.lan%3E"
+       TITLE="[Slim-dev] your mail">jw at smts.ch
+       </A><BR>
+    <I>Sat May 19 16:24:20 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000001.html">[Slim-dev] Code review [WAS: your mail]
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+Simone asked me to review the slim-pam branch, so are couple of
+comments. It's just my personal opinion, so please discuss and defend
+:<i>-).
+</I>
+[ I cut code where appropriate, but tried to always keep the function
+names to make it clear where the lines can be found]
+
+On Sat, May 19, 2007 at 15:05:56 +0200, jw wrote:
+
+&gt;<i> diff -u -x .svn -b -Nur trunk/PAM.cpp slim-pam/PAM.cpp
+</I>&gt;<i> --- trunk/PAM.cpp	1970-01-01 01:00:00.000000000 +0100
+</I>&gt;<i> +++ slim-pam/PAM.cpp	2007-05-19 14:30:53.000000000 +0200
+</I>
+PAM.cpp lacks a copyright and authorship note
+
+&gt;<i> @@ -0,0 +1,239 @@
+</I>&gt;<i> +#include &lt;PAM.h&gt;
+</I>&gt;<i> +#include &lt;string&gt;
+</I>&gt;<i> +#include &lt;iostream&gt;
+</I>&gt;<i> +
+</I>&gt;<i> +namespace PAM {
+</I>&gt;<i> +    Exception::Exception(pam_handle_t* _pamh,
+</I>&gt;<i> +               const std::string&amp; _func_name,
+</I>&gt;<i> +               int _errnum):
+</I>&gt;<i> +        errnum(_errnum),
+</I>&gt;<i> +        errstr(pam_strerror(_pamh, _errnum)),
+</I>&gt;<i> +        func_name(_func_name)
+</I>&gt;<i> +        {};
+</I>Superfluous trailing semicolon. Will probably fail with gcc 4.3:
+  <A HREF="http://www.cyrius.com/journal/gcc/gcc-4.3-extra-semicolon">http://www.cyrius.com/journal/gcc/gcc-4.3-extra-semicolon</A>
+
+This is true for all methods in PAM.cpp except for set_item()
+
+
+&gt;<i> +    void Authenticator::start(const std::string&amp; service){
+</I>&gt;<i> +        switch((last_result=pam_start(service.c_str(), NULL, &amp;pam_conversation, &amp;pamh))){
+</I>&gt;<i> +            default:
+</I>&gt;<i> +                throw Exception(pamh, &quot;pam_start()&quot;, last_result);
+</I>&gt;<i> +
+</I>&gt;<i> +            case PAM_SUCCESS:
+</I>&gt;<i> +                break;
+</I>&gt;<i> +        }
+</I>&gt;<i> +        return;
+</I>&gt;<i> +    }
+</I>superfluous return; this is in most methods returning void.
+
+Also, it seems somewhat complicated to use the switch here, especially
+since you're also doing the assignment in there. why not:
+  last_result = pam_start(service.c_str(), NULL, &amp;pam_conversation, &amp;pamh);
+  if (last_result != PAM_SUCCESS)
+      throw ...
+
+or where it fit's better (in other methods in PAM.cpp)
+  last_result = pam_start(service.c_str(), NULL, &amp;pam_conversation, &amp;pamh);
+  if (last_result == PAM_SUCCESS)
+      return
+  [error handling]
+
+same applies for end(), set_item(), fail_delay(); 
+
+&gt;<i> +    const void* Authenticator::get_item(const Authenticator::ItemType item){
+</I>&gt;<i> +        const void* data;
+</I>&gt;<i> +        switch ((last_result=pam_get_item(pamh, item, &amp;data))){
+</I>&gt;<i> +            default:
+</I>&gt;<i> +            case PAM_SYSTEM_ERR:
+</I>&gt;<i> +            case PAM_BAD_ITEM:
+</I>&gt;<i> +                _end();
+</I>&gt;<i> +                throw Exception(pamh, &quot;pam_get_item()&quot;, last_result);
+</I>&gt;<i> +
+</I>&gt;<i> +            case PAM_PERM_DENIED: // The value of item was NULL
+</I>&gt;<i> +            case PAM_SUCCESS:
+</I>&gt;<i> +                break;
+</I>&gt;<i> +        }
+</I>&gt;<i> +        return data;
+</I>&gt;<i> +    };
+</I>I'd rather see the assignment of last_result outside of the switch
+clause, but that's just a style thing :-). Same for authenticate(),
+open_session() and close_session().
+
+
+
+&gt;<i> +    void Authenticator::authenticate(void){
+</I>The (void) argument list looks somewhat outdated. Any reason to have
+those?
+
+[...]
+&gt;<i> +        switch((last_result=pam_acct_mgmt(pamh, PAM_SILENT))){
+</I>&gt;<i> +            default:
+</I>&gt;<i> +            //case PAM_NEW_AUTHTOKEN_REQD:
+</I>Dead code? Unused? Future use?
+
+&gt;<i> +    void Authenticator::open_session(void){
+</I>[...]
+&gt;<i> +        switch((last_result=pam_open_session(pamh, 0))){
+</I>&gt;<i> +            default:
+</I>&gt;<i> +            //case PAM_SESSION_ERROR:
+</I>Same question as above
+
+
+&gt;<i> diff -u -x .svn -b -Nur trunk/PAM.h slim-pam/PAM.h
+</I>&gt;<i> --- trunk/PAM.h	1970-01-01 01:00:00.000000000 +0100
+</I>&gt;<i> +++ slim-pam/PAM.h	2007-05-19 14:30:53.000000000 +0200
+</I>&gt;<i> @@ -0,0 +1,84 @@
+</I>&gt;<i> +/* SLiM - Simple Login Manager
+</I>&gt;<i> +   This program is free software; you can redistribute it and/or modify
+</I>&gt;<i> +   it under the terms of the GNU General Public License as published by
+</I>&gt;<i> +   the Free Software Foundation; either version 2 of the License, or
+</I>&gt;<i> +   (at your option) any later version.
+</I>&gt;<i> +*/
+</I>
+Here's a copyright, but no author
+
+&gt;<i> +    class Authenticator{
+</I>&gt;<i> +    private:
+</I>&gt;<i> +        struct pam_conv pam_conversation;
+</I>Keyword 'struct' not needed in C++.
+
+
+&gt;<i> +        pam_handle_t* pamh;
+</I>for the sake of readablility, I'd call that pam_handle
+
+[...]
+&gt;<i> +    public:
+</I>&gt;<i> +        Authenticator(conversation* conv, void* data=0);
+</I>void pointers... is there no way around this?
+
+
+
+&gt;<i> diff -u -x .svn -b -Nur trunk/app.cpp slim-pam/app.cpp
+</I>&gt;<i> --- trunk/app.cpp	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;<i> +++ slim-pam/app.cpp	2007-05-19 14:30:53.000000000 +0200
+</I>[...]
+&gt;<i> +#ifdef USE_PAM
+</I>&gt;<i> +#include &lt;string&gt;
+</I>&gt;<i> +
+</I>&gt;<i> +int conv(int num_msg, const struct pam_message **msg,
+</I>&gt;<i> +         struct pam_response **resp, void *appdata_ptr){
+</I>&gt;<i> +    *resp = (struct pam_response *) calloc(num_msg, sizeof(struct pam_response));
+</I>
+C style allocate. Any reason for that?
+
+
+&gt;<i> +    Panel* panel = *static_cast&lt;Panel**&gt;(appdata_ptr);
+</I>Yay for void pointers :-)
+
+
+&gt;<i> +    int result = PAM_SUCCESS;
+</I>&gt;<i> +    for (int i=0; i&lt;num_msg; i++){
+</I>&gt;<i> +        resp[i]-&gt;resp=0;
+</I>&gt;<i> +        resp[i]-&gt;resp_retcode=0;
+</I>&gt;<i> +        switch(msg[i]-&gt;msg_style){
+</I>&gt;<i> +            case PAM_PROMPT_ECHO_ON:
+</I>&gt;<i> +                // We assume PAM is asking for the username
+</I>&gt;<i> +                panel-&gt;EventHandler(Panel::Get_Name);
+</I>I don't think this is from the PAM patch, just a general remark:
+
+the function name EventHandler doesn't ring a bell.
+registerEventHandler, setEventHandler, handleEvent sounds more logical
+to me
+
+[...]
+&gt;<i> +            case PAM_ERROR_MSG:
+</I>&gt;<i> +            case PAM_TEXT_INFO:
+</I>&gt;<i> +                // We simply right these to the log
+</I>typo: right -&gt; write
+
+&gt;<i> +                // TODO: Maybe we should simply ignore them
+</I>&gt;<i> +                cerr &lt;&lt; APPNAME &lt;&lt; &quot;: &quot; &lt;&lt; msg[i]-&gt;msg &lt;&lt; endl;
+</I>&gt;<i> +                break;
+</I>&gt;<i> +        }
+</I>&gt;<i> +        if (result!=PAM_SUCCESS) break;
+</I>&gt;<i> +    }
+</I>&gt;<i> +    if (result!=PAM_SUCCESS){
+</I>&gt;<i> +        for (int i=0; i&lt;num_msg; i++){
+</I>&gt;<i> +            if (resp[i]-&gt;resp==0) continue;
+</I>&gt;<i> +            free(resp[i]-&gt;resp);
+</I>&gt;<i> +            resp[i]-&gt;resp=0;
+</I>&gt;<i> +        };
+</I>&gt;<i> +        free(*resp);
+</I>&gt;<i> +        *resp=0;
+</I>&gt;<i> +    };
+</I>Who frees the allocated memory if result == PAM_SUCCESS?
+
+
+
+&gt;<i> +#ifdef USE_PAM
+</I>&gt;<i> +bool App::Auth(void){
+</I>&gt;<i> +    int last_result;
+</I>unused variable
+
+[app.cpp, line 533]
+&gt;<i> +#ifdef USE_PAM
+</I>&gt;<i> +        // Get a copy of the environment and close the child's copy
+</I>&gt;<i> +        // of the PAM-handle.
+</I>&gt;<i> +        char** child_env = pam.getenvlist();
+</I>&gt;<i> +        pam.end();
+</I>&gt;<i> +#else
+</I>&gt;<i> +        char** child_env = static_cast&lt;char**&gt;(malloc(sizeof(char*)*10));
+</I>- use of c style memory allocation
+- use the magic constant '10'; a comment might be nice
+
+&gt;<i> diff -u -x .svn -b -Nur trunk/app.h slim-pam/app.h
+</I>&gt;<i> --- trunk/app.h	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;<i> +++ slim-pam/app.h	2007-05-19 14:30:53.000000000 +0200
+</I>[...]
+&gt;<i> @@ -53,6 +57,8 @@
+</I>&gt;<i>      char* StrConcat(const char* str1, const char* str2);
+</I>&gt;<i>      void UpdatePid();
+</I>&gt;<i>   
+</I>&gt;<i> +	bool Auth(void);
+</I>&gt;<i> + 
+</I>I'd maybe rename this to make it clear that it'll perform the
+authentication (versus returning whether we are authenticated), like
+authenticateUser(), performAuth() etc.
+
+
+&gt;<i> diff -u -x .svn -b -Nur trunk/panel.cpp slim-pam/panel.cpp
+</I>&gt;<i> --- trunk/panel.cpp	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;<i> +++ slim-pam/panel.cpp	2007-05-19 14:30:53.000000000 +0200
+</I>[...]
+&gt;<i> @@ -288,49 +277,54 @@
+</I>&gt;<i>      }
+</I>&gt;<i>  }
+</I>&gt;<i>  
+</I>&gt;<i> -int Panel::EventHandler(XEvent* event) {
+</I>&gt;<i> -    Action = WAIT;
+</I>&gt;<i> -
+</I>&gt;<i> -    switch(event-&gt;type) {
+</I>&gt;<i> +void Panel::EventHandler(const Panel::FieldType&amp; curfield) {
+</I>&gt;<i> +    XEvent event;
+</I>&gt;<i> +    field=curfield;
+</I>&gt;<i> +    bool loop = true;
+</I>&gt;<i> +    OnExpose();
+</I>&gt;<i> +    for(;;) {
+</I>[...]
+&gt;<i> +        XNextEvent(Dpy, &amp;event);
+</I>&gt;<i> +        switch(event.type) {
+</I>&gt;<i>      case Expose:
+</I>&gt;<i> -        OnExpose(event);
+</I>&gt;<i> +                OnExpose();
+</I>this change actually broke indentation (by adding a tab) :-). Some for
+some others in this method.
+
+
+Also here in EventHandler(), I'd suggest changing 'for (;;)' to 'while
+(loop)' and getting rid of the &quot;if (!loop) break;&quot; jump.
+
+
+&gt;<i> -void Panel::OnExpose(XEvent* event) {
+</I>&gt;<i> -    char* name = In-&gt;GetName();
+</I>&gt;<i> -    char* passwd = In-&gt;GetHiddenPasswd();
+</I>&gt;<i> +void Panel::OnExpose(void) {
+</I>&gt;<i>      XftDraw *draw = XftDrawCreate(Dpy, Win,
+</I>&gt;<i>                          DefaultVisual(Dpy, Scr), DefaultColormap(Dpy, Scr));
+</I>&gt;<i> +    XClearWindow(Dpy, Win);
+</I>Is this really needed?
+
+
+&gt;<i> diff -u -x .svn -b -Nur trunk/panel.h slim-pam/panel.h
+</I>&gt;<i> --- trunk/panel.h	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;<i> +++ slim-pam/panel.h	2007-05-19 14:30:53.000000000 +0200
+</I>[...]
+&gt;<i>  class Panel {
+</I>&gt;<i>  public:
+</I>&gt;<i> +    enum ActionType {
+</I>&gt;<i> +        Login,
+</I>&gt;<i> +        Console,
+</I>&gt;<i> +        Reboot,
+</I>&gt;<i> +        Halt,
+</I>&gt;<i> +        Exit,
+</I>&gt;<i> +        Suspend
+</I>&gt;<i> +    };
+</I>&gt;<i> +    enum FieldType {
+</I>&gt;<i> +        Get_Name,
+</I>&gt;<i> +        Get_Passwd
+</I>&gt;<i> +    };
+</I>&gt;<i> +
+</I>&gt;<i> +
+</I>
+General remark: I personally prefer all upercase constants (and I
+consider enums to be constants), but there's a lot of potential within
+slim to improve consistency.
+
+&gt;<i>      Panel(Display* dpy, int scr, Window root, Cfg* config,
+</I>&gt;<i>            const string&amp; themed);
+</I>&gt;<i>      ~Panel();
+</I>&gt;<i>      void OpenPanel();
+</I>&gt;<i>      void ClosePanel();
+</I>&gt;<i>      void ClearPanel();
+</I>&gt;<i> -    void Message(const char* text);
+</I>&gt;<i> -    void Error(const char* text);
+</I>&gt;<i> -    Input* GetInput();
+</I>&gt;<i> -    int EventHandler(XEvent* event);
+</I>&gt;<i> +    void Message(const string&amp; text);
+</I>&gt;<i> +    void Error(const string&amp; text);
+</I>&gt;<i> +    void EventHandler(const FieldType&amp; curfield);
+</I>As mentioned before, maybe we could rename that function.
+
+
+&gt;<i> diff -u -x .svn -b -Nur trunk/switchuser.cpp slim-pam/switchuser.cpp
+</I>&gt;<i> --- trunk/switchuser.cpp	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;<i> +++ slim-pam/switchuser.cpp	2007-05-19 14:30:53.000000000 +0200
+</I>&gt;<i> @@ -13,10 +13,11 @@
+</I>&gt;<i>  
+</I>&gt;<i>  using namespace std;
+</I>&gt;<i>  
+</I>&gt;<i> -SwitchUser::SwitchUser(struct passwd *pw, Cfg *c, const string&amp; display)
+</I>&gt;<i> +SwitchUser::SwitchUser(struct passwd *pw, Cfg *c, const string&amp; display, char** _env)
+</I>
+line longer than 80 characters
+
+&gt;<i> diff -u -x .svn -b -Nur trunk/switchuser.h slim-pam/switchuser.h
+</I>&gt;<i> --- trunk/switchuser.h	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;<i> +++ slim-pam/switchuser.h	2007-05-19 14:30:53.000000000 +0200
+</I>&gt;<i> @@ -25,7 +25,7 @@
+</I>&gt;<i>  
+</I>&gt;<i>  class SwitchUser {
+</I>&gt;<i>  public:
+</I>&gt;<i> -    SwitchUser(struct passwd *pw, Cfg *c, const std::string&amp; display);
+</I>&gt;<i> +    SwitchUser(struct passwd *pw, Cfg *c, const std::string&amp; display, char** _env);
+</I>same as above
+
+
+As a finishing comment, the code looks very clean overall, and I like
+many of the refactorings. Congratulations to the PAM code, and keep up
+the good work!
+
+Regards, Johannes
+-- 
+Johannes Winkelmann              mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">jw at smts.ch</A>
+Zurich, Switzerland              <A HREF="http://jw.smts.ch">http://jw.smts.ch</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000001.html">[Slim-dev] Code review [WAS: your mail]
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #11003] Support -nodaemon argument
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2311003%5D%20Support%20-nodaemon%20argument&In-Reply-To=%3C20070529103613.GE32419%40titanium.smts.lan%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000030.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #11003] Support -nodaemon argument</H1>
+    <B>Johannes Winkelmann</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2311003%5D%20Support%20-nodaemon%20argument&In-Reply-To=%3C20070529103613.GE32419%40titanium.smts.lan%3E"
+       TITLE="[Slim-dev] [Bug #11003] Support -nodaemon argument">jw at smts.ch
+       </A><BR>
+    <I>Tue May 29 12:36:13 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000030.html">[Slim-dev] [Bug #11003] Support -nodaemon argument
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hey,
+
+On Tue, May 29, 2007 at 11:40:29 +0200, <A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">admin at berlios.de</A> wrote:
+&gt;<i> Bug #11003, was updated on 2007-May-07 12:01
+</I>&gt;<i> Here is a current snapshot of the bug.
+</I>[...] 
+&gt;<i> Details: It would be nice if the &quot;-nodaemon&quot; argument would be supported.
+</I>&gt;<i> If I understand it correctly, it doesn't have to do anything (default).
+</I>[...]
+&gt;<i> Yes, this was specific to the Fedora/RedHat inittab script:
+</I>
+So xdm, kdm and gdm all support this. However, that argument style
+doesn't work with getopt, so I can only see two possibilities:
+
+1. switch to another way of parsing
+2. add a hack like this:
+    // accept nodaemon as '-n' argument to be compatible with xdm, gdm
+    // and kdm
+    for (i = 1; i &lt; argc; ++i) {
+        if (strcmp(argv[i], &quot;-nodaemon&quot;) == 0) {
+            *(argv[i]+2) = '\0';
+        }
+    }
+
+Since we have a fairly small number of options, solution #1 would be my
+preference. Opinions?
+
+
+Regards, Johannes
+-- 
+Johannes Winkelmann              mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">jw at smts.ch</A>
+Zurich, Switzerland              <A HREF="http://jw.smts.ch">http://jw.smts.ch</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000030.html">[Slim-dev] [Bug #11003] Support -nodaemon argument
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

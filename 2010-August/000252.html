@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #15326] slim on debian: won't die or restart
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2010-August/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2315326%5D%20slim%20on%20debian%3A%20won%27t%20die%20or%20restart&In-Reply-To=%3C201008241519.o7OFJ0xf026139%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000251.html">
+   <LINK REL="Next"  HREF="000253.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #15326] slim on debian: won't die or restart</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2315326%5D%20slim%20on%20debian%3A%20won%27t%20die%20or%20restart&In-Reply-To=%3C201008241519.o7OFJ0xf026139%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #15326] slim on debian: won't die or restart">admin at berlios.de
+       </A><BR>
+    <I>Tue Aug 24 17:19:00 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000251.html">[Slim-dev] [Bug #15326] slim on debian: won't die or restart
+</A></li>
+        <LI>Next message: <A HREF="000253.html">[Slim-dev] [Bug #7870] feature request: better xsession integration
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#252">[ date ]</a>
+              <a href="thread.html#252">[ thread ]</a>
+              <a href="subject.html#252">[ subject ]</a>
+              <a href="author.html#252">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #15326, was updated on 2009-Feb-27 15:16
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: robert_s
+Assigned to : none
+Summary: slim on debian: won't die or restart
+
+Details: I have installed the latest version of slim with debian Lenny (1.3.1).
+
+When I try to stop slim (/etc/init.d/slim stop) I get the following:
+
+slim is not responding to TERM signals.  &quot;killall slim&quot; does not kill the process - I need to use the -KILL option to do this.
+
+
+Follow-Ups:
+
+Date: 2010-Aug-24 07:19
+By: istakenv
+
+Comment:
+Oh -- the issue still exists in slim-1.3.2 btw.
+
+-------------------------------------------------------
+
+Date: 2010-Aug-24 07:07
+By: istakenv
+
+Comment:
+There's a patch in Gentoo Bugzilla that has been shown to fix this issue. 
+
+Patch: 
+<A HREF="https://bugs.gentoo.org/attachment.cgi?id=232517">https://bugs.gentoo.org/attachment.cgi?id=232517</A>
+
+Comments about patch/solution:
+<A HREF="https://bugs.gentoo.org/show_bug.cgi?id=261359#c16">https://bugs.gentoo.org/show_bug.cgi?id=261359#c16</A>
+-------------------------------------------------------
+
+Date: 2009-Nov-27 15:24
+By: chewi
+
+Comment:
+This has been experienced by many Gentoo users. It ultimately makes slim much less stable than it should be and I urge the new maintainer to make this one a priority. I had to drop slim in favour of gdm and xdm on two of my machines. :(
+-------------------------------------------------------
+
+Date: 2009-Oct-11 14:20
+By: andystimp
+
+Comment:
+I'm experiencing the same problem.  I admit that I know very little about programming, but by adding error messages at various points in the code, I've determined that it's hanging on the XCloseDisplay call on line 964 of app.cpp (in App:StopServer, in the block commented &quot;// Catch X error&quot;).
+
+I didn't observer this bug until after upgrading to xorg 1.6, so maybe the Xlib API changed?  It's also possible that this is a bug in Xlib.
+
+For those for whom it would be useful, there's someone else's strace of the bug in action in the comments at
+
+<A HREF="http://bugs.gentoo.org/show_bug.cgi?id=261359">http://bugs.gentoo.org/show_bug.cgi?id=261359</A>
+-------------------------------------------------------
+
+Date: 2009-Mar-10 01:33
+By: none
+
+Comment:
+==========
+I have the same problem on Gentoo and slim 1.3.1-r1 installed from portage:
+
+localhost ~ # eix x11-misc/slim
+[I] x11-misc/slim
+     Available versions:  1.3.0-r1 1.3.1-r1 ~1.3.1-r4 {branding pam screenshot}
+     Installed versions:  1.3.1-r1(23:52:39 08.03.2009)(pam)
+     Homepage:            <A HREF="http://slim.berlios.de">http://slim.berlios.de</A>
+     Description:         Simple Login Manager
+
+==========
+Restarting slim looks like this:
+
+localhost ~ # /etc/init.d/xdm restart
+ * Stopping slim ...
+Would send signal 15 to 3757.
+ * Error stopping slim                                                    [ !! ]
+
+==========
+I enabled log file in /etc/slim.conf and at the very end of it I see &quot;slim: unexpected signal 15&quot;:
+
+localhost ~ # tail /var/log/slim.log
+(==) Using config file: &quot;/etc/X11/xorg.conf&quot;
+(II) Module already built-in
+(WW) intel: No matching Device section for instance (BusID PCI:0:2:1) found
+(II) Module already built-in
+(II) Module already built-in
+(II) Module already built-in
+(EE) Synaptics no synaptics touchpad detected and no repeater device
+(EE) Synaptics Unable to query/initialize Synaptics hardware.
+(EE) PreInit failed for input device &quot;Synaptics&quot;
+slim: unexpected signal 15
+
+==========
+After that, slim process starts to consume above 90% of CPU time, and the only way to stop it is to &quot;kill -9&quot; both X and slim processes at the same time.
+
+Why would slim refuse to stop after SIGTERM?
+
+If you guys need any further details, please let me know. If I need to submit another bug I will.
+
+thanks!
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=15326&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=15326&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000251.html">[Slim-dev] [Bug #15326] slim on debian: won't die or restart
+</A></li>
+	<LI>Next message: <A HREF="000253.html">[Slim-dev] [Bug #7870] feature request: better xsession integration
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#252">[ date ]</a>
+              <a href="thread.html#252">[ thread ]</a>
+              <a href="subject.html#252">[ subject ]</a>
+              <a href="author.html#252">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

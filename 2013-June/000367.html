@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] Fixes to CMakeLists.txt to better handle slimlock
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2013-June/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Fixes%20to%20CMakeLists.txt%20to%20better%20handle%20slimlock&In-Reply-To=%3C51B15420.2050908%40antistuff.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000366.html">
+   <LINK REL="Next"  HREF="000368.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] Fixes to CMakeLists.txt to better handle slimlock</H1>
+    <B>danny</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Fixes%20to%20CMakeLists.txt%20to%20better%20handle%20slimlock&In-Reply-To=%3C51B15420.2050908%40antistuff.net%3E"
+       TITLE="[Slim-dev] Fixes to CMakeLists.txt to better handle slimlock">danny at antistuff.net
+       </A><BR>
+    <I>Fri Jun  7 05:31:44 CEST 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000366.html">[Slim-dev] [Bug #19015] Feature request: timeout for autologin
+</A></li>
+        <LI>Next message: <A HREF="000368.html">[Slim-dev] Allow multiple instances of Slim launched
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#367">[ date ]</a>
+              <a href="thread.html#367">[ thread ]</a>
+              <a href="subject.html#367">[ subject ]</a>
+              <a href="author.html#367">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+Right now if you build from git without -DUSE_PAM=yes the build will 
+fail because slimlock relies on pam.  This patch fixes it so that 
+slimlock wont build unless pam is used. I also separated out the files 
+in common to a static library to avoid compiling them twice.
+
+It looks like you added me to the developer list which gives me write to 
+the repo but I thought it good form to ask before I just toss something 
+in there.
+
+Thanks,
+Danny N.
+
+---
+  CMakeLists.txt | 72 
++++++++++++++++++++++++++++++++++++-----------------------
+  1 file changed, 43 insertions(+), 29 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 73539de..7fa3b78 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -50,35 +50,40 @@ set(CMAKE_CXX_FLAGS &quot;${CMAKE_CXX_FLAGS} -Wall -g -O2&quot;)
+  set(slim_srcs
+      main.cpp
+      app.cpp
+-    cfg.cpp
+-    image.cpp
+      numlock.cpp
+-    panel.cpp
+      switchuser.cpp
+-    util.cpp
+-    log.cpp
+      png.c
+      jpeg.c
+  )
+
+  set(slimlock_srcs
+      slimlock.cpp
+-    cfg.cpp
+-    image.cpp
+-    panel.cpp
+-    util.cpp
+-    log.cpp
+  )
+
++set(common_srcs
++    cfg.cpp
++    image.cpp
++    log.cpp
++    panel.cpp
++    util.cpp
++)
+  if(USE_PAM)
+-    set(slim_srcs ${slim_srcs} PAM.cpp)
++    set(common_srcs ${common_srcs} PAM.cpp)
++    # for now, only build slimlock if we are using PAM.
++    set(BUILD_SLIMLOCK 1)
+  endif(USE_PAM)
++
++add_library(slim_common  STATIC ${common_srcs} )
++
++
+  if(USE_CONSOLEKIT)
+      set(slim_srcs ${slim_srcs} Ck.cpp)
+  endif(USE_CONSOLEKIT)
+
+  add_executable(${PROJECT_NAME} ${slim_srcs})
+-add_executable(slimlock ${slimlock_srcs})
++if(BUILD_SLIMLOCK)
++    add_executable(slimlock ${slimlock_srcs})
++endif(BUILD_SLIMLOCK)
+
+  #Set the custom CMake module directory where our include/lib finders are
+  set(CMAKE_MODULE_PATH &quot;${CMAKE_SOURCE_DIR}/cmake/modules&quot;)
+@@ -163,6 +168,11 @@ include_directories(
+      ${PNG_INCLUDE_DIR}
+  )
+
++target_link_libraries(slim_common
++    ${JPEG_LIBRARIES}
++    ${PNG_LIBRARIES}
++)
++
+  #Set up library with all found packages for slim
+  target_link_libraries(${PROJECT_NAME}
+      ${M_LIB}
+@@ -176,24 +186,28 @@ target_link_libraries(${PROJECT_NAME}
+      ${FREETYPE_LIBRARY}
+      ${JPEG_LIBRARIES}
+      ${PNG_LIBRARIES}
+-    )
++    slim_common
++)
+
+-#Set up library with all found packages for slimlock
+-target_link_libraries(slimlock
+-    ${M_LIB}
+-    ${RT_LIB}
+-    ${CRYPTO_LIB}
+-    ${X11_X11_LIB}
+-    ${X11_Xft_LIB}
+-    ${X11_Xrender_LIB}
+-    ${X11_Xrandr_LIB}
+-    ${X11_Xmu_LIB}
+-    ${X11_Xext_LIB}
+-    ${FREETYPE_LIBRARY}
+-    ${JPEG_LIBRARIES}
+-    ${PNG_LIBRARIES}
+-    ${CMAKE_THREAD_LIBS_INIT}
+-    )
++if(BUILD_SLIMLOCK)
++    #Set up library with all found packages for slimlock
++    target_link_libraries(slimlock
++        ${M_LIB}
++        ${RT_LIB}
++        ${CRYPTO_LIB}
++        ${X11_X11_LIB}
++        ${X11_Xft_LIB}
++        ${X11_Xrender_LIB}
++        ${X11_Xrandr_LIB}
++        ${X11_Xmu_LIB}
++        ${X11_Xext_LIB}
++        ${FREETYPE_LIBRARY}
++        ${JPEG_LIBRARIES}
++        ${PNG_LIBRARIES}
++        ${CMAKE_THREAD_LIBS_INIT}
++        slim_common
++    )
++endif(BUILD_SLIMLOCK)
+
+  ####### install
+  # slim
+-- 
+1.8.3
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000366.html">[Slim-dev] [Bug #19015] Feature request: timeout for autologin
+</A></li>
+	<LI>Next message: <A HREF="000368.html">[Slim-dev] Allow multiple instances of Slim launched
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#367">[ date ]</a>
+              <a href="thread.html#367">[ thread ]</a>
+              <a href="subject.html#367">[ subject ]</a>
+              <a href="author.html#367">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

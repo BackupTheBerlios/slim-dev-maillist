@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] Bug #7870: feature request: better xsession	integration
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Bug%20%237870%3A%20feature%20request%3A%20better%20xsession%0A%09integration&In-Reply-To=%3C465C70F9.8040603%40parmus.dk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000032.html">
+   <LINK REL="Next"  HREF="000036.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] Bug #7870: feature request: better xsession	integration</H1>
+    <B>Martin Parm</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Bug%20%237870%3A%20feature%20request%3A%20better%20xsession%0A%09integration&In-Reply-To=%3C465C70F9.8040603%40parmus.dk%3E"
+       TITLE="[Slim-dev] Bug #7870: feature request: better xsession	integration">parmus at parmus.dk
+       </A><BR>
+    <I>Tue May 29 20:29:13 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000032.html">[Slim-dev] Bug #7870: feature request: better xsession integration
+</A></li>
+        <LI>Next message: <A HREF="000036.html">[Slim-dev] Bug #7870: feature request: better xsession	integration
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#35">[ date ]</a>
+              <a href="thread.html#35">[ thread ]</a>
+              <a href="subject.html#35">[ subject ]</a>
+              <a href="author.html#35">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+&gt;&gt;<i> [...]
+</I>&gt;&gt;<i> I think here we must decide if we're going the distributions way
+</I>&gt;&gt;<i> rather than the slim way. What we do now, only using .xinitrc, is
+</I>&gt;&gt;<i> guaranteed to work almost everywhere.
+</I>&gt;<i> 
+</I>&gt;<i> I implemented it the way gentoo handels it. But I think other
+</I>&gt;<i> distributions will do it in a similar way. I can take a look at some
+</I>&gt;<i> other major distributions like suse, fedora and debian. btw the patch
+</I>&gt;<i> does not disable the old way of session handling.
+</I>&gt;<i> 
+</I>&gt;&gt;<i> I have no idea how much the use of the Sessions dir is spread across
+</I>&gt;&gt;<i> distributions and whether /path/Sessions/%session is always a script
+</I>&gt;&gt;<i> which plays well with slim everywhere.
+</I>&gt;<i> In the script I check if the files in the paths are executable and if
+</I>&gt;<i> there are none slim falls back to the old behaviour. (Reading the
+</I>&gt;<i> session var).
+</I>
+I've looked the patch over and it's looks fine to me. I've taken the
+liberty to make a few updates:
+*) Fixed indention to match SLiM's
+*) Removed bSuccess as we can simply check on session.empty(). IMHO it
+makes the intent a bit clearer.
+
+I've also tested it against the lastest revision (134) of the slim-pam
+branch.
+
+I've attached the updated patch as I don't have access to update the one
+on the website.
+
+&gt;&gt;<i> Any idea / comment on this? When in doubt, I prefer the current
+</I>&gt;&gt;<i> solution.
+</I>&gt;<i> I prefer my patch ;-)
+</I>
+I like Bernhard's patch for now. I adds better support for those
+distributions that support this, without breaking the rest. We might be
+able to find a better solution later, especially since Xorg is trying to
+standardize many of these issues, but until the distributions start
+agreeing this seems like a reasonable solution.
+
+&gt;<i> but I think there is still a &quot;bug&quot; since it
+</I>&gt;<i> would be nice to save the session you started the last time in the home
+</I>&gt;<i> directory of the user and restore it on the next login. It is somewhat
+</I>&gt;<i> nasty to select the session every time.
+</I>
+Well, this is a whole other problem. We might think about fixing this
+too, but if we start making major changes I suggest we start looking a
+Xorg's standards.
+
+Cheers,
+-- 
+Martin Parm
+Dept. of Computer Science
+University of Copenhagen
+Denmark
+-------------- next part --------------
+An embedded and charset-unspecified text was scrubbed...
+Name: slim-pam-r134_add-sessiondir-support.patch
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/slim-dev/attachments/20070529/792ebdf0/attachment.ksh">https://lists.berlios.de/pipermail/slim-dev/attachments/20070529/792ebdf0/attachment.ksh</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000032.html">[Slim-dev] Bug #7870: feature request: better xsession integration
+</A></li>
+	<LI>Next message: <A HREF="000036.html">[Slim-dev] Bug #7870: feature request: better xsession	integration
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#35">[ date ]</a>
+              <a href="thread.html#35">[ thread ]</a>
+              <a href="subject.html#35">[ subject ]</a>
+              <a href="author.html#35">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

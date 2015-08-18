@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #16020] Delete screenshot before taking a new
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2009-July/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2316020%5D%20Delete%20screenshot%20before%20taking%20a%20new&In-Reply-To=%3C200907211501.n6LF1Neg006403%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000214.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #16020] Delete screenshot before taking a new</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2316020%5D%20Delete%20screenshot%20before%20taking%20a%20new&In-Reply-To=%3C200907211501.n6LF1Neg006403%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #16020] Delete screenshot before taking a new">admin at berlios.de
+       </A><BR>
+    <I>Tue Jul 21 17:01:23 CEST 2009</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000214.html">[Slim-dev] [Bug #14848] Add kerberos support to slim via pam.
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#213">[ date ]</a>
+              <a href="thread.html#213">[ thread ]</a>
+              <a href="subject.html#213">[ subject ]</a>
+              <a href="author.html#213">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #16020, was updated on 2009-Jul-21 17:01
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: mmassonnet
+Assigned to : none
+Summary: Delete screenshot before taking a new
+
+Details: When taking a screenshot, it overwrites the existing file. To avoid that it is possible to first unlink the file. The reason is that it could be a symlink, and allowing saving the screenshot to /tmp/slim.png, anyone could log in and corrupt any file he wishes.
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=16020&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=16020&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000214.html">[Slim-dev] [Bug #14848] Add kerberos support to slim via pam.
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#213">[ date ]</a>
+              <a href="thread.html#213">[ thread ]</a>
+              <a href="subject.html#213">[ subject ]</a>
+              <a href="author.html#213">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

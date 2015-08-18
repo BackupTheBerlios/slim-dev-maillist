@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #18887] slim.service install
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2013-February/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2318887%5D%20slim.service%20install&In-Reply-To=%3C201302022323.r12NNnoq008672%40www.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000359.html">
+   <LINK REL="Next"  HREF="000361.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #18887] slim.service install</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2318887%5D%20slim.service%20install&In-Reply-To=%3C201302022323.r12NNnoq008672%40www.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #18887] slim.service install">admin at berlios.de
+       </A><BR>
+    <I>Sun Feb  3 00:23:49 CET 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000359.html">[Slim-dev] [Bug #18887] slim.service install
+</A></li>
+        <LI>Next message: <A HREF="000361.html">[Slim-dev] [Bug #18887] slim.service install
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#360">[ date ]</a>
+              <a href="thread.html#360">[ thread ]</a>
+              <a href="subject.html#360">[ subject ]</a>
+              <a href="author.html#360">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #18887, was updated on 2013-Feb-03 01:21
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: rasen
+Assigned to : none
+Summary: slim.service install
+
+Details: Slim install slim.service file directly in /usr/systemd/system
+
+So the package can't be installed with package managers that use fake-root (as is gentoo's portage). 
+
+I think you have to add a cmake variable that point to systemd folder or even directly to systemd's system folder.
+
+Follow-Ups:
+
+Date: 2013-Feb-03 01:23
+By: rasen
+
+Comment:
+directly in /usr/lib/systemd/system*
+I'm sorry
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18887&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18887&amp;group_id=2663</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000359.html">[Slim-dev] [Bug #18887] slim.service install
+</A></li>
+	<LI>Next message: <A HREF="000361.html">[Slim-dev] [Bug #18887] slim.service install
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#360">[ date ]</a>
+              <a href="thread.html#360">[ thread ]</a>
+              <a href="subject.html#360">[ subject ]</a>
+              <a href="author.html#360">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] SLiM Configuration dialog
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2010-December/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20SLiM%20Configuration%20dialog&In-Reply-To=%3CAANLkTimnJ0fQUgchYm_qZjTxzPduNQYikWm%2BNxdAQxaD%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000258.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] SLiM Configuration dialog</H1>
+    <B>KDulcimer</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20SLiM%20Configuration%20dialog&In-Reply-To=%3CAANLkTimnJ0fQUgchYm_qZjTxzPduNQYikWm%2BNxdAQxaD%40mail.gmail.com%3E"
+       TITLE="[Slim-dev] SLiM Configuration dialog">kdulcimer at unity-linux.org
+       </A><BR>
+    <I>Thu Dec  2 22:36:08 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000258.html">[Slim-dev] [Bug #17757] slim-1.3.2 doesn't work with ConsoleKit:	pam_ck_connector.so
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#259">[ date ]</a>
+              <a href="thread.html#259">[ thread ]</a>
+              <a href="subject.html#259">[ subject ]</a>
+              <a href="author.html#259">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>I have been working on a SLiM configuration dialog. I have not yet made a
+tarball release but it's just two files. You can download it at
+<A HREF="http://dev.unity-linux.org/projects/unitylinux/repository/show/projects/slim_config">http://dev.unity-linux.org/projects/unitylinux/repository/show/projects/slim_config</A>
+
+At this point, my script has this functionality:
+-Configure Autologin
+ *Enable/Disable Autologin features
+ *Select default user
+ *Select Autologin action (none, move to password field, autologin
+completely)
+-Configure welcome, session, shutdown, and reboot messages
+-Configure theme selection
+
+Instructions:
+-Download the main.sh and main.xml to the same directory.
+-Check lines 23-27 of main.sh and adjust those accordingly.
+-Make sure bc and gtkdialog (gtkdialog3 on Puppy) are installed.
+-Run main.sh with sudo or as root.
+
+I have more functionality planned and I'm still working on the program, but
+as it is, I consider this to be version 1.0. There may be bugs, but I have
+no qualms about recommending this to everyday SLiM users. Just back up your
+slim.conf first!
+
+Please give feedback!
+
+~KDulcimer
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/slim-dev/attachments/20101202/246909b8/attachment.html">https://lists.berlios.de/pipermail/slim-dev/attachments/20101202/246909b8/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000258.html">[Slim-dev] [Bug #17757] slim-1.3.2 doesn't work with ConsoleKit:	pam_ck_connector.so
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#259">[ date ]</a>
+              <a href="thread.html#259">[ thread ]</a>
+              <a href="subject.html#259">[ subject ]</a>
+              <a href="author.html#259">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

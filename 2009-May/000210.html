@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #15769] The keyboard doesn't work on the first	console
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2009-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2315769%5D%20The%20keyboard%20doesn%27t%20work%20on%20the%20first%0A%09console&In-Reply-To=%3C200905290210.n4T2ATu4004963%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000209.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #15769] The keyboard doesn't work on the first	console</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2315769%5D%20The%20keyboard%20doesn%27t%20work%20on%20the%20first%0A%09console&In-Reply-To=%3C200905290210.n4T2ATu4004963%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #15769] The keyboard doesn't work on the first	console">admin at berlios.de
+       </A><BR>
+    <I>Fri May 29 04:10:29 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000209.html">[Slim-dev] Looking for a new maintainer for SLiM
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#210">[ date ]</a>
+              <a href="thread.html#210">[ thread ]</a>
+              <a href="subject.html#210">[ subject ]</a>
+              <a href="author.html#210">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #15769, was updated on 2009-May-29 04:10
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: cyberpatrol
+Assigned to : none
+Summary: The keyboard doesn't work on the first console
+
+Details: When I log into an xorg session - doesn't matter if it's KDE or Xfce - the keyboard seems to work in X, but if I switch to the console by pressing Ctrl-Alt-F1, the keyboard doesn't work anymore. I have to press very often onto one key, before the keyboard and bash react. It's so extreme that I can't do anything on the console, when I'm logged in an X session. And the German umlauts are only displayed as squares.
+
+When I switch back to X by pressing Alt-F7, the keyboard is responding much better but not as fast as it did after the first X login.
+
+As soon as I log out and only see slim the keyboard works correctly and reacts as fast as usual in slim as well as on the console.
+
+I don't get any error messages.
+
+This happens since Xorg server 1.4.2 or at least 1.5.2. And it happens only on the first console (vc/1 or tty1). On any other console the keyboard reacts as usual and expected.
+
+Currently I'm using xorg-server 1.6.1.901, xf86-input-evdev 2.2.2 and slim 1.3.1.
+
+See also these bug reports:
+<A HREF="http://bugs.archlinux.org/task/12179">http://bugs.archlinux.org/task/12179</A>
+<A HREF="http://bugs.gentoo.org/show_bug.cgi?id=247543">http://bugs.gentoo.org/show_bug.cgi?id=247543</A>
+<A HREF="http://bugs.freedesktop.org/show_bug.cgi?id=18622">http://bugs.freedesktop.org/show_bug.cgi?id=18622</A>
+
+In the meantime I don't think anymore, that this is a bug in the DEs or in Xorg but in SLiM, because I found out, that I don't get this problem, when using gdm.
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=15769&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=15769&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000209.html">[Slim-dev] Looking for a new maintainer for SLiM
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#210">[ date ]</a>
+              <a href="thread.html#210">[ thread ]</a>
+              <a href="subject.html#210">[ subject ]</a>
+              <a href="author.html#210">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

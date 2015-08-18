@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #18699] Slim 1.3.4 fails to build
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2012-November/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2318699%5D%20Slim%201.3.4%20fails%20to%20build&In-Reply-To=%3C201211082150.qA8LoAkh005168%40www.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000340.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #18699] Slim 1.3.4 fails to build</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2318699%5D%20Slim%201.3.4%20fails%20to%20build&In-Reply-To=%3C201211082150.qA8LoAkh005168%40www.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #18699] Slim 1.3.4 fails to build">admin at berlios.de
+       </A><BR>
+    <I>Thu Nov  8 22:50:10 CET 2012</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000340.html">[Slim-dev] SLiM fork
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#339">[ date ]</a>
+              <a href="thread.html#339">[ thread ]</a>
+              <a href="subject.html#339">[ subject ]</a>
+              <a href="author.html#339">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #18699, was updated on 2012-Aug-12 13:25
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: hubbitus
+Assigned to : none
+Summary: Slim 1.3.4 fails to build
+
+Details: /usr/bin/c++   -DHAVE_SHADOW -DPACKAGE=\&quot;slim\&quot; -DVERSION=\&quot;1.3.4\&quot; -DPKGDATADIR=\&quot;/usr/share/slim\&quot; -DSYSCONFDIR=\&quot;/etc\&quot; -DUSE_PAM -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector --param=ssp-buffer-size=4  -m64 -mtune=generic  -I/builddir/build/BUILD/slim-1.3.4 -I/usr/include/freetype2    -o CMakeFiles/slim.dir/image.cpp.o -c /builddir/build/BUILD/slim-1.3.4/image.cpp
+/builddir/build/BUILD/slim-1.3.4/image.cpp: In member function 'int Image::readPng(const char*, int*, int*, unsigned char**, unsigned char**)':
+/builddir/build/BUILD/slim-1.3.4/image.cpp:784:9: error: invalid use of incomplete type 'png_struct {aka struct png_struct_def}'
+In file included from /builddir/build/BUILD/slim-1.3.4/image.cpp:28:0:
+/usr/include/png.h:854:16: error: forward declaration of 'png_struct {aka struct png_struct_def}'
+/builddir/build/BUILD/slim-1.3.4/image.cpp: In member function 'bool Image::Read(const char*)':
+
+Full log: <A HREF="http://kojipkgs.fedoraproject.org//work/tasks/267/4380267/build.log">http://kojipkgs.fedoraproject.org//work/tasks/267/4380267/build.log</A>
+
+I guess it is <A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18646&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18646&amp;group_id=2663</A> related.
+
+1.3.3 built ok.
+
+Follow-Ups:
+
+Date: 2012-Nov-09 01:50
+By: hubbitus
+
+Comment:
+Patch <A HREF="http://fpaste.org/FEv2/">http://fpaste.org/FEv2/</A> fix it ( by info from <A HREF="http://www.lintest.ru/forum/viewtopic.php?f=18&amp;t=270">http://www.lintest.ru/forum/viewtopic.php?f=18&amp;t=270</A> [Russian]).
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18699&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18699&amp;group_id=2663</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000340.html">[Slim-dev] SLiM fork
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#339">[ date ]</a>
+              <a href="thread.html#339">[ thread ]</a>
+              <a href="subject.html#339">[ subject ]</a>
+              <a href="author.html#339">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

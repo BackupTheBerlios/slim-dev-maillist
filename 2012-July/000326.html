@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #18667] version 1.3.4 fails to build woth clang 3.1
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2012-July/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2318667%5D%20version%201.3.4%20fails%20to%20build%20woth%20clang%203.1&In-Reply-To=%3C201207301127.q6UBRq9K002250%40www.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000325.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #18667] version 1.3.4 fails to build woth clang 3.1</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2318667%5D%20version%201.3.4%20fails%20to%20build%20woth%20clang%203.1&In-Reply-To=%3C201207301127.q6UBRq9K002250%40www.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #18667] version 1.3.4 fails to build woth clang 3.1">admin at berlios.de
+       </A><BR>
+    <I>Mon Jul 30 13:27:52 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000325.html">[Slim-dev] utf-8 messages in slim.conf
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#326">[ date ]</a>
+              <a href="thread.html#326">[ thread ]</a>
+              <a href="subject.html#326">[ subject ]</a>
+              <a href="author.html#326">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #18667, was updated on 2012-Jul-19 17:20
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: to consider
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: kworr
+Assigned to : none
+Summary: version 1.3.4 fails to build woth clang 3.1
+
+Details: [ 15%] Building CXX object CMakeFiles/slim.dir/app.cpp.o
+/usr/bin/clang++   -DNEEDS_BASENAME -DPACKAGE=\&quot;slim\&quot; -DVERSION=\&quot;1.3.4\&quot; -DPKGDATADIR=\&quot;/usr/local/share/slim\&quot; -DSYSCONFDIR=\&quot;/usr/local/etc\&quot; -DUSE_PAM -DUSE_CONSOLEKIT -O2 -pipe -ma
+rch=athlon-xp -fno-strict-aliasing -O2 -pipe -march=athlon-xp -fno-strict-aliasing -I/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4 -I/usr/local/include -I/usr/local/include/dbus-1.0/incl
+ude -I/usr/local/include/dbus-1.0 -I/usr/local/include/ConsoleKit/ck-connector -I/usr/local/include/freetype2 -o CMakeFiles/slim.dir/app.cpp.o -c /tmp/ports/usr/ports/x11/slim/work/slim-
+1.3.4/app.cpp
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.cpp:816:40: warning: while loop has empty body [-Wempty-body]
+        while (waitpid(-1, NULL, WNOHANG) &gt; 0); // Collects all dead childrens
+                                              ^
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.cpp:816:40: note: put the semicolon on a separate line to silence this warning [-Wempty-body]
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.cpp:26:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.h:23:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/panel.h:30:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/switchuser.h:23:
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/log.h:19:17: error: call to function 'operator&lt;&lt;' that is neither visible in the template definition nor found by argument-dependent lookup
+        logFile &lt;&lt; text; logFile.flush();
+                ^
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.cpp:233:38: note: in instantiation of function template specialization 'LogUnit::operator&lt;&lt;&lt;PAM::Exception&gt;' requested here
+        logStream &lt;&lt; APPNAME &lt;&lt; &quot;: &quot; &lt;&lt; e &lt;&lt; endl;
+                                     ^
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/PAM.h:98:15: note: 'operator&lt;&lt;' should be declared prior to the call site or in namespace 'PAM'
+std::ostream&amp; operator&lt;&lt;( std::ostream&amp; os, const PAM::Exception&amp; e);
+              ^
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.cpp:26:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.h:23:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/panel.h:30:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/switchuser.h:23:
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/log.h:19:17: error: call to function 'operator&lt;&lt;' that is neither visible in the template definition nor found by argument-dependent lookup
+        logFile &lt;&lt; text; logFile.flush();
+                ^
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.cpp:428:38: note: in instantiation of function template specialization 'LogUnit::operator&lt;&lt;&lt;PAM::Auth_Exception&gt;' requested here
+        logStream &lt;&lt; APPNAME &lt;&lt; &quot;: &quot; &lt;&lt; e &lt;&lt; endl;
+                                     ^
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/PAM.h:98:15: note: 'operator&lt;&lt;' should be declared prior to the call site or in namespace 'PAM'
+std::ostream&amp; operator&lt;&lt;( std::ostream&amp; os, const PAM::Exception&amp; e);
+              ^
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.cpp:26:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.h:23:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/panel.h:30:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/switchuser.h:23:
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/log.h:19:17: error: call to function 'operator&lt;&lt;' that is neither visible in the template definition nor found by argument-dependent lookup
+        logFile &lt;&lt; text; logFile.flush();
+                ^
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.cpp:521:38: note: in instantiation of function template specialization 'LogUnit::operator&lt;&lt;&lt;PAM::Cred_Exception&gt;' requested here
+        logStream &lt;&lt; APPNAME &lt;&lt; &quot;: &quot; &lt;&lt; e &lt;&lt; endl;
+                                     ^
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/PAM.h:98:15: note: 'operator&lt;&lt;' should be declared prior to the call site or in namespace 'PAM'
+std::ostream&amp; operator&lt;&lt;( std::ostream&amp; os, const PAM::Exception&amp; e);
+              ^
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.cpp:26:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.h:23:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/panel.h:30:
+In file included from /tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/switchuser.h:23:
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/log.h:19:17: error: call to function 'operator&lt;&lt;' that is neither visible in the template definition nor found by argument-dependent lookup
+        logFile &lt;&lt; text; logFile.flush();
+                ^
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/app.cpp:574:38: note: in instantiation of function template specialization 'LogUnit::operator&lt;&lt;&lt;Ck::Exception&gt;' requested here
+        logStream &lt;&lt; APPNAME &lt;&lt; &quot;: &quot; &lt;&lt; e &lt;&lt; endl;
+                                     ^
+/tmp/ports/usr/ports/x11/slim/work/slim-1.3.4/Ck.h:44:15: note: 'operator&lt;&lt;' should be declared prior to the call site or in namespace 'Ck'
+std::ostream&amp; operator&lt;&lt;( std::ostream&amp; os, const Ck::Exception&amp; e);
+              ^
+1 warning and 4 errors generated.
+*** [CMakeFiles/slim.dir/app.cpp.o] Error code 1
+
+Follow-Ups:
+
+Date: 2012-Jul-30 14:27
+By: kworr
+
+Comment:
+log.h misses:
+
+#include &quot;Ck.h&quot;
+#include &quot;PAM.h&quot;
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18667&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18667&amp;group_id=2663</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000325.html">[Slim-dev] utf-8 messages in slim.conf
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#326">[ date ]</a>
+              <a href="thread.html#326">[ thread ]</a>
+              <a href="subject.html#326">[ subject ]</a>
+              <a href="author.html#326">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

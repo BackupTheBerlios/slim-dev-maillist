@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #17069] Slim switches back to console before	showing panel again
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2317069%5D%20Slim%20switches%20back%20to%20console%20before%0A%09showing%20panel%20again&In-Reply-To=%3C201004110827.o3B8RQQe028329%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000245.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #17069] Slim switches back to console before	showing panel again</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2317069%5D%20Slim%20switches%20back%20to%20console%20before%0A%09showing%20panel%20again&In-Reply-To=%3C201004110827.o3B8RQQe028329%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #17069] Slim switches back to console before	showing panel again">admin at berlios.de
+       </A><BR>
+    <I>Sun Apr 11 10:27:26 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000245.html">[Slim-dev] [Bug #16347] enable Tab-key to switch between username	and password
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#246">[ date ]</a>
+              <a href="thread.html#246">[ thread ]</a>
+              <a href="subject.html#246">[ subject ]</a>
+              <a href="author.html#246">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #17069, was updated on 2010-Apr-11 10:27
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: tsauerbeck
+Assigned to : none
+Summary: Slim switches back to console before showing panel again
+
+Details: Steps to reproduce:
+
+1.) Log in using slim
+2.) Log out of your X session
+
+Notice how after logging out, the console is shown for a brief moment before slim's panel is shown again.
+
+This isn't a serious issue, but it's kind of ugly. For example, xdm doesn't show this behaviour: when you log out of xdm, you get back to the xdm prompt immediately without console detours.
+
+The problem might be that slim kills off all X clients when the user logs out (app.cpp:628,629) which shuts down the X server?
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=17069&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=17069&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000245.html">[Slim-dev] [Bug #16347] enable Tab-key to switch between username	and password
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#246">[ date ]</a>
+              <a href="thread.html#246">[ thread ]</a>
+              <a href="subject.html#246">[ subject ]</a>
+              <a href="author.html#246">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

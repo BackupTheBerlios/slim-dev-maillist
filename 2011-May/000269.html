@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] One Time Password in SLiM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2011-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20One%20Time%20Password%20in%20SLiM&In-Reply-To=%3C20110501180903.36277996%40leda.vpn.lugor.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] One Time Password in SLiM</H1>
+    <B>Christian Hesse</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20One%20Time%20Password%20in%20SLiM&In-Reply-To=%3C20110501180903.36277996%40leda.vpn.lugor.de%3E"
+       TITLE="[Slim-dev] One Time Password in SLiM">list at eworm.de
+       </A><BR>
+    <I>Sun May  1 18:09:03 CEST 2011</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#269">[ date ]</a>
+              <a href="thread.html#269">[ thread ]</a>
+              <a href="subject.html#269">[ subject ]</a>
+              <a href="author.html#269">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Christian Hesse &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">list at eworm.de</A>&gt; on Fri, 29 Apr 2011 13:17:06 +0200:
+&gt;<i> Hello everybody!
+</I>&gt;<i> 
+</I>&gt;<i> I've used SLiM for some time now and I am very happy with it.
+</I>&gt;<i> 
+</I>&gt;<i> Recently I bought a hardware one time password token. PAM is set up
+</I>&gt;<i> (using pam_oath.so from OATH Toolkit [0]) and everything works fine with
+</I>&gt;<i> login, su and ssh.
+</I>&gt;<i> 
+</I>&gt;<i> However it does not work with SLiM.
+</I>&gt;<i> I added pam_oath.so to /etc/pam.d/slim and tried to log in. The values
+</I>&gt;<i> in /etc/users.oath change, so pam returns success I think. But SLiM
+</I>&gt;<i> does not let me in, it beeps and asks for the password again.
+</I>&gt;<i> 
+</I>&gt;<i> Does SLim Support this kind of authentication?
+</I>&gt;<i> 
+</I>&gt;<i> [0] <A HREF="http://www.nongnu.org/oath-toolkit/">http://www.nongnu.org/oath-toolkit/</A>
+</I>
+Fort those who did not notice: This issue is fixed for me. The bugtracker
+lists bug #15287 (&quot;PAM authentication fails with pam_unix2&quot;), which also
+makes pam_oath unusable. See the comments for details.
+
+As there are a lot of bugreports, some containing fixes for outstanding issue
+- is SLiM still actively developed or at least maintained?
+
+-- 
+Schoene Gruesse
+Chris
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#269">[ date ]</a>
+              <a href="thread.html#269">[ thread ]</a>
+              <a href="subject.html#269">[ subject ]</a>
+              <a href="author.html#269">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

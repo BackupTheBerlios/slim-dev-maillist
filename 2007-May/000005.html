@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] your mail
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20your%20mail&In-Reply-To=%3C4652DC47.7070406%40parmus.dk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000006.html">
+   <LINK REL="Next"  HREF="000007.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] your mail</H1>
+    <B>Martin Parm</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20your%20mail&In-Reply-To=%3C4652DC47.7070406%40parmus.dk%3E"
+       TITLE="[Slim-dev] your mail">parmus at parmus.dk
+       </A><BR>
+    <I>Tue May 22 14:04:23 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000006.html">[Slim-dev] your mail
+</A></li>
+        <LI>Next message: <A HREF="000007.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Johannes (and Simone, or course)
+
+&gt;&gt;&gt;<i> Also, it seems somewhat complicated to use the switch here, especially
+</I>&gt;&gt;&gt;<i> since you're also doing the assignment in there. why not:
+</I>&gt;&gt;&gt;<i>   last_result = pam_start(service.c_str(), NULL, &amp;pam_conversation, &amp;pamh);
+</I>&gt;&gt;&gt;<i>   if (last_result != PAM_SUCCESS)
+</I>&gt;&gt;&gt;<i>       throw ...
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> or where it fit's better (in other methods in PAM.cpp)
+</I>&gt;&gt;&gt;<i>   last_result = pam_start(service.c_str(), NULL, &amp;pam_conversation, &amp;pamh);
+</I>&gt;&gt;&gt;<i>   if (last_result == PAM_SUCCESS)
+</I>&gt;&gt;&gt;<i>       return
+</I>&gt;&gt;&gt;<i>   [error handling]
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> same applies for end(), set_item(), fail_delay(); 
+</I>&gt;&gt;<i> This is deliberate to indicate to the programmers (that's us ^_^) what
+</I>&gt;&gt;<i> kind of responses you should expect. It makes the code easier to read
+</I>&gt;&gt;<i> (IMHO) and easier to adapt to changes.
+</I>&gt;<i> Well, I brought this up since it seemed harder to read that way, so
+</I>&gt;<i> we might just have different ways to look at it :-)
+</I>
+Yeah, I guess so ^_^. However as the current maintainer of the PAM-part
+(I assume I am), I prefer it stays this way, at least until we are 100%
+sure that we handle the different exit codes right. I'm especially
+looking forward to the results from the *BSD tests.
+
+&gt;&gt;&gt;&gt;<i> +    const void* Authenticator::get_item(const Authenticator::ItemType item){
+</I>&gt;&gt;&gt;&gt;<i> +        const void* data;
+</I>&gt;&gt;&gt;&gt;<i> +        switch ((last_result=pam_get_item(pamh, item, &amp;data))){
+</I>&gt;<i> [...]
+</I>&gt;&gt;&gt;&gt;<i> +        return data;
+</I>&gt;&gt;&gt;&gt;<i> +    };
+</I>&gt;&gt;&gt;<i> I'd rather see the assignment of last_result outside of the switch
+</I>&gt;&gt;&gt;<i> clause, but that's just a style thing :-). Same for authenticate(),
+</I>&gt;&gt;&gt;<i> open_session() and close_session().
+</I>&gt;&gt;<i> Well, that's a matter of style ^_^. I prefer this way, but I'm open to
+</I>&gt;&gt;<i> suggestions if you can give a better reason than &quot;I don't like it&quot; ^_^.
+</I>&gt;<i> 
+</I>&gt;<i> Well, it makes the code more dense and thus harder to grasp; also, I
+</I>&gt;<i> always have to double check that the single '=' in the conditional
+</I>&gt;<i> statement is really meant as such; you had to add the extra pair of
+</I>&gt;<i> parentheses to avoid a gcc warning. IOW it distracted me from seeing the
+</I>&gt;<i> intention.
+</I>&gt;<i> 
+</I>&gt;<i> It's very much a style issue, so there's no right or wrong. I guess if
+</I>&gt;<i> you're used to write code this way, that's fine. For me doing the
+</I>&gt;<i> review, it was less obvious what the code does due to this.
+</I>
+OK, I'll think about changing it then. Readable code is a high priority
+for me as well. I'm just used to this style ^_^
+
+&gt;&gt;&gt;&gt;<i> +    void Authenticator::authenticate(void){
+</I>&gt;&gt;&gt;<i> The (void) argument list looks somewhat outdated. Any reason to have
+</I>&gt;&gt;&gt;<i> those?
+</I>&gt;<i> I guess that one kinda got lost.
+</I>
+Yeah, sorry about that. Once again it's about being explicit. And once
+again it's about personal taste ^_^.
+
+&gt;&gt;&gt;<i> [...]
+</I>&gt;&gt;&gt;&gt;<i> +        switch((last_result=pam_acct_mgmt(pamh, PAM_SILENT))){
+</I>&gt;&gt;&gt;&gt;<i> +            default:
+</I>&gt;&gt;&gt;&gt;<i> +            //case PAM_NEW_AUTHTOKEN_REQD:
+</I>&gt;&gt;&gt;<i> Dead code? Unused? Future use?
+</I>&gt;&gt;<i> Difference between code and documentation. According to the
+</I>&gt;&gt;<i> documentation of Linux-PAM pam_acct_mgmt() can return
+</I>&gt;&gt;<i> PAM_NEW_AUTHTOKEN_REQD however PAM_NEW_AUTHTOKEN_REQD doesn't exists. So
+</I>&gt;&gt;<i> I need to find out if PAM_NEW_AUTHTOKEN_REQD is deprecated (and should
+</I>&gt;&gt;<i> be removed) or a future expansion.
+</I>&gt;<i> Okay; maybe add a comment about that so make sure it's not debugging
+</I>&gt;<i> code.
+</I>
+Fixed in SVN.
+
+
+Take care,
+--
+Martin Parm
+Dept. of Computer Science
+University of Copenhagen
+Denmark
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000006.html">[Slim-dev] your mail
+</A></li>
+	<LI>Next message: <A HREF="000007.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

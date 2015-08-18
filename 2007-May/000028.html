@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] Bug #7870: feature request: better	xsession	integration
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Bug%20%237870%3A%20feature%20request%3A%20better%0A%09xsession%09integration&In-Reply-To=%3C20070529095221.GB2242%40sip%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000021.html">
+   <LINK REL="Next"  HREF="000032.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] Bug #7870: feature request: better	xsession	integration</H1>
+    <B>Simone Rota</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Bug%20%237870%3A%20feature%20request%3A%20better%0A%09xsession%09integration&In-Reply-To=%3C20070529095221.GB2242%40sip%3E"
+       TITLE="[Slim-dev] Bug #7870: feature request: better	xsession	integration">sip at varlock.com
+       </A><BR>
+    <I>Tue May 29 11:52:21 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000021.html">[Slim-dev] Bug #7870: feature request: better xsession integration
+</A></li>
+        <LI>Next message: <A HREF="000032.html">[Slim-dev] Bug #7870: feature request: better xsession integration
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#28">[ date ]</a>
+              <a href="thread.html#28">[ thread ]</a>
+              <a href="subject.html#28">[ subject ]</a>
+              <a href="author.html#28">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Sun, May 27, 2007 at 04:55:04PM +0200, Martin Parm wrote:
+&gt;<i> 2006-Jun-29 19:07, sip:
+</I>&gt;<i> &gt; Thanks, I'm working in xsession integration. This will go into next
+</I>&gt;<i> &gt; release (before the end of july) and solve #007432 as well.
+</I>&gt;<i> 
+</I>&gt;<i> What's the status? Did it ever make it to trunk?
+</I>
+No, what went into trunk (and release) was only the part that allow
+session registering. Bernhard recently sent a patch for #007870:
+
+<A HREF="https://developer.berlios.de/patch/?func=detailpatch&amp;patch_id=1975&amp;group_id=2663">https://developer.berlios.de/patch/?func=detailpatch&amp;patch_id=1975&amp;group_id=2663</A>
+
+I think here we must decide if we're going the distributions way rather
+than the slim way. What we do now, only using .xinitrc, is guaranteed
+to work almost everywhere.
+
+I have no idea how much the use of the Sessions dir is spread across
+distributions and whether /path/Sessions/%session is always a script
+which plays well with slim everywhere.
+
+Any idea / comment on this? When in doubt, I prefer the current solution.
+
+Regards,
+Simone
+
+
+-- 
+Simone Rota
+Bergamo, Italy - <A HREF="http://www.varlock.com">http://www.varlock.com</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000021.html">[Slim-dev] Bug #7870: feature request: better xsession integration
+</A></li>
+	<LI>Next message: <A HREF="000032.html">[Slim-dev] Bug #7870: feature request: better xsession integration
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#28">[ date ]</a>
+              <a href="thread.html#28">[ thread ]</a>
+              <a href="subject.html#28">[ subject ]</a>
+              <a href="author.html#28">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

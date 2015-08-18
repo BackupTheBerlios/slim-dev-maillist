@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] thinkfinger login
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20thinkfinger%20login&In-Reply-To=%3C20070921085445.6d52c4eb.m.sujith%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000070.html">
+   <LINK REL="Next"  HREF="000072.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] thinkfinger login</H1>
+    <B>Sujith Manoharan</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20thinkfinger%20login&In-Reply-To=%3C20070921085445.6d52c4eb.m.sujith%40gmail.com%3E"
+       TITLE="[Slim-dev] thinkfinger login">m.sujith at gmail.com
+       </A><BR>
+    <I>Fri Sep 21 05:24:45 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000070.html">[Slim-dev] [Bug #12005] xsessions
+</A></li>
+        <LI>Next message: <A HREF="000072.html">[Slim-dev] [Bug #11814] alsa and computer control issue
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#71">[ date ]</a>
+              <a href="thread.html#71">[ thread ]</a>
+              <a href="subject.html#71">[ subject ]</a>
+              <a href="author.html#71">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+Is there a way to make slim work with the fingerprint readers that come with lenovo laptops ?
+I tried adding a new file - /etc/pam.d/slim which had the following in it :
+
+#%PAM-1.0
+auth            sufficient      pam_thinkfinger.so
+auth            required        pam_unix.so use_first_pass nullok_secure
+auth            required        pam_nologin.so
+auth            required        pam_env.so
+account         required        pam_unix.so
+password        required        pam_unix.so
+session         required        pam_unix.so
+session         required        pam_limits.so
+
+But it wasn't successful. There was no prompt for a finger swipe.
+Any pointers ?
+
+thanks,
+Sujith
+
+[ Please CC me when replying ]
+-- 
+<A HREF="http://m.sujith.googlepages.com/">http://m.sujith.googlepages.com/</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000070.html">[Slim-dev] [Bug #12005] xsessions
+</A></li>
+	<LI>Next message: <A HREF="000072.html">[Slim-dev] [Bug #11814] alsa and computer control issue
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#71">[ date ]</a>
+              <a href="thread.html#71">[ thread ]</a>
+              <a href="subject.html#71">[ subject ]</a>
+              <a href="author.html#71">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

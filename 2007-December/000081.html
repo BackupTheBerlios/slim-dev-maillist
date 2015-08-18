@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #10433] man installed in /usr/man
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-December/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2310433%5D%20man%20installed%20in%20/usr/man&In-Reply-To=%3C200712052319.lB5NJPUu029431%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000082.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #10433] man installed in /usr/man</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2310433%5D%20man%20installed%20in%20/usr/man&In-Reply-To=%3C200712052319.lB5NJPUu029431%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #10433] man installed in /usr/man">admin at berlios.de
+       </A><BR>
+    <I>Thu Dec  6 00:19:25 CET 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000082.html">[Slim-dev] [Bug #11510] slim enters daemon mode by default.
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#81">[ date ]</a>
+              <a href="thread.html#81">[ thread ]</a>
+              <a href="subject.html#81">[ subject ]</a>
+              <a href="author.html#81">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #10433, was updated on 2007-Feb-19 23:41
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: to consider
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: mmassonnet
+Assigned to : none
+Summary: man installed in /usr/man
+
+Details: Hi,
+
+The file Makefile sets the variable MANDIR to /usr/man instead of /usr/share/man.
+
+Regards,
+Mike
+
+Follow-Ups:
+
+Date: 2007-Dec-06 00:19
+By: mmassonnet
+
+Comment:
+ACK.  You can close this bug.
+-------------------------------------------------------
+
+Date: 2007-Apr-13 10:11
+By: winkj
+
+Comment:
+That's intentional, probably because that's what the distribution Simone and I use use that. We're aware that's not LSB conpliant.
+
+I have no strong opinion here, no matter what the default says in the Makefile it's easy to override during make install.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=10433&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=10433&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000082.html">[Slim-dev] [Bug #11510] slim enters daemon mode by default.
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#81">[ date ]</a>
+              <a href="thread.html#81">[ thread ]</a>
+              <a href="subject.html#81">[ subject ]</a>
+              <a href="author.html#81">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

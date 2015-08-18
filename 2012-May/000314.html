@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #18606] SLiM logs into wrong session after retrying	login
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2012-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2318606%5D%20SLiM%20logs%20into%20wrong%20session%20after%20retrying%0A%09login&In-Reply-To=%3C201205111417.q4BEHQZQ006532%40www.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000313.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #18606] SLiM logs into wrong session after retrying	login</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2318606%5D%20SLiM%20logs%20into%20wrong%20session%20after%20retrying%0A%09login&In-Reply-To=%3C201205111417.q4BEHQZQ006532%40www.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #18606] SLiM logs into wrong session after retrying	login">admin at berlios.de
+       </A><BR>
+    <I>Fri May 11 16:17:26 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000313.html">[Slim-dev] [Bug #18606] SLiM logs into wrong session after retrying	login
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#314">[ date ]</a>
+              <a href="thread.html#314">[ thread ]</a>
+              <a href="subject.html#314">[ subject ]</a>
+              <a href="author.html#314">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #18606, was updated on 2012-May-10 19:34
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: nuc
+Assigned to : none
+Summary: SLiM logs into wrong session after retrying login
+
+Details: I've got 3 desktop environments installed: xfce4, openbox and compiz-fusion as a standalone. xfce is set as delault. SLiM works fine but exept for one case: After typing in a wrong password or username and then re-entering the login data, instead of xfce4 my compiz desktop starts. This is also the case when I select xfce4 manually (via F1). However I've got no problem loading my openbox-session - it works just fine.
+
+Steps to reproduce:
+1. Create a similar configuration/situation to mine (3 sessions to choose).
+2. Type in wrong login data.
+3. Try to login (into your default-session)
+
+my configuration files:
+
+.xinitrc:
+
+case $1 in
+openbox)
+      exec openbox-session
+      ;;
+compiz-fusion)
+      tilda &amp;
+      exec fusion-icon
+      ;;
+xfce4|*)
+      exec startxfce4
+      ;;
+esac
+
+
+slim.conf:
+
+[...]
+sessions            xfce4,compiz-fusion,openbox
+[...]
+
+Follow-Ups:
+
+Date: 2012-May-11 16:17
+By: nuc
+
+Comment:
+I followed your advice and the Debug output confirmed that SLiM definitly passes the wrong value.
+
+However, I found out something new:
+When I type in wrong login data two times in succession and then enter my correct login data, the OpenBox-session starts; when I do this thrice SLiM loads xfce4. So it's rotating. 
+I did't knew that before...
+-------------------------------------------------------
+
+Date: 2012-May-11 15:24
+By: istakenv
+
+Comment:
+Have you tried adding some debug output to your ~/.xinitrc ?  Say, just before the case statement adding a &quot;echo $(date) $1 &gt;&gt;~/xinitrc.selection.log&quot;  ?
+
+This would allow you to confirm that slim is definitely passing the wrong value to the .xinitrc script.
+
+
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18606&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18606&amp;group_id=2663</A>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000313.html">[Slim-dev] [Bug #18606] SLiM logs into wrong session after retrying	login
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#314">[ date ]</a>
+              <a href="thread.html#314">[ thread ]</a>
+              <a href="subject.html#314">[ subject ]</a>
+              <a href="author.html#314">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

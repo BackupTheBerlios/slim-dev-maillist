@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] Post 1.3.0 proposal list
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Post%201.3.0%20proposal%20list&In-Reply-To=%3C46541FF6.8030000%40parmus.dk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000008.html">
+   <LINK REL="Next"  HREF="000011.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] Post 1.3.0 proposal list</H1>
+    <B>Martin Parm</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Post%201.3.0%20proposal%20list&In-Reply-To=%3C46541FF6.8030000%40parmus.dk%3E"
+       TITLE="[Slim-dev] Post 1.3.0 proposal list">parmus at parmus.dk
+       </A><BR>
+    <I>Wed May 23 13:05:26 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000008.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+        <LI>Next message: <A HREF="000011.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;&gt;<i> As we are now working on stabilizing SLiM for the 1.3.0 release and has
+</I>&gt;&gt;<i> closed for any more changes, I'm starting this list with ideas and
+</I>&gt;&gt;<i> proposals for later versions.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> *) Try to avoid C-style casts. slim currently have 104 C-style casts
+</I>&gt;&gt;<i>    (not including the 10 in ssetbg). Some of these might be avoidable
+</I>&gt;&gt;<i>    and most of the rest could probably be converted into C++ style
+</I>&gt;&gt;<i>    casts, which are safer and easier for the compiler to check.
+</I>&gt;&gt;<i>    (<A HREF="http://www.research.att.com/~bs/bs_faq2.html#static-cast">http://www.research.att.com/~bs/bs_faq2.html#static-cast</A>)
+</I>&gt;&gt;<i> (<A HREF="https://www.securecoding.cert.org/confluence/display/cplusplus/EXP00-A.+Do+not+use+C-style+casts">https://www.securecoding.cert.org/confluence/display/cplusplus/EXP00-A.+Do+not+use+C-style+casts</A>)
+</I>&gt;<i> 
+</I>&gt;<i> I partially agree. While there is little doubt that static casts are more
+</I>&gt;<i> secure, I think it really makes sense when a piece of code becomes so
+</I>&gt;<i> complicated that it's difficult to debug without some help from the
+</I>&gt;<i> compiler.
+</I>&gt;<i> That said, my only complain against C++ style casts is they're ugly
+</I>&gt;<i> as hell to read, so I have no strong opinion on this.
+</I>
+That might actually be a good argument for using them as it will make
+you avoid casts as much as possible ^_^.
+
+&gt;&gt;<i> *) Switch from fork() to vfork() in app.cpp to avoid the memory
+</I>&gt;&gt;<i>    overhead. vfork() is especially designed for the situation, when you
+</I>&gt;&gt;<i>    combine fork() and exec() to execute another program. Using vfork()
+</I>&gt;&gt;<i>    have a smaller overhead but requires that we are a bit careful about
+</I>&gt;&gt;<i>    what we do in the child process. Of course we also need to check if
+</I>&gt;&gt;<i>    vfork() is available on all supported platforms.
+</I>&gt;&gt;<i>    (<A HREF="http://www.yolinux.com/TUTORIALS/ForkExecProcesses.html">http://www.yolinux.com/TUTORIALS/ForkExecProcesses.html</A>)
+</I>&gt;<i> 
+</I>&gt;<i> AFAIK it's available in all of the BSDs.
+</I>
+Great!
+
+&gt;&gt;<i> *) We do duplicate calculations of font extend in several places in
+</I>&gt;&gt;<i>    panel.cpp. Either this should be done one time for all or, if
+</I>&gt;&gt;<i>    necessary, the calculation should be properly encapsulated.
+</I>&gt;<i> 
+</I>&gt;<i> True; IMO a font class would be a step in the right direction,
+</I>&gt;<i> so we can leave out the xft oddness from the main program logic.
+</I>
+I agree (though see below).
+
+&gt;&gt;<i> *) In Image::Merge() we merge a (small) panel image with a (big)
+</I>&gt;&gt;<i>    background image by reallocation a new (big) image, copy data from
+</I>&gt;&gt;<i>    the two images and then free the two original images (the panel image
+</I>&gt;&gt;<i>    is freed in Image::Merge() and the background image is freed in
+</I>&gt;&gt;<i>    Panel::Panel()). It would be faster (and probably easier) to simply
+</I>&gt;&gt;<i>    draw the panel image on top of the background image instead.
+</I>&gt;<i> 
+</I>&gt;<i> Not sure it would work with alpha merging, unless you mean using
+</I>&gt;<i> only the portion of the backgrpund which is going to be covered
+</I>&gt;<i> for the alpha-merging, then drawing the merged panel on top
+</I>&gt;<i> of the background. Got to see what out current Image class allows,
+</I>&gt;<i> anyway I agree the method we're currently using is inefficient.
+</I>
+The alpha of the background is ignored anyway, so all be need to do is
+to take care of the alpha when drawing the panel on top of the
+background. It should be a simple matter of restructuring: swap panel
+and background in Panel::Panel(), remove the extra allocation, keep and
+offset the part that combines pixel and remove the part that blindly
+copies from the background.
+
+
+&gt;&gt;<i> Please comment and add your own.
+</I>&gt;<i> 
+</I>&gt;<i> All you wrote sounds reasonable to me, my only reccomendation
+</I>&gt;<i> is to try keeping the codebase small.
+</I>
+I agree...small AND flexible.
+
+
+*) Add buttons or pop-up menu
+&gt;<i> Some people have asked for buttons (ie shutdown / reboot), but I
+</I>&gt;<i> think a right-click menu would be more efficient and spare us from
+</I>&gt;<i> manually coding a three-state graphical button class.
+</I>
+Actually I think buttons are easier to code than a menu AND it's easier
+to integrate in themes. I propose simply letting the themes supply the
+images in the tree states. It will also make the theme-makers happy
+because I will allow them to make some nicely integrate buttons in their
+themes. This is similar to GDM btw. and I've always loved that faeture
+in GDM (but not the dependency on Gnome ^_^).
+
+&gt;<i> I was thinking of something really simple as right-click everywhere to
+</I>&gt;<i> pop-up a menu with the shutdown / reboot / exit / choose session,
+</I>&gt;<i> not unlike the solaris login (without buttons).
+</I>
+Well, BEFORE doing anything (whether it be buttons or pop-up menu) I
+strongly suggest we split up Panel in widgets, because it's getting too
+bloated and there's too much book-keeping. I've been meaning to suggest
+that too, but I forgot that in my previous mail. This will also make it
+easier to print messages (e.g. from PAM) without having to redraw the
+whole screen to delete them again.
+
+&gt;<i> This would also allow to shutdown / reboot without knowing the root
+</I>&gt;<i> password or using ugly hacks.
+</I>
+That would be nice, yes.
+
+Cheers,
+--
+Martin Parm
+Dept. of Computer Science
+University of Copenhagen
+Denmark
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000008.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+	<LI>Next message: <A HREF="000011.html">[Slim-dev] Post 1.3.0 proposal list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

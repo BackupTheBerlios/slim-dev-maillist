@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] SLiM uninstall
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20SLiM%20uninstall&In-Reply-To=%3CN1N-9jFH4GRxOF%40Safe-mail.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000118.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] SLiM uninstall</H1>
+    <B>unix-hack at Safe-mail.net</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20SLiM%20uninstall&In-Reply-To=%3CN1N-9jFH4GRxOF%40Safe-mail.net%3E"
+       TITLE="[Slim-dev] SLiM uninstall">unix-hack at Safe-mail.net
+       </A><BR>
+    <I>Fri Jul  4 14:15:11 CEST 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000118.html">[Slim-dev] SLiM uninstall
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#116">[ date ]</a>
+              <a href="thread.html#116">[ thread ]</a>
+              <a href="subject.html#116">[ subject ]</a>
+              <a href="author.html#116">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Well, if it's not installed using a package manager (which I'd say is
+</I>&gt;<i> the standard way on Linux) but from source, you can simply undo what the
+</I>&gt;<i> 'install' and 'install-theme'. There's no 'uninstall' target at this
+</I>&gt;<i> point in time.
+</I>
+Okay, as I built SLiM from source, I did what you state below.
+
+&gt;<i> Basically, that's removing
+</I>&gt;<i> $(DESTDIR)$(PREFIX)/bin/slim
+</I>&gt;<i> $(DESTDIR)$(MANDIR)/man1/slim.1
+</I>&gt;<i> $(DESTDIR)$(CFGDIR)/slim.conf (you may want to keep that)
+</I>&gt;<i> $(DESTDIR)$(PREFIX)/share/slim/themes/default/slim.theme
+</I>&gt;<i> $(DESTDIR)$(PREFIX)/share/slim/themes/default/panel.png
+</I>&gt;<i> $(DESTDIR)$(PREFIX)/share/slim/themes/default/background.jpg
+</I>&gt;<i>
+</I>&gt;<i> If you installed it via a plain 'make install', $(DESTDIR) will be
+</I>&gt;<i> empty, $(PREFIX) will be /usr, and CFGDIR /etc.
+</I>
+And MANDIR /man. At least in my case. But this obviously seems to vary within different Linux distributions.
+
+
+&gt;<i> Let me know if you have further questions on that.
+</I>
+I certainly do have one question: Can't you provide an uninstall script?
+
+I mean, basically, that'd be nothing more than creating the following shellscript and setting it as the target for 'make uninstall', would it?
+
+#!/bin/bash
+rm -f $(DESTDIR)$(PREFIX)/bin/slim
+rm -f $(DESTDIR)$(MANDIR)/man1/slim.1
+rm -f $(DESTDIR)$(CFGDIR)/slim.conf
+rm -f -r $(DESTDIR)$(PREFIX)/share/slim
+
+Now, the only issue about that is, to tell the script what the variables should be replaced with.
+As I am not so familiar with shell programming, I don't know how to do that, but you certainly do.
+
+So, could you just add that little feature to SLiM an provide an updated tarball on the projects website?
+
+Thanx in advance!
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000118.html">[Slim-dev] SLiM uninstall
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#116">[ date ]</a>
+              <a href="thread.html#116">[ thread ]</a>
+              <a href="subject.html#116">[ subject ]</a>
+              <a href="author.html#116">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

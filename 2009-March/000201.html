@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #14299] reboot and halt should optionally be	possible without passwd
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2009-March/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2314299%5D%20reboot%20and%20halt%20should%20optionally%20be%0A%09possible%20without%20passwd&In-Reply-To=%3C68b1e2610903100252n216a4956w4f5db4995cba20b5%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000200.html">
+   <LINK REL="Next"  HREF="000202.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #14299] reboot and halt should optionally be	possible without passwd</H1>
+    <B>Liviu Andronic</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2314299%5D%20reboot%20and%20halt%20should%20optionally%20be%0A%09possible%20without%20passwd&In-Reply-To=%3C68b1e2610903100252n216a4956w4f5db4995cba20b5%40mail.gmail.com%3E"
+       TITLE="[Slim-dev] [Bug #14299] reboot and halt should optionally be	possible without passwd">landronimirc at gmail.com
+       </A><BR>
+    <I>Tue Mar 10 10:52:39 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000200.html">[Slim-dev] [Bug #15326] slim on debian: won't die or restart
+</A></li>
+        <LI>Next message: <A HREF="000202.html">[Slim-dev] [Bug #15371] Default slim.conf should list icewm-session,	not icewm
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#201">[ date ]</a>
+              <a href="thread.html#201">[ thread ]</a>
+              <a href="subject.html#201">[ subject ]</a>
+              <a href="author.html#201">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello,
+
+On Sat, Feb 28, 2009 at 12:57 AM,  &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">admin at berlios.de</A>&gt; wrote:
+&gt;<i> Details: reboot and halt is currently only possible by entering the root password. This is of course principally good for security reasons.
+</I>&gt;<i> But it should also be possible to halt and reboot without entering a password.
+</I>&gt;<i>
+</I>&gt;<i> This should of course be made optional. The option, whether a password is required or not, should be set in /etc/slim.conf.
+</I>&gt;<i>
+</I>&gt;<i> Follow-Ups:
+</I>&gt;<i>
+</I>&gt;<i> Date: 2009-Feb-27 14:57
+</I>&gt;<i> By: robert_s
+</I>&gt;<i>
+</I>&gt;<i> Comment:
+</I>&gt;<i> Try adding yourself to the &quot;powerdev&quot; group (Debian Lenny). &#160;This will allow you to power off from your window manager. &#160;I know this doesn't completely answer the question but it should help.
+</I>&gt;<i>
+</I>&gt;<i> useradd -G powerdev [yourusername]
+</I>&gt;<i>
+</I>This doesn't work on Gentoo. For the least, there is not &quot;powerdev&quot;
+group. In File: /etc/sudoers I have the following line (possibly it is
+the default Gentoo way for this), and my user is member of &quot;shutdown&quot;.
+%shutdown       ALL=(root) NOPASSWD: /sbin/shutdown -h now
+
+Would there be something else to try to make shutdown possible (from
+the SLiM prompt) without entering root password?
+
+-- 
+Do you know how to read?
+<A HREF="http://www.alienetworks.com/srtest.cfm">http://www.alienetworks.com/srtest.cfm</A>
+Do you know how to write?
+<A HREF="http://garbl.home.comcast.net/~garbl/stylemanual/e.htm#e-mail">http://garbl.home.comcast.net/~garbl/stylemanual/e.htm#e-mail</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000200.html">[Slim-dev] [Bug #15326] slim on debian: won't die or restart
+</A></li>
+	<LI>Next message: <A HREF="000202.html">[Slim-dev] [Bug #15371] Default slim.conf should list icewm-session,	not icewm
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#201">[ date ]</a>
+              <a href="thread.html#201">[ thread ]</a>
+              <a href="subject.html#201">[ subject ]</a>
+              <a href="author.html#201">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

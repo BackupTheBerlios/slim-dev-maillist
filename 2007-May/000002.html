@@ -1,0 +1,463 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] your mail
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-May/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20your%20mail&In-Reply-To=%3C464F4F6E.8080106%40diku.dk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000001.html">
+   <LINK REL="Next"  HREF="000003.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] your mail</H1>
+    <B>Martin Parm</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20your%20mail&In-Reply-To=%3C464F4F6E.8080106%40diku.dk%3E"
+       TITLE="[Slim-dev] your mail">parmus at diku.dk
+       </A><BR>
+    <I>Sat May 19 21:26:38 CEST 2007</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000001.html">[Slim-dev] Code review [WAS: your mail]
+</A></li>
+        <LI>Next message: <A HREF="000003.html">[Slim-dev] your mail
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Simone asked me to review the slim-pam branch, so are couple of
+</I>&gt;<i> comments. It's just my personal opinion, so please discuss and defend
+</I>&gt;<i> :-).
+</I>
+Don't worry. I will ^_^
+
+&gt;&gt;<i> diff -u -x .svn -b -Nur trunk/PAM.cpp slim-pam/PAM.cpp
+</I>&gt;&gt;<i> --- trunk/PAM.cpp	1970-01-01 01:00:00.000000000 +0100
+</I>&gt;&gt;<i> +++ slim-pam/PAM.cpp	2007-05-19 14:30:53.000000000 +0200
+</I>&gt;<i> 
+</I>&gt;<i> PAM.cpp lacks a copyright and authorship note
+</I>
+Fix the copyright note in PAM.h and PAM.cpp in SVN. I didn't know what
+to do about the copyright note in the other files, but it looks like the
+copyright notes could use an overall update.
+
+&gt;&gt;<i> @@ -0,0 +1,239 @@
+</I>&gt;&gt;<i> +#include &lt;PAM.h&gt;
+</I>&gt;&gt;<i> +#include &lt;string&gt;
+</I>&gt;&gt;<i> +#include &lt;iostream&gt;
+</I>&gt;&gt;<i> +
+</I>&gt;&gt;<i> +namespace PAM {
+</I>&gt;&gt;<i> +    Exception::Exception(pam_handle_t* _pamh,
+</I>&gt;&gt;<i> +               const std::string&amp; _func_name,
+</I>&gt;&gt;<i> +               int _errnum):
+</I>&gt;&gt;<i> +        errnum(_errnum),
+</I>&gt;&gt;<i> +        errstr(pam_strerror(_pamh, _errnum)),
+</I>&gt;&gt;<i> +        func_name(_func_name)
+</I>&gt;&gt;<i> +        {};
+</I>&gt;<i> Superfluous trailing semicolon. Will probably fail with gcc 4.3:
+</I>&gt;<i>   <A HREF="http://www.cyrius.com/journal/gcc/gcc-4.3-extra-semicolon">http://www.cyrius.com/journal/gcc/gcc-4.3-extra-semicolon</A>
+</I>&gt;<i> 
+</I>&gt;<i> This is true for all methods in PAM.cpp except for set_item()
+</I>
+I didn't know about it this. I've fixed it in SVN.
+
+&gt;&gt;<i> +    void Authenticator::start(const std::string&amp; service){
+</I>&gt;&gt;<i> +        switch((last_result=pam_start(service.c_str(), NULL, &amp;pam_conversation, &amp;pamh))){
+</I>&gt;&gt;<i> +            default:
+</I>&gt;&gt;<i> +                throw Exception(pamh, &quot;pam_start()&quot;, last_result);
+</I>&gt;&gt;<i> +
+</I>&gt;&gt;<i> +            case PAM_SUCCESS:
+</I>&gt;&gt;<i> +                break;
+</I>&gt;&gt;<i> +        }
+</I>&gt;&gt;<i> +        return;
+</I>&gt;&gt;<i> +    }
+</I>&gt;<i> superfluous return; this is in most methods returning void.
+</I>
+This is part of my coding style. I prefer to explicitly end my functions.
+
+&gt;<i> Also, it seems somewhat complicated to use the switch here, especially
+</I>&gt;<i> since you're also doing the assignment in there. why not:
+</I>&gt;<i>   last_result = pam_start(service.c_str(), NULL, &amp;pam_conversation, &amp;pamh);
+</I>&gt;<i>   if (last_result != PAM_SUCCESS)
+</I>&gt;<i>       throw ...
+</I>&gt;<i> 
+</I>&gt;<i> or where it fit's better (in other methods in PAM.cpp)
+</I>&gt;<i>   last_result = pam_start(service.c_str(), NULL, &amp;pam_conversation, &amp;pamh);
+</I>&gt;<i>   if (last_result == PAM_SUCCESS)
+</I>&gt;<i>       return
+</I>&gt;<i>   [error handling]
+</I>&gt;<i> 
+</I>&gt;<i> same applies for end(), set_item(), fail_delay(); 
+</I>
+This is deliberate to indicate to the programmers (that's us ^_^) what
+kind of responses you should expect. It makes the code easier to read
+(IMHO) and easier to adapt to changes.
+The should be no performance hit in doing this.
+
+&gt;&gt;<i> +    const void* Authenticator::get_item(const Authenticator::ItemType item){
+</I>&gt;&gt;<i> +        const void* data;
+</I>&gt;&gt;<i> +        switch ((last_result=pam_get_item(pamh, item, &amp;data))){
+</I>&gt;&gt;<i> +            default:
+</I>&gt;&gt;<i> +            case PAM_SYSTEM_ERR:
+</I>&gt;&gt;<i> +            case PAM_BAD_ITEM:
+</I>&gt;&gt;<i> +                _end();
+</I>&gt;&gt;<i> +                throw Exception(pamh, &quot;pam_get_item()&quot;, last_result);
+</I>&gt;&gt;<i> +
+</I>&gt;&gt;<i> +            case PAM_PERM_DENIED: // The value of item was NULL
+</I>&gt;&gt;<i> +            case PAM_SUCCESS:
+</I>&gt;&gt;<i> +                break;
+</I>&gt;&gt;<i> +        }
+</I>&gt;&gt;<i> +        return data;
+</I>&gt;&gt;<i> +    };
+</I>&gt;<i> I'd rather see the assignment of last_result outside of the switch
+</I>&gt;<i> clause, but that's just a style thing :-). Same for authenticate(),
+</I>&gt;<i> open_session() and close_session().
+</I>
+Well, that's a matter of style ^_^. I prefer this way, but I'm open to
+suggestions if you can give a better reason than &quot;I don't like it&quot; ^_^.
+
+&gt;&gt;<i> +    void Authenticator::authenticate(void){
+</I>&gt;<i> The (void) argument list looks somewhat outdated. Any reason to have
+</I>&gt;<i> those?
+</I>&gt;<i> 
+</I>&gt;<i> [...]
+</I>&gt;&gt;<i> +        switch((last_result=pam_acct_mgmt(pamh, PAM_SILENT))){
+</I>&gt;&gt;<i> +            default:
+</I>&gt;&gt;<i> +            //case PAM_NEW_AUTHTOKEN_REQD:
+</I>&gt;<i> Dead code? Unused? Future use?
+</I>
+Difference between code and documentation. According to the
+documentation of Linux-PAM pam_acct_mgmt() can return
+PAM_NEW_AUTHTOKEN_REQD however PAM_NEW_AUTHTOKEN_REQD doesn't exists. So
+I need to find out if PAM_NEW_AUTHTOKEN_REQD is deprecated (and should
+be removed) or a future expansion.
+
+&gt;&gt;<i> +    void Authenticator::open_session(void){
+</I>&gt;<i> [...]
+</I>&gt;&gt;<i> +        switch((last_result=pam_open_session(pamh, 0))){
+</I>&gt;&gt;<i> +            default:
+</I>&gt;&gt;<i> +            //case PAM_SESSION_ERROR:
+</I>&gt;<i> Same question as above
+</I>
+Same answer.
+
+&gt;&gt;<i> diff -u -x .svn -b -Nur trunk/PAM.h slim-pam/PAM.h
+</I>&gt;&gt;<i> --- trunk/PAM.h	1970-01-01 01:00:00.000000000 +0100
+</I>&gt;&gt;<i> +++ slim-pam/PAM.h	2007-05-19 14:30:53.000000000 +0200
+</I>&gt;&gt;<i> @@ -0,0 +1,84 @@
+</I>&gt;&gt;<i> +/* SLiM - Simple Login Manager
+</I>&gt;&gt;<i> +   This program is free software; you can redistribute it and/or modify
+</I>&gt;&gt;<i> +   it under the terms of the GNU General Public License as published by
+</I>&gt;&gt;<i> +   the Free Software Foundation; either version 2 of the License, or
+</I>&gt;&gt;<i> +   (at your option) any later version.
+</I>&gt;&gt;<i> +*/
+</I>&gt;<i> 
+</I>&gt;<i> Here's a copyright, but no author
+</I>
+Fixed in SVN.
+
+&gt;&gt;<i> +    class Authenticator{
+</I>&gt;&gt;<i> +    private:
+</I>&gt;&gt;<i> +        struct pam_conv pam_conversation;
+</I>&gt;<i> Keyword 'struct' not needed in C++.
+</I>
+True. But again I prefer to be somewhat explicit to aid the programmers.
+However I don't feel too strongly about it.
+
+&gt;&gt;<i> +        pam_handle_t* pamh;
+</I>&gt;<i> for the sake of readablility, I'd call that pam_handle
+</I>
+Point taken. Fixed in SVN.
+
+&gt;<i> [...]
+</I>&gt;&gt;<i> +    public:
+</I>&gt;&gt;<i> +        Authenticator(conversation* conv, void* data=0);
+</I>&gt;<i> void pointers... is there no way around this?
+</I>
+Well, not really. This problem is that we need to parse some undefined
+data to the pam_conversation via the PAM-library.
+
+
+Program ----&gt; PAM -----&gt; Conversation Function (part of the Program)
+
+
+The PAM-library have no idea about what this data is and it's up to the
+conversation function to interpretate this data correctly.
+
+&gt;&gt;<i> diff -u -x .svn -b -Nur trunk/app.cpp slim-pam/app.cpp
+</I>&gt;&gt;<i> --- trunk/app.cpp	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;&gt;<i> +++ slim-pam/app.cpp	2007-05-19 14:30:53.000000000 +0200
+</I>&gt;<i> [...]
+</I>&gt;&gt;<i> +#ifdef USE_PAM
+</I>&gt;&gt;<i> +#include &lt;string&gt;
+</I>&gt;&gt;<i> +
+</I>&gt;&gt;<i> +int conv(int num_msg, const struct pam_message **msg,
+</I>&gt;&gt;<i> +         struct pam_response **resp, void *appdata_ptr){
+</I>&gt;&gt;<i> +    *resp = (struct pam_response *) calloc(num_msg, sizeof(struct pam_response));
+</I>&gt;<i> 
+</I>&gt;<i> C style allocate. Any reason for that?
+</I>
+PAM is a C library. resp is the respose we hand back to PAM, and PAM
+expect us to allocate it with calloc.
+Again it's one of these delicate C/C++ crossovers, where the best you
+can do is encapsulate the nasty details ^_^
+
+&gt;&gt;<i> +    Panel* panel = *static_cast&lt;Panel**&gt;(appdata_ptr);
+</I>&gt;<i> Yay for void pointers :-)
+</I>
+Nothing we can do about this, I'm afraid.
+
+&gt;&gt;<i> +    int result = PAM_SUCCESS;
+</I>&gt;&gt;<i> +    for (int i=0; i&lt;num_msg; i++){
+</I>&gt;&gt;<i> +        resp[i]-&gt;resp=0;
+</I>&gt;&gt;<i> +        resp[i]-&gt;resp_retcode=0;
+</I>&gt;&gt;<i> +        switch(msg[i]-&gt;msg_style){
+</I>&gt;&gt;<i> +            case PAM_PROMPT_ECHO_ON:
+</I>&gt;&gt;<i> +                // We assume PAM is asking for the username
+</I>&gt;&gt;<i> +                panel-&gt;EventHandler(Panel::Get_Name);
+</I>&gt;<i> I don't think this is from the PAM patch, just a general remark:
+</I>&gt;<i> 
+</I>&gt;<i> the function name EventHandler doesn't ring a bell.
+</I>&gt;<i> registerEventHandler, setEventHandler, handleEvent sounds more logical
+</I>&gt;<i> to me
+</I>
+
+This is my work too, I'm afraid. I meant to suggest you a better name
+but I forgot. It really IS an eventHandler (as it processes X events)
+but we really should find another name for it.
+
+&gt;<i> 
+</I>&gt;<i> [...]
+</I>&gt;&gt;<i> +            case PAM_ERROR_MSG:
+</I>&gt;&gt;<i> +            case PAM_TEXT_INFO:
+</I>&gt;&gt;<i> +                // We simply right these to the log
+</I>&gt;<i> typo: right -&gt; write
+</I>
+Fixed in SVN.
+
+&gt;<i> 
+</I>&gt;&gt;<i> +                // TODO: Maybe we should simply ignore them
+</I>&gt;&gt;<i> +                cerr &lt;&lt; APPNAME &lt;&lt; &quot;: &quot; &lt;&lt; msg[i]-&gt;msg &lt;&lt; endl;
+</I>&gt;&gt;<i> +                break;
+</I>&gt;&gt;<i> +        }
+</I>&gt;&gt;<i> +        if (result!=PAM_SUCCESS) break;
+</I>&gt;&gt;<i> +    }
+</I>&gt;&gt;<i> +    if (result!=PAM_SUCCESS){
+</I>&gt;&gt;<i> +        for (int i=0; i&lt;num_msg; i++){
+</I>&gt;&gt;<i> +            if (resp[i]-&gt;resp==0) continue;
+</I>&gt;&gt;<i> +            free(resp[i]-&gt;resp);
+</I>&gt;&gt;<i> +            resp[i]-&gt;resp=0;
+</I>&gt;&gt;<i> +        };
+</I>&gt;&gt;<i> +        free(*resp);
+</I>&gt;&gt;<i> +        *resp=0;
+</I>&gt;&gt;<i> +    };
+</I>&gt;<i> Who frees the allocated memory if result == PAM_SUCCESS?
+</I>
+The PAM-library does. That's why we have to honer the PAM wants us to
+allocate with calloc.
+
+&gt;&gt;<i> +#ifdef USE_PAM
+</I>&gt;&gt;<i> +bool App::Auth(void){
+</I>&gt;&gt;<i> +    int last_result;
+</I>&gt;<i> unused variable
+</I>
+Right you are. Fixed in SVN.
+
+&gt;<i> [app.cpp, line 533]
+</I>&gt;&gt;<i> +#ifdef USE_PAM
+</I>&gt;&gt;<i> +        // Get a copy of the environment and close the child's copy
+</I>&gt;&gt;<i> +        // of the PAM-handle.
+</I>&gt;&gt;<i> +        char** child_env = pam.getenvlist();
+</I>&gt;&gt;<i> +        pam.end();
+</I>&gt;&gt;<i> +#else
+</I>&gt;&gt;<i> +        char** child_env = static_cast&lt;char**&gt;(malloc(sizeof(char*)*10));
+</I>&gt;<i> - use of c style memory allocation
+</I>
+Well, environment handling is done by C functions. Another C/C++ crossover.
+
+&gt;<i> - use the magic constant '10'; a comment might be nice
+</I>
+Point taken. I've made it a real constant and added a comment.
+
+&gt;&gt;<i> diff -u -x .svn -b -Nur trunk/app.h slim-pam/app.h
+</I>&gt;&gt;<i> --- trunk/app.h	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;&gt;<i> +++ slim-pam/app.h	2007-05-19 14:30:53.000000000 +0200
+</I>&gt;<i> [...]
+</I>&gt;&gt;<i> @@ -53,6 +57,8 @@
+</I>&gt;&gt;<i>      char* StrConcat(const char* str1, const char* str2);
+</I>&gt;&gt;<i>      void UpdatePid();
+</I>&gt;&gt;<i>   
+</I>&gt;&gt;<i> +	bool Auth(void);
+</I>&gt;&gt;<i> + 
+</I>&gt;<i> I'd maybe rename this to make it clear that it'll perform the
+</I>&gt;<i> authentication (versus returning whether we are authenticated), like
+</I>&gt;<i> authenticateUser(), performAuth() etc.
+</I>
+Good idea. I've renamed it to AuthenticateUser().
+
+&gt;&gt;<i> diff -u -x .svn -b -Nur trunk/panel.cpp slim-pam/panel.cpp
+</I>&gt;&gt;<i> --- trunk/panel.cpp	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;&gt;<i> +++ slim-pam/panel.cpp	2007-05-19 14:30:53.000000000 +0200
+</I>&gt;<i> [...]
+</I>&gt;&gt;<i> @@ -288,49 +277,54 @@
+</I>&gt;&gt;<i>      }
+</I>&gt;&gt;<i>  }
+</I>&gt;&gt;<i>  
+</I>&gt;&gt;<i> -int Panel::EventHandler(XEvent* event) {
+</I>&gt;&gt;<i> -    Action = WAIT;
+</I>&gt;&gt;<i> -
+</I>&gt;&gt;<i> -    switch(event-&gt;type) {
+</I>&gt;&gt;<i> +void Panel::EventHandler(const Panel::FieldType&amp; curfield) {
+</I>&gt;&gt;<i> +    XEvent event;
+</I>&gt;&gt;<i> +    field=curfield;
+</I>&gt;&gt;<i> +    bool loop = true;
+</I>&gt;&gt;<i> +    OnExpose();
+</I>&gt;&gt;<i> +    for(;;) {
+</I>&gt;<i> [...]
+</I>&gt;&gt;<i> +        XNextEvent(Dpy, &amp;event);
+</I>&gt;&gt;<i> +        switch(event.type) {
+</I>&gt;&gt;<i>      case Expose:
+</I>&gt;&gt;<i> -        OnExpose(event);
+</I>&gt;&gt;<i> +                OnExpose();
+</I>&gt;<i> this change actually broke indentation (by adding a tab) :-). Some for
+</I>&gt;<i> some others in this method.
+</I>
+There's no tabs in the currect SVN version.
+&gt;<i>
+</I>&gt;<i> Also here in EventHandler(), I'd suggest changing 'for (;;)' to 'while
+</I>&gt;<i> (loop)' and getting rid of the &quot;if (!loop) break;&quot; jump.
+</I>
+True. This was some left-over code. Fixed in SVN.
+
+&gt;&gt;<i> -void Panel::OnExpose(XEvent* event) {
+</I>&gt;&gt;<i> -    char* name = In-&gt;GetName();
+</I>&gt;&gt;<i> -    char* passwd = In-&gt;GetHiddenPasswd();
+</I>&gt;&gt;<i> +void Panel::OnExpose(void) {
+</I>&gt;&gt;<i>      XftDraw *draw = XftDrawCreate(Dpy, Win,
+</I>&gt;&gt;<i>                          DefaultVisual(Dpy, Scr), DefaultColormap(Dpy, Scr));
+</I>&gt;&gt;<i> +    XClearWindow(Dpy, Win);
+</I>&gt;<i> Is this really needed?
+</I>
+Yes, I believe so. The problem is that when we get an Expose event, we
+don't actually know which parts of the screen we need to redraw. So we
+simply redraw it all. However as Xft might render with anti-aliasing
+(that is with a semi-transparent edge), drawing the same text twice
+result in a bold-like result instead.
+
+&gt;&gt;<i> diff -u -x .svn -b -Nur trunk/panel.h slim-pam/panel.h
+</I>&gt;&gt;<i> --- trunk/panel.h	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;&gt;<i> +++ slim-pam/panel.h	2007-05-19 14:30:53.000000000 +0200
+</I>&gt;<i> [...]
+</I>&gt;&gt;<i>  class Panel {
+</I>&gt;&gt;<i>  public:
+</I>&gt;&gt;<i> +    enum ActionType {
+</I>&gt;&gt;<i> +        Login,
+</I>&gt;&gt;<i> +        Console,
+</I>&gt;&gt;<i> +        Reboot,
+</I>&gt;&gt;<i> +        Halt,
+</I>&gt;&gt;<i> +        Exit,
+</I>&gt;&gt;<i> +        Suspend
+</I>&gt;&gt;<i> +    };
+</I>&gt;&gt;<i> +    enum FieldType {
+</I>&gt;&gt;<i> +        Get_Name,
+</I>&gt;&gt;<i> +        Get_Passwd
+</I>&gt;&gt;<i> +    };
+</I>&gt;&gt;<i> +
+</I>&gt;&gt;<i> +
+</I>&gt;<i> 
+</I>&gt;<i> General remark: I personally prefer all upercase constants (and I
+</I>&gt;<i> consider enums to be constants), but there's a lot of potential within
+</I>&gt;<i> slim to improve consistency.
+</I>
+I guess that's a matter of style again. I prefer to differentiate
+between defines and constants. However I don't feel too strongly about it.
+
+&gt;&gt;<i>      Panel(Display* dpy, int scr, Window root, Cfg* config,
+</I>&gt;&gt;<i>            const string&amp; themed);
+</I>&gt;&gt;<i>      ~Panel();
+</I>&gt;&gt;<i>      void OpenPanel();
+</I>&gt;&gt;<i>      void ClosePanel();
+</I>&gt;&gt;<i>      void ClearPanel();
+</I>&gt;&gt;<i> -    void Message(const char* text);
+</I>&gt;&gt;<i> -    void Error(const char* text);
+</I>&gt;&gt;<i> -    Input* GetInput();
+</I>&gt;&gt;<i> -    int EventHandler(XEvent* event);
+</I>&gt;&gt;<i> +    void Message(const string&amp; text);
+</I>&gt;&gt;<i> +    void Error(const string&amp; text);
+</I>&gt;&gt;<i> +    void EventHandler(const FieldType&amp; curfield);
+</I>&gt;<i> As mentioned before, maybe we could rename that function.
+</I>
+Again I agree.
+
+&gt;&gt;<i> diff -u -x .svn -b -Nur trunk/switchuser.cpp slim-pam/switchuser.cpp
+</I>&gt;&gt;<i> --- trunk/switchuser.cpp	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;&gt;<i> +++ slim-pam/switchuser.cpp	2007-05-19 14:30:53.000000000 +0200
+</I>&gt;&gt;<i> @@ -13,10 +13,11 @@
+</I>&gt;&gt;<i>  
+</I>&gt;&gt;<i>  using namespace std;
+</I>&gt;&gt;<i>  
+</I>&gt;&gt;<i> -SwitchUser::SwitchUser(struct passwd *pw, Cfg *c, const string&amp; display)
+</I>&gt;&gt;<i> +SwitchUser::SwitchUser(struct passwd *pw, Cfg *c, const string&amp; display, char** _env)
+</I>&gt;<i> 
+</I>&gt;<i> line longer than 80 characters
+</I>
+Fixed in SVN.
+
+&gt;&gt;<i> diff -u -x .svn -b -Nur trunk/switchuser.h slim-pam/switchuser.h
+</I>&gt;&gt;<i> --- trunk/switchuser.h	2007-05-19 14:30:37.000000000 +0200
+</I>&gt;&gt;<i> +++ slim-pam/switchuser.h	2007-05-19 14:30:53.000000000 +0200
+</I>&gt;&gt;<i> @@ -25,7 +25,7 @@
+</I>&gt;&gt;<i>  
+</I>&gt;&gt;<i>  class SwitchUser {
+</I>&gt;&gt;<i>  public:
+</I>&gt;&gt;<i> -    SwitchUser(struct passwd *pw, Cfg *c, const std::string&amp; display);
+</I>&gt;&gt;<i> +    SwitchUser(struct passwd *pw, Cfg *c, const std::string&amp; display, char** _env);
+</I>&gt;<i> same as above
+</I>
+Fixed in SVN. However if this is an official requirement for the
+project, we should probably do a consistency check, because there are
+several other lines with the same problem.
+
+&gt;<i> As a finishing comment, the code looks very clean overall, and I like
+</I>&gt;<i> many of the refactorings. Congratulations to the PAM code, and keep up
+</I>&gt;<i> the good work!
+</I>
+Thanks ^_^
+
+Take care,
+Martin
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000001.html">[Slim-dev] Code review [WAS: your mail]
+</A></li>
+	<LI>Next message: <A HREF="000003.html">[Slim-dev] your mail
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

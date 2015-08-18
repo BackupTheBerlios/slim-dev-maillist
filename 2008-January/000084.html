@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #12507] pam_mount doesn't work with SLiM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2008-January/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2312507%5D%20pam_mount%20doesn%27t%20work%20with%20SLiM&In-Reply-To=%3C200801032210.m03MAg0s002179%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000085.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #12507] pam_mount doesn't work with SLiM</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2312507%5D%20pam_mount%20doesn%27t%20work%20with%20SLiM&In-Reply-To=%3C200801032210.m03MAg0s002179%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #12507] pam_mount doesn't work with SLiM">admin at berlios.de
+       </A><BR>
+    <I>Thu Jan  3 23:10:42 CET 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000085.html">[Slim-dev] [Bug #12468] switch user (feature request)
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#84">[ date ]</a>
+              <a href="thread.html#84">[ thread ]</a>
+              <a href="subject.html#84">[ subject ]</a>
+              <a href="author.html#84">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #12507, was updated on 2007-Nov-20 09:02
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: jstepien
+Assigned to : parmus
+Summary: pam_mount doesn't work with SLiM
+
+Details: I'm using pam_mount 0.29 in order to decrypt my home directory after logging in. The partition's correctly decrypted by GDM, Entrance and generic console login. Apparently, SLiM 1.3.0 does not support it.
+
+After entering my password SLiM restarts. In the log file I'm informed that SLiM can't find ~/.xinitrc. It's obvious it cannot be found - it won't exist unless the home directory is mounted.
+
+SLiM has to firstly take care of all pam-related issues, e.g. pam_mount, and afterwards begin to browse ~ for files it requires. I hope fixing it won't take long.
+
+Follow-Ups:
+
+Date: 2008-Jan-03 23:10
+By: parmus
+
+Comment:
+First of all: sorry about the late reply.
+
+I've just reviewed the code and SLiM does handle all the PAM related stuff before trying to access anything in your home directory. So the bug must be somewhere else. Maybe you could try setting the pam-modules (especially pam_mount) and/or SLiM in debug-mode in order to provide us with some more information.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=12507&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=12507&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000085.html">[Slim-dev] [Bug #12468] switch user (feature request)
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#84">[ date ]</a>
+              <a href="thread.html#84">[ thread ]</a>
+              <a href="subject.html#84">[ subject ]</a>
+              <a href="author.html#84">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

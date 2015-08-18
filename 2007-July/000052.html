@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] Segfault when server could not be started
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2007-July/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Segfault%20when%20server%20could%20not%20be%20started&In-Reply-To=%3C4687BF4B.4090204%40web.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000055.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] Segfault when server could not be started</H1>
+    <B>Uli</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20Segfault%20when%20server%20could%20not%20be%20started&In-Reply-To=%3C4687BF4B.4090204%40web.de%3E"
+       TITLE="[Slim-dev] Segfault when server could not be started">ToBeSpammed at web.de
+       </A><BR>
+    <I>Sun Jul  1 16:50:51 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000055.html">[Slim-dev] Segfault when server could not be started
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#52">[ date ]</a>
+              <a href="thread.html#52">[ thread ]</a>
+              <a href="subject.html#52">[ subject ]</a>
+              <a href="author.html#52">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+today I traced down a segfault in SLiM:
+
+I had a chroot with busybox and the libs SLiM needs, so when it tries to 
+call xauth or the X server this fails with ENOENT.
+
+App:Run() calls StartServer() on line 187.
+StartServer() sets an alarm() and calls pause().
+The alarm fires and AlarmSignal() calls StopServer() which then calls 
+XCloseDisplay(dpy) on line 654. This call causes the segfault.
+
+Dpy would be set on line 194 in App::Run(), but this wasn't executed yet 
+when StopServer() is called.
+
+I got a patch against latest SVN which fixes this segfault, but i didn't 
+bother finding other possible too-early usages of Dpy.
+Have fun finding ;)
+
+psychon / Uli Schlachter
+
+P.S.: I subscribed to this list just for this mail ;)
+
+
+strace:
+
+alarm(15)                               = 0
+pause()                                 = ? ERESTARTNOHAND (To be restarted)
+--- SIGCHLD (Child exited) @ 0 (0) ---
+pause()                                 = ? ERESTARTNOHAND (To be restarted)
+--- SIGALRM (Alarm clock) @ 0 (0) ---
+waitpid(8787, NULL, WNOHANG)            = 8787
+alarm(0)                                = 0
+/* A bunch of rt_sigaction calls */
+--- SIGSEGV (Segmentation fault) @ 0 (0) ---
+
+
+valgrind:
+==8869== Invalid read of size 4
+==8869==    at 0x404D68B: XCloseDisplay (in /lib/libX11.so.6)
+==8869==    by 0x80658F3: App::StopServer() (app.cpp:654)
+==8869==    by 0x8065B9D: AlarmSignal(int) (app.cpp:42)
+==8869==    by 0x4387747: (within /lib/libc.so.6)
+==8869==    by 0x8067578: App::Run() (app.cpp:187)
+==8869==    by 0x804C5C9: main (main.cpp:19)
+==8869==  Address 0x94 is not stack'd, malloc'd or (recently) free'd
+==8869==
+==8869== Process terminating with default action of signal 11 (SIGSEGV)
+
+patch:
+Index: app.cpp
+===================================================================
+--- app.cpp	(Revision 141)
++++ app.cpp	(Arbeitskopie)
+@@ -135,6 +135,7 @@
+      ServerPID = -1;
+      testing = false;
+      mcookie = &quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&quot;;
++    Dpy = NULL;
+
+      // Parse command line
+      while((tmp = getopt(argc, argv, &quot;vhp:d?&quot;)) != EOF) {
+@@ -930,7 +931,7 @@
+
+      // Catch X error
+      XSetIOErrorHandler(IgnoreXIO);
+-    if(!setjmp(CloseEnv))
++    if(!setjmp(CloseEnv) &amp;&amp; Dpy)
+          XCloseDisplay(Dpy);
+
+      // Send HUP to process group
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000055.html">[Slim-dev] Segfault when server could not be started
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#52">[ date ]</a>
+              <a href="thread.html#52">[ thread ]</a>
+              <a href="subject.html#52">[ subject ]</a>
+              <a href="author.html#52">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

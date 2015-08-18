@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #4093] Don't go to pw screen with preselected user
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%234093%5D%20Don%27t%20go%20to%20pw%20screen%20with%20preselected%20user&In-Reply-To=%3C200809071349.m87DnsnU028303%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000148.html">
+   <LINK REL="Next"  HREF="000150.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #4093] Don't go to pw screen with preselected user</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%234093%5D%20Don%27t%20go%20to%20pw%20screen%20with%20preselected%20user&In-Reply-To=%3C200809071349.m87DnsnU028303%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #4093] Don't go to pw screen with preselected user">admin at berlios.de
+       </A><BR>
+    <I>Sun Sep  7 15:49:54 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000148.html">[Slim-dev] [Bug #4093] Don't go to pw screen with preselected user
+</A></li>
+        <LI>Next message: <A HREF="000150.html">[Slim-dev] [Bug #11510] slim enters daemon mode by default.
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#149">[ date ]</a>
+              <a href="thread.html#149">[ thread ]</a>
+              <a href="subject.html#149">[ subject ]</a>
+              <a href="author.html#149">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #4093, was updated on 2005-May-24 16:48
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Closed
+Resolution: Fixed
+Bug Group: None
+Priority: 1
+Submitted by: winkj
+Assigned to : none
+Summary: Don't go to pw screen with preselected user
+
+Details: When using a default user in slim.conf, just fill in the input form but don't go to the password page
+
+Follow-Ups:
+
+Date: 2008-Sep-07 15:49
+By: sip
+
+Comment:
+The PAM changes ninja-modified slim behavior: the current release does not
+focus password anymore. Committed an option for that, will be in 1.3.1
+-------------------------------------------------------
+
+Date: 2005-May-24 17:13
+By: winkj
+
+Comment:
+I think what would be better was to have something like &quot;fill in last user that logged in, but don't go to PW field&quot;; preselected login could remain the way it is right now
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=4093&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=4093&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000148.html">[Slim-dev] [Bug #4093] Don't go to pw screen with preselected user
+</A></li>
+	<LI>Next message: <A HREF="000150.html">[Slim-dev] [Bug #11510] slim enters daemon mode by default.
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#149">[ date ]</a>
+              <a href="thread.html#149">[ thread ]</a>
+              <a href="subject.html#149">[ subject ]</a>
+              <a href="author.html#149">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

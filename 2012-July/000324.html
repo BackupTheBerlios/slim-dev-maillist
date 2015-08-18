@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #18670] Slim fails to run with error msg about log	file
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2012-July/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2318670%5D%20Slim%20fails%20to%20run%20with%20error%20msg%20about%20log%0A%09file&In-Reply-To=%3C201207210418.q6L4Ip00007237%40www.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000323.html">
+   <LINK REL="Next"  HREF="000325.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #18670] Slim fails to run with error msg about log	file</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2318670%5D%20Slim%20fails%20to%20run%20with%20error%20msg%20about%20log%0A%09file&In-Reply-To=%3C201207210418.q6L4Ip00007237%40www.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #18670] Slim fails to run with error msg about log	file">admin at berlios.de
+       </A><BR>
+    <I>Sat Jul 21 06:18:51 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000323.html">[Slim-dev] [Bug #18667] version 1.3.4 fails to build woth clang 3.1
+</A></li>
+        <LI>Next message: <A HREF="000325.html">[Slim-dev] utf-8 messages in slim.conf
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#324">[ date ]</a>
+              <a href="thread.html#324">[ thread ]</a>
+              <a href="subject.html#324">[ subject ]</a>
+              <a href="author.html#324">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #18670, was updated on 2012-Jul-20 20:18
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Open
+Resolution: None
+Bug Group: None
+Priority: 5
+Submitted by: jofsey
+Assigned to : none
+Summary: Slim fails to run with error msg about log file
+
+Details: I had tried to run slim either manually and with /etc/inittab. But I had allays gets next error message &quot;slim: closing Log file, while is already closed&quot;.
+
+I'm using ArchLinux
+my /etc/slim.conf:
+# Path, X server and arguments (if needed)
+# Note: -xauth $authfile is automatically appended
+default_path        /bin:/usr/bin:/usr/local/bin
+default_xserver     /usr/bin/X
+xserver_arguments -nolisten tcp vt07
+
+# Commands for halt, login, etc.
+halt_cmd            /sbin/shutdown -h now
+reboot_cmd          /sbin/shutdown -r now
+console_cmd         /usr/bin/lilyterm -x &quot;/bin/cat /etc/issue; exec /bin/login&quot;
+#suspend_cmd        /usr/sbin/suspend
+
+# Full path to the xauth binary
+xauth_path         /usr/bin/xauth 
+
+# Xauth file for server
+authfile           /var/run/slim.auth
+
+
+# Activate numlock when slim starts. Valid values: on|off
+# numlock             on
+
+# Hide the mouse cursor (note: does not work with some WMs).
+# Valid values: true|false
+# hidecursor          false
+
+# This command is executed after a succesful login.
+# you can place the %session and %theme variables
+# to handle launching of specific commands in .xinitrc
+# depending of chosen session and slim theme
+#
+# NOTE: if your system does not have bash you need
+# to adjust the command according to your preferred shell,
+# i.e. for freebsd use:
+# login_cmd           exec /bin/sh - ~/.xinitrc %session
+login_cmd           exec /bin/bash -login ~/.xinitrc %session
+
+# Commands executed when starting and exiting a session.
+# They can be used for registering a X11 session with
+# sessreg. You can use the %user variable
+#
+# sessionstart_cmd	some command
+# sessionstop_cmd	some command
+
+# Start in daemon mode. Valid values: yes | no
+# Note that this can be overriden by the command line
+# options &quot;-d&quot; and &quot;-nodaemon&quot;
+# daemon	yes
+
+# Available sessions (first one is the default).
+# The current chosen session name is replaced in the login_cmd
+# above, so your login command can handle different sessions.
+# see the xinitrc.sample file shipped with slim sources
+sessions            awesome
+
+# Executed when pressing F11 (requires imagemagick)
+screenshot_cmd      import -window root /slim.png
+
+# welcome message. Available variables: %host, %domain
+welcome_msg         Welcome to %host
+
+# Session message. Prepended to the session name when pressing F1
+# session_msg         Session: 
+
+# shutdown / reboot messages
+shutdown_msg       The system is halting...
+reboot_msg         The system is rebooting...
+
+# default user, leave blank or remove this line
+# for avoid pre-loading the username.
+#default_user        simone
+
+# Focus the password field on start when default_user is set
+# Set to &quot;yes&quot; to enable this feature
+#focus_password      no
+
+# Automatically login the default user (without entering
+# the password. Set to &quot;yes&quot; to enable this feature
+#auto_login          no
+
+
+# current theme, use comma separated list to specify a set to 
+# randomly choose from
+current_theme       default
+
+# Lock file
+lockfile            /var/lock/slim.lock
+
+# Log file
+logfile             /var/log/slim.log
+
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18670&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=18670&amp;group_id=2663</A>
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000323.html">[Slim-dev] [Bug #18667] version 1.3.4 fails to build woth clang 3.1
+</A></li>
+	<LI>Next message: <A HREF="000325.html">[Slim-dev] utf-8 messages in slim.conf
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#324">[ date ]</a>
+              <a href="thread.html#324">[ thread ]</a>
+              <a href="subject.html#324">[ subject ]</a>
+              <a href="author.html#324">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

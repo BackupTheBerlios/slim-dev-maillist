@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] My slim cannot startup
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2013-June/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20My%20slim%20cannot%20startup&In-Reply-To=%3CCAAeqCLqQTtnqnB66v-eDZkE_%2BTDduGSQ%3D8xx84oLGtEFNdrguw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000370.html">
+   <LINK REL="Next"  HREF="000372.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] My slim cannot startup</H1>
+    <B>Daimon Ji</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20My%20slim%20cannot%20startup&In-Reply-To=%3CCAAeqCLqQTtnqnB66v-eDZkE_%2BTDduGSQ%3D8xx84oLGtEFNdrguw%40mail.gmail.com%3E"
+       TITLE="[Slim-dev] My slim cannot startup">zeus2615 at gmail.com
+       </A><BR>
+    <I>Thu Jun 20 14:28:38 CEST 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000370.html">[Slim-dev] My slim cannot startup
+</A></li>
+        <LI>Next message: <A HREF="000372.html">[Slim-dev] My slim cannot startup
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#371">[ date ]</a>
+              <a href="thread.html#371">[ thread ]</a>
+              <a href="subject.html#371">[ subject ]</a>
+              <a href="author.html#371">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>I have no /etc/X11/xorg.conf.d
+
+[desktop /etc/X11 2011]$ ls
+app-defaults             rgb.txt  xkb       Xresources  Xsession.options
+default-display-manager  X        Xreset    Xsession    XvMCConfig
+fonts                    xinit    Xreset.d  Xsession.d  Xwrapper.config
+
+
+
+2013/6/19 Jean-Pascal Billaud &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">jp.billaud at gmail.com</A>&gt;
+
+&gt;<i> Looking at your log:
+</I>&gt;<i>
+</I>&gt;<i> [    25.950] (**) FBDEV(3): claimed PCI slot <A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">0 at 0</A>:2:0
+</I>&gt;<i> [    25.950] (II) FBDEV(3): using default device
+</I>&gt;<i> [    25.950] (EE) Screen 0 deleted because of no matching config section.
+</I>&gt;<i> [    25.950] (II) UnloadModule: &quot;vesa&quot;
+</I>&gt;<i> [    25.950] (EE) Screen 0 deleted because of no matching config section.
+</I>&gt;<i> [    25.950] (II) UnloadModule: &quot;modesetting&quot;
+</I>&gt;<i> [    25.950]
+</I>&gt;<i> Fatal server error:
+</I>&gt;<i> [    25.950] Cannot run in framebuffer mode. Please specify busIDs
+</I>&gt;<i>    for all framebuffer devices'
+</I>&gt;<i>
+</I>&gt;<i> Basically you have an issue with the framebuffer driver... this driver
+</I>&gt;<i> is usually a fallback driver actually. Couple of stuff that we might
+</I>&gt;<i> need:
+</I>&gt;<i>
+</I>&gt;<i> * Could you post the configuration file from /etc/X11/xorg.conf.d? I
+</I>&gt;<i> am wondering if your device section is properly configured
+</I>&gt;<i> * lspci
+</I>&gt;<i> * What is the device you are planning to use for graphics
+</I>&gt;<i>
+</I>&gt;<i> Arch Wiki suggests to uninstall the fb driver if something like that
+</I>&gt;<i> happens... that might be worth the shot
+</I>&gt;<i> (<A HREF="https://wiki.archlinux.org/index.php/Xorg#Frame-buffer_mode_problems">https://wiki.archlinux.org/index.php/Xorg#Frame-buffer_mode_problems</A>).
+</I>&gt;<i>
+</I>&gt;<i> Regardless this does not seem like a slim issue.
+</I>&gt;<i>
+</I>&gt;<i> Cheers,
+</I>&gt;<i>
+</I>&gt;<i> On Wed, Jun 19, 2013 at 12:53 PM, Daimon Ji &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">zeus2615 at gmail.com</A>&gt; wrote:
+</I>&gt;<i> &gt; as the attachment
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; 2013/6/19 Jean-Pascal Billaud &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">jp.billaud at gmail.com</A>&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; what is Xorg.0.log telling you?
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; On Tue, Jun 18, 2013 at 6:58 AM, Daimon Ji &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">zeus2615 at gmail.com</A>&gt; wrote:
+</I>&gt;<i> &gt;&gt; &gt; I use the following configuration in Linux Mint 14 xfce, slim cannot
+</I>&gt;<i> &gt;&gt; &gt; startup
+</I>&gt;<i> &gt;&gt; &gt; after I installed it. The same configuration works well in my virtual
+</I>&gt;<i> &gt;&gt; &gt; machine with same OS.
+</I>&gt;<i> &gt;&gt; &gt; Could anyone help me?
+</I>&gt;<i> &gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt; &gt; /var/log/slim.log
+</I>&gt;<i> &gt;&gt; &gt; slim: waiting for X server to begin accepting connections
+</I>&gt;<i> &gt;&gt; &gt; Giving up.
+</I>&gt;<i> &gt;&gt; &gt; slim: unable to connect to X server
+</I>&gt;<i> &gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt; &gt; /etc/slim.conf
+</I>&gt;<i> &gt;&gt; &gt; default_path
+</I>&gt;<i> &gt;&gt; &gt; /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+</I>&gt;<i> &gt;&gt; &gt; default_xserver     /usr/bin/X11/X
+</I>&gt;<i> &gt;&gt; &gt; xserver_arguments   -nolisten tcp
+</I>&gt;<i> &gt;&gt; &gt; halt_cmd            /sbin/shutdown -h now
+</I>&gt;<i> &gt;&gt; &gt; reboot_cmd          /sbin/shutdown -r now
+</I>&gt;<i> &gt;&gt; &gt; console_cmd         /usr/bin/xterm -C -fg white -bg black +sb -T
+</I>&gt;<i> &gt;&gt; &gt; &quot;Console
+</I>&gt;<i> &gt;&gt; &gt; login&quot; -e /bin/sh -c &quot;/bin/cat /etc/issue.net; exec /bin/login&quot;
+</I>&gt;<i> &gt;&gt; &gt; xauth_path         /usr/bin/X11/xauth
+</I>&gt;<i> &gt;&gt; &gt; authfile           /var/run/slim.auth
+</I>&gt;<i> &gt;&gt; &gt;  login_cmd           exec /bin/sh - ~/.xinitrc %session
+</I>&gt;<i> &gt;&gt; &gt; sessions
+</I>&gt;<i> &gt;&gt; &gt; default,startxfce4,openbox,ion3,icewm,wmaker,blackbox,awesome
+</I>&gt;<i> &gt;&gt; &gt; screenshot_cmd      scrot /root/slim.png
+</I>&gt;<i> &gt;&gt; &gt; welcome_msg         Welcome to %host
+</I>&gt;<i> &gt;&gt; &gt; shutdown_msg       The system is halting...
+</I>&gt;<i> &gt;&gt; &gt; reboot_msg         The system is rebooting...
+</I>&gt;<i> &gt;&gt; &gt; current_theme       debian-joy
+</I>&gt;<i> &gt;&gt; &gt; lockfile            /var/run/slim.lock
+</I>&gt;<i> &gt;&gt; &gt; logfile             /var/log/slim.log
+</I>&gt;<i> &gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt; &gt; ~/.xinitrc
+</I>&gt;<i> &gt;&gt; &gt; #!/usr/bin/env bash
+</I>&gt;<i> &gt;&gt; &gt; gnome-settings-daemon &amp;
+</I>&gt;<i> &gt;&gt; &gt; exec awesome
+</I>&gt;<i> &gt;&gt; &gt;
+</I>&gt;<i> &gt;&gt; &gt; _______________________________________________
+</I>&gt;<i> &gt;&gt; &gt; Slim-dev mailing list
+</I>&gt;<i> &gt;&gt; &gt; <A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">Slim-dev at lists.berlios.de</A>
+</I>&gt;<i> &gt;&gt; &gt; <A HREF="https://lists.berlios.de/mailman/listinfo/slim-dev">https://lists.berlios.de/mailman/listinfo/slim-dev</A>
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; --
+</I>&gt;<i> &gt;&gt; Jean-Pascal Billaud
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/slim-dev/attachments/20130620/02d371d6/attachment.html">https://lists.berlios.de/pipermail/slim-dev/attachments/20130620/02d371d6/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000370.html">[Slim-dev] My slim cannot startup
+</A></li>
+	<LI>Next message: <A HREF="000372.html">[Slim-dev] My slim cannot startup
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#371">[ date ]</a>
+              <a href="thread.html#371">[ thread ]</a>
+              <a href="subject.html#371">[ subject ]</a>
+              <a href="author.html#371">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>

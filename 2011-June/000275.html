@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Slim-dev] [Bug #17757] slim-1.3.2 doesn't work with ConsoleKit:	pam_ck_connector.so
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/slim-dev/2011-June/index.html" >
+   <LINK REL="made" HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2317757%5D%20slim-1.3.2%20doesn%27t%20work%20with%20ConsoleKit%3A%0A%09pam_ck_connector.so&In-Reply-To=%3C201106172044.p5HKinHB015096%40unicorn.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000274.html">
+   <LINK REL="Next"  HREF="000276.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Slim-dev] [Bug #17757] slim-1.3.2 doesn't work with ConsoleKit:	pam_ck_connector.so</H1>
+    <B>admin at berlios.de</B> 
+    <A HREF="mailto:slim-dev%40lists.berlios.de?Subject=Re%3A%20%5BSlim-dev%5D%20%5BBug%20%2317757%5D%20slim-1.3.2%20doesn%27t%20work%20with%20ConsoleKit%3A%0A%09pam_ck_connector.so&In-Reply-To=%3C201106172044.p5HKinHB015096%40unicorn.berlios.de%3E"
+       TITLE="[Slim-dev] [Bug #17757] slim-1.3.2 doesn't work with ConsoleKit:	pam_ck_connector.so">admin at berlios.de
+       </A><BR>
+    <I>Fri Jun 17 22:44:49 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000274.html">[Slim-dev] [Bug #17974] slim-1.3.2 does'nt compile against	libpng-1.5.x
+</A></li>
+        <LI>Next message: <A HREF="000276.html">[Slim-dev] SLIM PAM CK question
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#275">[ date ]</a>
+              <a href="thread.html#275">[ thread ]</a>
+              <a href="subject.html#275">[ subject ]</a>
+              <a href="author.html#275">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Bug #17757, was updated on 2010-Dec-03 02:46
+Here is a current snapshot of the bug.
+
+Project: SLiM
+Category: None
+Status: Closed
+Resolution: Fixed
+Bug Group: None
+Priority: 5
+Submitted by: ssuominen
+Assigned to : iwamatsu
+Summary: slim-1.3.2 doesn't work with ConsoleKit: pam_ck_connector.so
+
+Details: Because of this line in app.cpp:
+
+pam.set_item(PAM::Authenticator::Host, &quot;localhost&quot;);
+
+It makes pam_ck_connector.so PAM module from ConsoleKit[1] think it's a remote host named &quot;localhost&quot;, and not a real localhost and therefore renders ConsoleKit unusable with slim.
+
+[1] <A HREF="http://www.freedesktop.org/wiki/Software/ConsoleKit">http://www.freedesktop.org/wiki/Software/ConsoleKit</A>
+
+There's a downstream bug for Gentoo here:
+
+<A HREF="http://bugs.gentoo.org/show_bug.cgi?id=346037">http://bugs.gentoo.org/show_bug.cgi?id=346037</A>
+
+And a patch here:
+
+<A HREF="http://bugs.gentoo.org/attachment.cgi?id=254799">http://bugs.gentoo.org/attachment.cgi?id=254799</A>
+
+And a long thread detailing the issue with ConsoleKit and slim here:
+
+<A HREF="http://blog.flameeyes.eu/2010/11/11/draft-article-5307">http://blog.flameeyes.eu/2010/11/11/draft-article-5307</A>
+
+Follow-Ups:
+
+Date: 2011-Jun-18 05:44
+By: iwamatsu
+
+Comment:
+Fixed in r180.
+Thanks for your report.
+-------------------------------------------------------
+
+Date: 2011-Jun-18 05:44
+By: iwamatsu
+
+Comment:
+Fixed in r180.
+Thanks for your report.
+-------------------------------------------------------
+
+Date: 2010-Dec-03 02:58
+By: ssuominen
+
+Comment:
+I've reported this to ConsoleKit upstream here:
+
+<A HREF="https://bugs.freedesktop.org/show_bug.cgi?id=32055">https://bugs.freedesktop.org/show_bug.cgi?id=32055</A>
+
+Just in case if they want to special case PAM_RHOST named localhost. I'm not sure if that's a good idea or not.
+-------------------------------------------------------
+
+For detailed info, follow this link:
+<A HREF="http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=17757&amp;group_id=2663">http://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=17757&amp;group_id=2663</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000274.html">[Slim-dev] [Bug #17974] slim-1.3.2 does'nt compile against	libpng-1.5.x
+</A></li>
+	<LI>Next message: <A HREF="000276.html">[Slim-dev] SLIM PAM CK question
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#275">[ date ]</a>
+              <a href="thread.html#275">[ thread ]</a>
+              <a href="subject.html#275">[ subject ]</a>
+              <a href="author.html#275">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/slim-dev">More information about the Slim-dev
+mailing list</a><br>
+</body></html>
